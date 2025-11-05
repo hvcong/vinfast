@@ -720,12 +720,6 @@
       <div class="header-title">Công cụ tính giá xe VinFast</div>
     </div>
 
-    <!-- Action Buttons -->
-    <div class="header-actions">
-      <button class="btn btn-secondary" id="printBtn">In Báo Giá</button>
-      <button class="btn btn-primary" id="emailBtn">Gửi Email Báo Giá</button>
-    </div>
-
     <!-- Content Grid (Desktop) / Single Column (Mobile) -->
     <div class="content-grid">
       <!-- Left Column - Customer Info & Cost Estimation (Desktop Only) -->
@@ -888,8 +882,6 @@
           </div>
         </div>
       </div>
-      <div class="car-brand-text">VinFast Cộng Hòa</div>
-
       <!-- Configuration Sections -->
       <div class="config-section">
         <div class="config-title">1. Chọn mẫu xe & phiên bản</div>
@@ -1476,15 +1468,183 @@
     // Loan term change
     document.getElementById('loanTerm').addEventListener('change', calculateAll);
 
-    // Print quote buttons
-    document.getElementById('printBtn').addEventListener('click', () => window.print());
-    document.getElementById('printBtnFooter').addEventListener('click', () => window.print());
+    // Function to collect all invoice data
+    function collectInvoiceData() {
+      // Get car model info
+      const carModelSelect = document.getElementById('carModel');
+      const carModelText = carModelSelect.options[carModelSelect.selectedIndex].text;
+      const carVersionSelect = document.getElementById('carVersion');
+      const carVersionText = carVersionSelect.options[carVersionSelect.selectedIndex].text;
+      
+      // Get colors
+      const exteriorColorSelect = document.getElementById('exteriorColor');
+      const exteriorColorText = exteriorColorSelect.options[exteriorColorSelect.selectedIndex].text;
+      const interiorColorSelect = document.getElementById('interiorColor');
+      const interiorColorText = interiorColorSelect.options[interiorColorSelect.selectedIndex].text;
+      
+      // Get registration location
+      const registrationLocationSelect = document.getElementById('registrationLocation');
+      const registrationLocationText = registrationLocationSelect.options[registrationLocationSelect.selectedIndex].text;
+      
+      // Get customer info
+      const customerName = document.getElementById('customerName')?.value || '';
+      const customerPhone = document.getElementById('customerPhone')?.value || '';
+      const customerEmail = document.getElementById('customerEmail')?.value || '';
+      const customerAddress = document.getElementById('customerAddress')?.value || '';
+      const customerTypeSelect = document.getElementById('customerType');
+      const customerType = customerTypeSelect ? customerTypeSelect.value : 'ca_nhan';
+      const depositAmount = parseFloat(document.getElementById('depositAmount')?.value || 0);
+      const depositDate = document.getElementById('depositDate')?.value || '';
+      const deliveryDate = document.getElementById('deliveryDate')?.value || '';
+      
+      // Get car prices
+      const basePrice = getCarPrice();
+      const discount1 = document.getElementById('discount1').checked ? 
+        parseFloat(document.getElementById('discount1').getAttribute('data-discount') || 0) : 0;
+      const discount2 = document.getElementById('discount2').checked ? 
+        parseFloat(document.getElementById('discount2').getAttribute('data-discount') || 0) : 0;
+      
+      // Get VinClub discount
+      const vinClubSelect = document.getElementById('vinClubVoucher');
+      const vinClubValue = vinClubSelect ? vinClubSelect.value : 'none';
+      let vinClubDiscount = 0;
+      if (vinClubValue !== 'none' && typeof uu_dai_vin_club !== 'undefined') {
+        const vinClubData = uu_dai_vin_club.find(item => item.hang === vinClubValue);
+        if (vinClubData) {
+          vinClubDiscount = Math.round(basePrice * vinClubData.ty_le);
+        }
+      }
+      
+      const totalDiscount = discount1 + discount2 + vinClubDiscount;
+      const priceAfterDiscount = Math.max(0, basePrice - totalDiscount);
+      
+      // Get on-road costs
+      const registrationLocation = document.getElementById('registrationLocation').value;
+      const locationMap = {
+        hcm: 'ho_chi_minh',
+        hanoi: 'ha_noi',
+        danang: 'da_nang',
+        cantho: 'can_tho',
+        haiphong: 'hai_phong',
+        other: 'tinh_khac'
+      };
+      const locationKey = locationMap[registrationLocation] || 'tinh_khac';
+      
+      // Get fees from database
+      const plateFeeData = typeof phi_cap_bien_so !== 'undefined' ? 
+        phi_cap_bien_so.find(item => item.khu_vuc === locationKey) : null;
+      const plateFee = plateFeeData ? plateFeeData.gia_tri : 20000000;
+      
+      const roadFeeData = typeof phi_duong_bo !== 'undefined' ? 
+        phi_duong_bo.find(item => item.loai === customerType) : null;
+      const roadFee = roadFeeData ? roadFeeData.gia_tri : 1560000;
+      
+      // Get car model key
+      const carModelKey = getCurrentCarModel();
+      const carInfo = typeof thong_tin_ky_thuat_xe !== 'undefined' ? 
+        thong_tin_ky_thuat_xe.find(item => item.dong_xe === carModelKey) : null;
+      
+      const liabilityInsurance = carInfo ? 
+        (customerType === 'ca_nhan' ? carInfo.phi_tnds_ca_nhan : carInfo.phi_tnds_kinh_doanh) : 480700;
+      
+      const inspectionFee = typeof phi_kiem_dinh !== 'undefined' ? phi_kiem_dinh : 90000;
+      
+      const bhvcRate = carInfo ? 
+        (customerType === 'ca_nhan' ? carInfo.ty_le_bhvc_ca_nhan : carInfo.ty_le_bhvc_kinh_doanh) : 0.015;
+      const bodyInsurance = Math.round(priceAfterDiscount * bhvcRate);
+      
+      const registrationFee = typeof chi_phi_dich_vu_dang_ky !== 'undefined' ? 
+        chi_phi_dich_vu_dang_ky : 3900000;
+      
+      const totalOnRoadCost = plateFee + roadFee + liabilityInsurance + inspectionFee + bodyInsurance + registrationFee;
+      const grandTotal = priceAfterDiscount + totalOnRoadCost;
+      
+      // Get loan info
+      const hasLoan = document.getElementById('loanToggle').checked;
+      let loanData = {};
+      if (hasLoan) {
+        const loanRatio = parseFloat(document.getElementById('loanRatio').value);
+        const loanTerm = parseInt(document.getElementById('loanTerm').value);
+        const annualRate = typeof lai_suat_vay_hang_nam !== 'undefined' ? lai_suat_vay_hang_nam : 0.095;
+        const monthlyRate = annualRate / 12;
+        
+        const loanAmount = Math.round(grandTotal * (loanRatio / 100));
+        const downPayment = grandTotal - loanAmount;
+        
+        const monthlyPayment = loanAmount * (monthlyRate * Math.pow(1 + monthlyRate, loanTerm)) / 
+                              (Math.pow(1 + monthlyRate, loanTerm) - 1);
+        const totalPayment = monthlyPayment * loanTerm;
+        const totalInterest = totalPayment - loanAmount;
+        
+        loanData = {
+          loanRatio: loanRatio,
+          loanTerm: loanTerm,
+          interestRate: annualRate,
+          downPayment: downPayment,
+          loanAmount: loanAmount,
+          totalInterest: Math.round(totalInterest),
+          monthlyPayment: Math.round(monthlyPayment)
+        };
+      }
+      
+      // Generate invoice number
+      const now = new Date();
+      const invoiceNo = `VF-${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}${String(now.getDate()).padStart(2, '0')}-${String(Math.floor(Math.random() * 10000)).padStart(4, '0')}`;
+      
+      // Return complete data object
+      return {
+        invoiceNo: invoiceNo,
+        invoiceDate: now.toISOString(),
+        customerName: customerName,
+        customerPhone: customerPhone,
+        customerEmail: customerEmail,
+        customerAddress: customerAddress,
+        customerType: customerType,
+        depositAmount: depositAmount,
+        depositDate: depositDate,
+        deliveryDate: deliveryDate,
+        carModel: carModelText,
+        carVersion: carVersionText,
+        exteriorColor: exteriorColorText,
+        interiorColor: interiorColorText,
+        registrationLocation: registrationLocationText,
+        carBasePrice: basePrice,
+        carDiscount: totalDiscount,
+        carTotal: priceAfterDiscount,
+        plateFee: plateFee,
+        plateLocation: registrationLocationText,
+        roadFee: roadFee,
+        liabilityInsurance: liabilityInsurance,
+        inspectionFee: inspectionFee,
+        bodyInsurance: bodyInsurance,
+        bodyInsuranceRate: bhvcRate,
+        registrationFee: registrationFee,
+        totalOnRoadCost: totalOnRoadCost,
+        grandTotal: grandTotal,
+        hasLoan: hasLoan,
+        ...loanData
+      };
+    }
+
+    // Print quote buttons - Save data and redirect to invoice page
+    function handlePrintQuote() {
+      const invoiceData = collectInvoiceData();
+      
+      // Save to localStorage
+      localStorage.setItem('invoiceData', JSON.stringify(invoiceData));
+      
+      // Redirect to invoice page
+      window.location.href = 'invoice.html';
+    }
+    
+    // Only bind to footer buttons
+    document.getElementById('printBtnFooter').addEventListener('click', handlePrintQuote);
 
     // Email quote buttons
     function sendEmail() {
       alert('Tính năng gửi email báo giá sẽ được triển khai sớm!');
     }
-    document.getElementById('emailBtn').addEventListener('click', sendEmail);
+    // Only bind to footer button
     document.getElementById('emailBtnFooter').addEventListener('click', sendEmail);
 
     // ============================================
