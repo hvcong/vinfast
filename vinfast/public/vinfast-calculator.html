@@ -4,6 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Công cụ tính giá xe VinFast</title>
+  
+  <!-- Swiper CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+  
   <style>
     * {
       margin: 0;
@@ -161,7 +165,7 @@
       border-radius: 8px;
       overflow: hidden;
       margin-bottom: 20px;
-      background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
+      background: #fff;
       position: relative;
     }
 
@@ -170,6 +174,157 @@
       height: 100%;
       object-fit: contain;
       object-position: center;
+      transition: opacity 0.3s ease-in-out;
+      border-radius: 8px;
+    }
+
+    .car-image.fade-out {
+      opacity: 0;
+    }
+
+    .car-image.fade-in {
+      opacity: 1;
+    }
+
+    .car-image:hover {
+      cursor: pointer;
+      opacity: 0.9;
+      transition: opacity 0.2s ease;
+    }
+
+    /* Swiper customization */
+    .swiper {
+      width: 100%;
+      height: 100%;
+    }
+
+    .swiper-slide {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .swiper-button-next,
+    .swiper-button-prev {
+      color: white !important;
+      background: rgba(255, 255, 255, 0.9);
+      width: 50px !important;
+      height: 50px !important;
+      border-radius: 50%;
+      transition: all 0.3s ease;
+    }
+
+    .swiper-button-next:after,
+    .swiper-button-prev:after {
+      font-size: 24px !important;
+      color: #333 !important;
+      font-weight: bold;
+    }
+
+    .swiper-button-next:hover,
+    .swiper-button-prev:hover {
+      background: white;
+      transform: scale(1.1);
+    }
+
+    .swiper-pagination-bullet {
+      background: white !important;
+      opacity: 0.5;
+      width: 10px !important;
+      height: 10px !important;
+    }
+
+    .swiper-pagination-bullet-active {
+      opacity: 1 !important;
+      background: white !important;
+    }
+
+    /* Image Modal */
+    .image-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.95);
+      z-index: 9999;
+      justify-content: center;
+      align-items: center;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .image-modal.active {
+      display: flex;
+    }
+
+    .image-modal-content {
+      position: relative;
+      width: 90%;
+      height: 90%;
+      animation: zoomIn 0.3s ease;
+    }
+
+    .image-modal .swiper {
+      width: 100%;
+      height: 100%;
+    }
+
+    .image-modal .swiper-slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .image-modal-close {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      font-size: 40px;
+      color: white;
+      cursor: pointer;
+      font-weight: 300;
+      z-index: 10000;
+      transition: transform 0.2s ease;
+    }
+
+    .image-modal-close:hover {
+      transform: scale(1.1);
+    }
+
+    .image-modal-label {
+      position: fixed;
+      bottom: 50px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(255, 255, 255, 0.95);
+      color: #333;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 18px;
+      font-weight: 600;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      z-index: 10001;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    @keyframes zoomIn {
+      from {
+        transform: scale(0.8);
+        opacity: 0;
+      }
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
     }
 
     .car-brand-text {
@@ -721,10 +876,19 @@
         <!-- Main Configuration Card -->
     <div class="main-card">
       <!-- Car Image -->
-      <div class="car-image-container">
-        <img src="https://via.placeholder.com/600x200/e0f2fe/3182ce?text=VinFast+VF+7" alt="VinFast VF 7" class="car-image" id="carImage">
-        <div class="car-brand-text">VinFast Cộng Hòa</div>
+      <div class="car-image-container" style="position: relative; overflow: hidden;">
+        <div style="display: flex; gap: 10px; height: 100%;">
+          <div style="flex: 1; position: relative;background-color: #333;">
+            <img src="images/vf7_eco_exterior.jpg" alt="Ngoại thất" class="car-image" id="carImageExterior" style="width: 100%; height: 200px; object-fit: cover;">
+            <div style="position: absolute; bottom: 8px; left: 8px; background: rgba(0,0,0,0.6); color: white; padding: 4px 8px; border-radius: 4px; font-size: 12px;">Ngoại thất</div>
+          </div>
+          <div style="flex: 1; position: relative; background-color: #333;">
+            <img src="images/vf7_eco_interior.jpg" alt="Nội thất" class="car-image" id="carImageInterior" style="width: 100%; height: 200px; object-fit: cover;">
+            <div style="position: absolute; bottom: 8px; left: 8px; background: rgba(0,0,0,0.6); color: white; padding: 4px 8px; border-radius: 4px; font-size: 12px;">Nội thất</div>
+          </div>
+        </div>
       </div>
+      <div class="car-brand-text">VinFast Cộng Hòa</div>
 
       <!-- Configuration Sections -->
       <div class="config-section">
@@ -732,18 +896,7 @@
         <div class="dropdown-group">
           <div class="dropdown-wrapper">
             <select class="dropdown" id="carModel">
-              <option value="vf_3">VF 3</option>
-              <option value="vf_5">VF 5</option>
-              <option value="vf_6">VF 6</option>
-              <option value="vf_7" selected>VF 7</option>
-              <option value="vf_8">VF 8</option>
-              <option value="vf_9">VF 9</option>
-              <option value="minio">MINIO</option>
-              <option value="herio">HERIO</option>
-              <option value="nerio">NERIO</option>
-              <option value="limo">Limo</option>
-              <option value="ec">EC Van</option>
-              <option value="ec_nang_cao">EC Nâng Cao</option>
+              <!-- Options will be populated dynamically from database -->
             </select>
           </div>
           <div class="dropdown-wrapper">
@@ -760,24 +913,14 @@
         <div style="margin-bottom: 16px;">
           <label class="form-label">Ngoại thất</label>
           <select class="dropdown" id="exteriorColor">
-            <option value="white">Trắng</option>
-            <option value="grey">Xám</option>
-            <option value="black">Đen</option>
-            <option value="blue">Xanh</option>
-            <option value="red">Đỏ</option>
-            <option value="lightgrey">Xám nhạt</option>
-            <option value="yellow">Vàng</option>
-            <option value="silver">Bạc</option>
+            <!-- Options will be populated dynamically from database -->
           </select>
         </div>
 
         <div>
           <label class="form-label">Nội thất</label>
           <select class="dropdown" id="interiorColor">
-            <option value="black">Đen</option>
-            <option value="beige">Be</option>
-            <option value="brown">Nâu</option>
-            <option value="grey">Xám</option>
+            <!-- Options will be populated dynamically from database -->
           </select>
         </div>
       </div>
@@ -923,6 +1066,31 @@
       return uniqueModels;
     }
 
+    // Populate car models dropdown from database
+    function populateCarModels() {
+      const carModelSelect = document.getElementById('carModel');
+      carModelSelect.innerHTML = '';
+      
+      const models = getCarModels();
+      let firstModel = null;
+      
+      Object.keys(models).forEach((modelKey, index) => {
+        const option = document.createElement('option');
+        option.value = modelKey;
+        option.textContent = models[modelKey];
+        
+        // Select first model as default
+        if (index === 0) {
+          option.selected = true;
+          firstModel = modelKey;
+        }
+        
+        carModelSelect.appendChild(option);
+      });
+      
+      return firstModel;
+    }
+
     // Map location to database key
     const locationMap = {
       hcm: 'ho_chi_minh',
@@ -948,9 +1116,15 @@
           option.textContent = version.phien_ban;
           option.dataset.price = version.gia_niem_yet;
           option.dataset.carModel = version.dong_xe;
+          option.dataset.imageExterior = version.hinh_anh_ngoai;
+          option.dataset.imageInterior = version.hinh_anh_noi;
           if (index === 0) option.selected = true;
           versionSelect.appendChild(option);
         });
+        
+        // Update car images and color options after populating versions
+        updateCarImages();
+        populateColorOptions();
       } else {
         // Fallback if no data found
         const option = document.createElement('option');
@@ -960,6 +1134,91 @@
         option.dataset.carModel = carModel;
         versionSelect.appendChild(option);
       }
+    }
+
+    // Update car images based on selected version
+    function updateCarImages() {
+      const versionSelect = document.getElementById('carVersion');
+      const selectedOption = versionSelect.options[versionSelect.selectedIndex];
+      
+      const exteriorImg = document.getElementById('carImageExterior');
+      const interiorImg = document.getElementById('carImageInterior');
+      
+      // Add fade-out effect
+      exteriorImg.classList.add('fade-out');
+      interiorImg.classList.add('fade-out');
+      
+      // Wait for fade-out animation to complete, then change image and fade-in
+      setTimeout(() => {
+        if (selectedOption.dataset.imageExterior) {
+          exteriorImg.src = selectedOption.dataset.imageExterior;
+        }
+        
+        if (selectedOption.dataset.imageInterior) {
+          interiorImg.src = selectedOption.dataset.imageInterior;
+        }
+        
+        // Remove fade-out and add fade-in effect
+        setTimeout(() => {
+          exteriorImg.classList.remove('fade-out');
+          exteriorImg.classList.add('fade-in');
+          interiorImg.classList.remove('fade-out');
+          interiorImg.classList.add('fade-in');
+        }, 50);
+      }, 300); // Match the CSS transition duration
+    }
+
+    // Populate color options based on selected car version
+    function populateColorOptions() {
+      const versionSelect = document.getElementById('carVersion');
+      const selectedVersion = versionSelect.value;
+      
+      // Find the selected car in danh_sach_xe
+      const selectedCar = danh_sach_xe.find(xe => xe.phien_ban === selectedVersion);
+      
+      if (!selectedCar) return;
+      
+      // Populate exterior colors
+      const exteriorColorSelect = document.getElementById('exteriorColor');
+      const currentExteriorColor = exteriorColorSelect.value;
+      exteriorColorSelect.innerHTML = '';
+      
+      selectedCar.mau_ngoai_that.forEach((maMau, index) => {
+        const colorInfo = getDataByKey(mau_ngoai_that, 'ma_mau', maMau);
+        if (colorInfo) {
+          const option = document.createElement('option');
+          option.value = colorInfo.ma_mau;
+          option.textContent = colorInfo.ten_mau;
+          // Select first color as default if no current selection
+          if (index === 0 && !currentExteriorColor) {
+            option.selected = true;
+          } else if (colorInfo.ma_mau === currentExteriorColor) {
+            option.selected = true;
+          }
+          exteriorColorSelect.appendChild(option);
+        }
+      });
+      
+      // Populate interior colors
+      const interiorColorSelect = document.getElementById('interiorColor');
+      const currentInteriorColor = interiorColorSelect.value;
+      interiorColorSelect.innerHTML = '';
+      
+      selectedCar.mau_noi_that.forEach((maMau, index) => {
+        const colorInfo = getDataByKey(mau_noi_that, 'ma_mau', maMau);
+        if (colorInfo) {
+          const option = document.createElement('option');
+          option.value = colorInfo.ma_mau;
+          option.textContent = colorInfo.ten_mau;
+          // Select first color as default if no current selection
+          if (index === 0 && !currentInteriorColor) {
+            option.selected = true;
+          } else if (colorInfo.ma_mau === currentInteriorColor) {
+            option.selected = true;
+          }
+          interiorColorSelect.appendChild(option);
+        }
+      });
     }
 
     // Get car price from selected version
@@ -1171,7 +1430,11 @@
       populateCarVersions(this.value);
       calculateAll();
     });
-    document.getElementById('carVersion').addEventListener('change', calculateAll);
+    document.getElementById('carVersion').addEventListener('change', function() {
+      updateCarImages();
+      populateColorOptions();
+      calculateAll();
+    });
     document.getElementById('registrationLocation').addEventListener('change', calculateAll);
     
     // Customer type change - sync between desktop and mobile
@@ -1213,32 +1476,77 @@
     // Loan term change
     document.getElementById('loanTerm').addEventListener('change', calculateAll);
 
-    // Print quote buttons
-    document.getElementById('printBtn').addEventListener('click', () => window.print());
-    document.getElementById('printBtnFooter').addEventListener('click', () => window.print());
+    // Print quote buttons - Using external function from print-invoice.js
+    document.getElementById('printBtn').addEventListener('click', printInvoiceWithValidation);
+    document.getElementById('printBtnFooter').addEventListener('click', printInvoiceWithValidation);
 
-    // Email quote buttons
-    function sendEmail() {
-      alert('Tính năng gửi email báo giá sẽ được triển khai sớm!');
+    // Email quote buttons - Using external function from print-invoice.js
+    document.getElementById('emailBtn').addEventListener('click', sendEmailInvoice);
+    document.getElementById('emailBtnFooter').addEventListener('click', sendEmailInvoice);
+
+    // ============================================
+    // INITIALIZATION FUNCTION - AUTO LOAD DATA
+    // ============================================
+    function initializeApp() {
+      console.log('🚀 Initializing VinFast Calculator...');
+      
+      try {
+        // Check if database is available
+        if (typeof danh_sach_xe === 'undefined') {
+          console.error('❌ Database not loaded! Retrying...');
+          setTimeout(initializeApp, 200);
+          return;
+        }
+        
+        // Set default dates
+        const today = new Date();
+        const depositDate = new Date(today);
+        depositDate.setDate(today.getDate() + 5);
+        const deliveryDate = new Date(today);
+        deliveryDate.setMonth(today.getMonth() + 1);
+        
+        document.getElementById('depositDate').valueAsDate = depositDate;
+        document.getElementById('deliveryDate').valueAsDate = deliveryDate;
+
+        // Step 1: Populate car models from database
+        console.log('📋 Loading car models from database...');
+        const defaultModel = populateCarModels();
+        console.log('✅ Selected default model:', defaultModel);
+        
+        // Step 2: Populate versions for the default model
+        console.log('🔧 Loading car versions...');
+        populateCarVersions(defaultModel || 'vf_3');
+        
+        // Step 3: Populate colors for the default version
+        console.log('🎨 Loading color options...');
+        populateColorOptions();
+        
+        // Step 4: Calculate and display all costs
+        console.log('💰 Calculating costs...');
+        calculateAll();
+        
+        console.log('✨ Initialization complete!');
+      } catch (error) {
+        console.error('❌ Error during initialization:', error);
+      }
     }
-    document.getElementById('emailBtn').addEventListener('click', sendEmail);
-    document.getElementById('emailBtnFooter').addEventListener('click', sendEmail);
 
-    // Set default dates
-    const today = new Date();
-    const depositDate = new Date(today);
-    depositDate.setDate(today.getDate() + 5);
-    const deliveryDate = new Date(today);
-    deliveryDate.setMonth(today.getMonth() + 1);
-    
-    document.getElementById('depositDate').valueAsDate = depositDate;
-    document.getElementById('deliveryDate').valueAsDate = deliveryDate;
+    // Run initialization when page loads
+    window.addEventListener('DOMContentLoaded', function() {
+      console.log('📄 DOM Content Loaded');
+      // Small delay to ensure database.js is fully loaded
+      setTimeout(initializeApp, 50);
+    });
 
-    // Initialize car versions on page load
-    populateCarVersions(document.getElementById('carModel').value);
-
-    // Initial calculation
-    calculateAll();
+    // Fallback: Also try on window.load
+    window.addEventListener('load', function() {
+      console.log('🌐 Window Loaded');
+      // Check if already initialized
+      if (document.getElementById('carModel').options.length === 0) {
+        console.log('🔄 Retrying initialization...');
+        setTimeout(initializeApp, 100);
+      }
+    });
 
     // Handle window resize
     window.addEventListener('resize', function() {
@@ -1252,8 +1560,156 @@
     });
   </script>
 
-  <!-- Import database.js -->
+  <!-- Image Modal -->
+  <div class="image-modal" id="imageModal">
+    <span class="image-modal-close" id="modalClose">&times;</span>
+    <div class="image-modal-content">
+      <!-- Swiper -->
+      <div class="swiper" id="imageSwiper">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide">
+            <img id="modalImageExterior" src="" alt="Ngoại thất">
+          </div>
+          <div class="swiper-slide">
+            <img id="modalImageInterior" src="" alt="Nội thất">
+          </div>
+        </div>
+        <!-- Navigation buttons -->
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+        <!-- Pagination -->
+        <div class="swiper-pagination"></div>
+      </div>
+      <div class="image-modal-label" id="modalLabel">Ngoại thất</div>
+    </div>
+  </div>
+
+  <!-- Import database.js FIRST - CRITICAL -->
   <script src="database.js"></script>
+  
+  <!-- Import print invoice handler -->
+  <script src="print-invoice.js"></script>
+  
+  <!-- Swiper JS -->
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+  <!-- Initialize App After Database Loaded -->
+  <script>
+    // Check if database is loaded
+    console.log('🔍 Checking database...', typeof danh_sach_xe !== 'undefined' ? '✅ Loaded' : '❌ Not loaded');
+  </script>
+
+  <!-- Image Modal Script -->
+  <script>
+    // Image Modal functionality with Swiper - must run after DOM is loaded
+    document.addEventListener('DOMContentLoaded', function() {
+      const imageModal = document.getElementById('imageModal');
+      const modalLabel = document.getElementById('modalLabel');
+      const modalClose = document.getElementById('modalClose');
+      const modalImageExterior = document.getElementById('modalImageExterior');
+      const modalImageInterior = document.getElementById('modalImageInterior');
+      const exteriorImg = document.getElementById('carImageExterior');
+      const interiorImg = document.getElementById('carImageInterior');
+
+      if (!imageModal || !modalLabel || !modalClose || !exteriorImg || !interiorImg) {
+        console.error('Modal elements not found');
+        return;
+      }
+
+      // Initialize Swiper
+      let modalSwiper = null;
+
+      function initSwiper() {
+        if (modalSwiper) {
+          modalSwiper.destroy(true, true);
+        }
+        
+        modalSwiper = new Swiper('#imageSwiper', {
+          loop: false,
+          navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+          },
+          pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+          },
+          keyboard: {
+            enabled: true,
+            onlyInViewport: true,
+          },
+          on: {
+            slideChange: function() {
+              // Update label based on active slide
+              if (this.activeIndex === 0) {
+                modalLabel.textContent = 'Ngoại thất';
+              } else {
+                modalLabel.textContent = 'Nội thất';
+              }
+            }
+          }
+        });
+      }
+
+      // Function to open modal
+      function openModal(startIndex) {
+        // Update images
+        modalImageExterior.src = exteriorImg.src;
+        modalImageInterior.src = interiorImg.src;
+        
+        // Show modal
+        imageModal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        
+        // Initialize or reset swiper
+        initSwiper();
+        
+        // Go to specific slide
+        if (modalSwiper) {
+          modalSwiper.slideTo(startIndex, 0);
+        }
+        
+        // Update label
+        modalLabel.textContent = startIndex === 0 ? 'Ngoại thất' : 'Nội thất';
+      }
+
+      // Function to close modal
+      function closeModal() {
+        imageModal.classList.remove('active');
+        document.body.style.overflow = '';
+        if (modalSwiper) {
+          modalSwiper.slideTo(0, 0);
+        }
+      }
+
+      // Open modal when clicking on exterior image
+      exteriorImg.addEventListener('click', function() {
+        openModal(0); // Start with exterior (index 0)
+      });
+
+      // Open modal when clicking on interior image
+      interiorImg.addEventListener('click', function() {
+        openModal(1); // Start with interior (index 1)
+      });
+
+      // Close modal when clicking the close button
+      modalClose.addEventListener('click', closeModal);
+
+      // Close modal when clicking outside the content
+      imageModal.addEventListener('click', function(e) {
+        if (e.target === imageModal) {
+          closeModal();
+        }
+      });
+
+      // Close modal with ESC key
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && imageModal.classList.contains('active')) {
+          closeModal();
+        }
+      });
+    });
+  </script>
 </body>
 </html>
 
