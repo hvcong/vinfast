@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bảng báo giá chi phí mua xe tạm tính</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 40px;
+      color: #000;
+      background: white;
+    }
+
+    @media print {
+      body {
+        padding: 20px;
+      }
+    }
+
+    h2 {
+      text-align: center;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      background-color: #e8f0ff;
+      color: #004aad;
+      padding: 10px;
+      border: 1px solid #004aad;
+    }
+
+    .section-title {
+      background-color: #e8f0ff;
+      color: #004aad;
+      font-weight: bold;
+      text-transform: uppercase;
+      padding: 6px 10px;
+      margin-top: 20px;
+      margin-bottom: 0;
+      border: 1px solid #ccc;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 0;
+      font-size: 14px;
+      background-color: white;
+    }
+
+    th, td {
+      border: 1px solid #ccc;
+      padding: 6px 8px;
+      vertical-align: top;
+    }
+
+    .no-border td {
+      border: none;
+      background: transparent;
+    }
+
+    .text-right {
+      text-align: right;
+    }
+
+    .note {
+      font-size: 13px;
+      font-style: italic;
+      margin-top: 12px;
+      text-align: right;
+      color: #333;
+    }
+
+    footer {
+      margin-top: 20px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+    }
+
+    .footer-section {
+      width: 45%;
+      text-align: center;
+    }
+
+    .footer-section strong {
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .footer-date {
+      text-align: right;
+      margin-top: 8px;
+      font-size: 13px;
+      font-style: italic;
+      font-weight: medium;
+    }
+  </style>
+</head>
+<body>
+  <h2>BẢNG BÁO GIÁ CHI PHÍ MUA XE TẠM TÍNH</h2>
+
+  <table class="no-border">
+    <tr>
+      <td style="width: 15%;"><strong>Kính Gửi:</strong></td>
+      <td style="width: 35%;">QUÝ KHÁCH HÀNG</td>
+      <td style="width: 15%;"><strong>Đóng Tên:</strong></td>
+      <td style="width: 35%;">Công Ty</td>
+    </tr>
+    <tr>
+      <td style="width: 15%;"><strong>Địa Chỉ:</strong></td>
+      <td style="width: 35%;">Thành phố Hồ Chí Minh</td>
+      <td style="width: 15%;"><strong>Như Chủ:</strong></td>
+      <td style="width: 35%;">Không Kinh Doanh</td>
+    </tr>
+  </table>
+
+  <div class="section-title">Thông tin sản phẩm</div>
+  <table>
+    <tr><td style="width: 33%;"><strong>Dòng xe</strong></td><td>VF 9</td></tr>
+    <tr><td style="width: 33%;"><strong>Phiên bản</strong></td><td>Plus - 6 Chỗ</td></tr>
+    <tr><td style="width: 33%;"><strong>Ngoại thất</strong></td><td>Xanh Lá Nhạt</td></tr>
+    <tr><td style="width: 33%;"><strong>Nội thất</strong></td><td>Nâu</td></tr>
+  </table>
+
+  <!-- <div class="section-title">Giá xe & Chương trình khuyến mãi</div>
+  <table>
+    <tr>
+      <td style="width: 33%;"><strong>Giá Xe Đã Bao Gồm VAT</strong></td>
+      <td class="text-right" colspan="2"><strong>Kêm Pin</strong></td>
+      <td class="text-right"><strong>1.731.000.000</strong></td>
+    </tr>
+    <tr>
+      <td colspan="4" style="background-color: #e8f0ff;"><strong>MLTTV-N 3</strong></td>
+    </tr>
+    <tr><td style="width: 33%;">1</td><td colspan="2">CS Ưu Đãi VF 8, VF 9</td><td class="text-right">50.000.000</td></tr>
+    <tr><td style="width: 33%;">2</td><td colspan="2">CS VF 7 Plus</td><td class="text-right">0</td></tr>
+    <tr><td style="width: 33%;">3</td><td colspan="2">Vay đổi 2 năm bảo hiểm</td><td class="text-right">0</td></tr>
+    <tr><td style="width: 33%;">4</td><td colspan="2">Hỗ trợ Phí Năng Cao</td><td class="text-right">0</td></tr>
+    <tr><td style="width: 33%;">5</td><td colspan="2">Xóng thái biên</td><td class="text-right">0</td></tr>
+    <tr><td style="width: 33%;">6</td><td colspan="2">Hỗng thành Vinfast</td><td class="text-right">0</td></tr>
+    <tr><td style="width: 33%;">7</td><td colspan="2">Voucher VinClub</td><td class="text-right">70.000.000</td></tr>
+    <tr>
+      <td colspan="3" style="background-color: #e8f0ff;"><strong>Giá Xuất Hóa Đơn</strong></td>
+      <td class="text-right" style="background-color: #e8f0ff;"><strong>1.661.760.000</strong></td>
+    </tr>
+    <tr>
+      <td colspan="3" style="background-color: #e8f0ff;"><strong>Giá Thanh toán thực tế sau KM</strong></td>
+      <td class="text-right" style="background-color: #e8f0ff;"><strong>1.661.760.000</strong></td>
+    </tr>
+  </table> -->
+
+  <div class="section-title">Chi phí lăn bánh</div>
+  <table>
+    <tr><td style="width: 5%;">1</td><td>Lệ phí trước bạ</td><td style="width: 15%;">10%</td><td class="text-right">Miễn Phí</td><td class="text-right">Hóa đơn</td></tr>
+    <tr><td style="width: 5%;">2</td><td>Phí 01 năm BH Dân sự</td><td style="width: 15%;">Thành phố</td><td class="text-right">950.000</td><td class="text-right">Hóa đơn</td></tr>
+    <tr><td style="width: 5%;">3</td><td>Phí cấp biển số</td><td style="width: 15%;"></td><td class="text-right">20.000.000</td><td class="text-right">Biên Lai</td></tr>
+    <tr><td style="width: 5%;">4</td><td>Phí kiểm định</td><td style="width: 15%;"></td><td class="text-right">340.000</td><td class="text-right">Biên Lai</td></tr>
+    <tr><td style="width: 5%;">5</td><td>Phí bảo trì đường bộ</td><td style="width: 15%;">Công ty</td><td class="text-right">2160000</td><td class="text-right">Biên Lai</td></tr>
+    <tr><td style="width: 5%;">6</td><td>Phí dịch vụ</td><td style="width: 15%;"></td><td class="text-right">3.000.000</td><td></td></tr>
+    <tr><td style="width: 5%;">7</td><td>BHVC bao gồm Pin</td><td style="width: 15%;"></td><td class="text-right">24.095.520</td><td class="text-right">Hóa Đơn</td></tr>
+  </table>
+
+  <div class="section-title">Tổng chi phí lăn bánh</div>
+  <table>
+    <tr style="background-color: #e8f0ff;">
+      <td style="width: 5%;"><strong>STT</strong></td>
+      <td><strong>Hình thức</strong></td>
+      <td style="width: 15%; text-align: center;"><strong>%</strong></td>
+      <td class="text-right" style="width: 25%;"><strong>Số tiền</strong></td>
+    </tr>
+    <tr>
+      <td style="width: 5%;">1</td>
+      <td>Ngân hàng</td>
+      <td style="width: 15%; text-align: center;">90%</td>
+      <td class="text-right" style="width: 25%;">45.310.968</td>
+    </tr>
+    <tr>
+      <td style="width: 5%;">2</td>
+      <td>Đối Ứng</td>
+      <td style="width: 15%; text-align: center;"></td>
+      <td class="text-right" style="width: 25%;">216.521.520</td>
+    </tr>
+    <tr style="background-color: #e8f0ff;">
+      <td colspan="3"><strong>Tổng</strong></td>
+      <td class="text-right"><strong>50.345.520</strong></td>
+    </tr>
+  </table>
+
+  <div class="section-title">Phương thức thanh toán</div>
+  <table>
+    <tr style="background-color: #e8f0ff;">
+      <td style="width: 25%;"><strong>Hình thức</strong></td>
+      <td style="width: 25%; text-align: right;"><strong>Đặt cọc</strong></td>
+      <td style="width: 25%; text-align: right;"><strong>Lần 1: Xuất hóa đơn</strong></td>
+      <td style="width: 25%; text-align: right;"><strong>Lần 2: Đăng ký</strong></td>
+    </tr>
+    <tr>
+      <td>Ngân hàng</td>
+      <td class="text-right">50.000.000</td>
+      <td class="text-right">33.783.440</td>
+      <td class="text-right">50.345.520</td>
+    </tr>
+  
+  </table>
+
+  <div class="section-title">Quà tặng</div>
+  <table>
+    <tr><td style="width: 33%;">Áo trùm, bao tay lái, sáp thơm, bình chữa cháy</td><td class="text-right">Tặng</td></tr>
+  </table>
+
+  <p class="note">Báo giá có hiệu lực đến hết ngày 30/11/2025</p>
+<div class="footer-date">
+    Ngày ... tháng ... năm 2025
+  </div>
+  <footer>
+    <div class="footer-section">
+      <strong>Khách hàng</strong>
+      <p>(Ký và ghi rõ họ tên)</p>
+    </div>
+    <div class="footer-section">
+      <strong>Người báo giá</strong>
+      <p>(Ký và ghi rõ họ tên)</p>
+    </div>
+  </footer>
+
+  
+</body>
+</html>
