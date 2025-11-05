@@ -46,6 +46,12 @@
       transition: all 0.3s;
     }
 
+    @media (max-width: 1023px) {
+      .view-toggle {
+        display: none;
+      }
+    }
+
     .view-toggle:hover {
       background: #3182ce;
       color: white;
@@ -71,6 +77,22 @@
 
       body.mobile-view .content-grid {
         grid-template-columns: 1fr;
+      }
+    }
+
+    /* Mobile Layout - Single column, reverse order */
+    @media (max-width: 1023px) {
+      .content-grid {
+        display: flex;
+        flex-direction: column-reverse;
+        gap: 20px;
+      }
+
+      .left-column,
+      .right-column {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
       }
     }
 
@@ -178,7 +200,7 @@
       height: 100%;
       object-fit: cover;
       object-position: center;
-      transition: all 0.4s ease-in-out;
+      transition: all 0.25s ease-in-out;
       border-radius: 8px;
     }
 
@@ -206,7 +228,7 @@
     #carImageExterior.fade-in {
       opacity: 1;
       transform: translateX(0);
-      animation: slideInFromLeft 0.5s ease-out;
+      animation: slideInFromLeft 0.3s ease-out;
     }
 
     @keyframes slideInFromLeft {
@@ -229,7 +251,7 @@
     #carImageInterior.fade-in {
       opacity: 1;
       transform: translateX(0);
-      animation: slideInFromRight 0.5s ease-out;
+      animation: slideInFromRight 0.3s ease-out;
     }
 
     @keyframes slideInFromRight {
@@ -806,9 +828,7 @@
 
     /* Hide on mobile */
     @media (max-width: 1023px) {
-      .desktop-only {
-        display: block !important;
-      }
+      /* No longer need desktop-only hiding */
     }
 
     /* Show on desktop */
@@ -840,8 +860,8 @@
 
     <!-- Content Grid (Desktop) / Single Column (Mobile) -->
     <div class="content-grid">
-      <!-- Left Column - Customer Info & Cost Estimation (Desktop Only) -->
-      <div class="desktop-only">
+      <!-- Left Column - Customer Info & Cost Estimation -->
+      <div class="left-column">
         <!-- Customer Info Card -->
         <div class="customer-info-card">
           <div class="card-title">Thông tin khách hàng & Giao dịch</div>
@@ -984,7 +1004,7 @@
       </div>
 
       <!-- Right Column - Car Configuration & Loan Details -->
-      <div>
+      <div class="right-column">
         <!-- Main Configuration Card -->
     <div class="main-card">
       <!-- Car Image -->
@@ -1274,7 +1294,7 @@
       exteriorImg.classList.add('fade-out');
       interiorImg.classList.add('fade-out');
       
-      // Wait for fade-out animation to complete, then change image and fade-in
+      // Wait for fade-out animation to complete completely, then change image
       setTimeout(() => {
         // Find the selected car in danh_sach_xe
         const selectedCar = danh_sach_xe.find(xe => xe.phien_ban === versionSelect.value);
@@ -1333,7 +1353,7 @@
           }
         }
         
-        // Remove fade-out and add fade-in effect
+        // Wait a bit for image to load, then fade-in
         setTimeout(() => {
           exteriorImg.classList.remove('fade-out');
           exteriorImg.classList.add('fade-in');
@@ -1344,9 +1364,9 @@
           setTimeout(() => {
             exteriorImg.classList.remove('fade-in');
             interiorImg.classList.remove('fade-in');
-          }, 500); // Match animation duration
+          }, 300); // Match animation duration
         }, 50);
-      }, 400); // Match the fade-out transition duration
+      }, 250); // Wait for fade-out to complete (match transition duration)
     }
 
     // Populate color options based on selected car version
