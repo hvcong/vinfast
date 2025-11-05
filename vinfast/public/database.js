@@ -4,25 +4,22 @@
 // MÀU SẮC XE
 // ===========================
 
-// Màu ngoại thất
-const mau_ngoai_that = [
-    { ma_mau: "white", ten_mau: "Trắng", hex_code: "#FFFFFF" },
-    { ma_mau: "grey", ten_mau: "Xám", hex_code: "#718096" },
-    { ma_mau: "black", ten_mau: "Đen", hex_code: "#1a202c" },
-    { ma_mau: "blue", ten_mau: "Xanh", hex_code: "#3182ce" },
-    { ma_mau: "red", ten_mau: "Đỏ", hex_code: "#e53e3e" },
-    { ma_mau: "lightgrey", ten_mau: "Xám nhạt", hex_code: "#cbd5e0" },
-    { ma_mau: "yellow", ten_mau: "Vàng", hex_code: "#F5C518" },
-    { ma_mau: "silver", ten_mau: "Bạc", hex_code: "#C0C0C0" }
-]
+// Màu sắc chung (dùng cho cả ngoại thất và nội thất)
+const colors = [
+    { ma_mau: "red", ten_mau: "Đỏ", hex_code: "#e53e3e", icon: "images/colors/red.png" },
+    { ma_mau: "blue", ten_mau: "Xanh", hex_code: "#3182ce", icon: "images/colors/blue.png" },
+    { ma_mau: "white", ten_mau: "Trắng", hex_code: "#FFFFFF", icon: "images/colors/white.png" },
+    { ma_mau: "yellow", ten_mau: "Vàng", hex_code: "#F5C518", icon: "images/colors/yellow.png" },
+    { ma_mau: "grey", ten_mau: "Xám", hex_code: "#718096", icon: "images/colors/grey.png" },
+    { ma_mau: "blue-light", ten_mau: "Xanh dương nhạt", hex_code: "#1a202c", icon: "images/colors/blue-light.png" },
+    { ma_mau: "green-grey", ten_mau: "Xám nhạt", hex_code: "#cbd5e0", icon: "images/colors/green-grey.png" },
+    { ma_mau: "purple-gray2", ten_mau: "Bạc", hex_code: "#C0C0C0", icon: "images/colors/purple-gray2.png" },
+    { ma_mau: "purple-gray", ten_mau: "Bạc", hex_code: "#C0C0C0", icon: "images/colors/purple-grey.png" },
+];
 
-// Màu nội thất
-const mau_noi_that = [
-    { ma_mau: "black", ten_mau: "Đen", hex_code: "#1a202c" },
-    { ma_mau: "beige", ten_mau: "Be", hex_code: "#F5F5DC" },
-    { ma_mau: "brown", ten_mau: "Nâu", hex_code: "#8B4513" },
-    { ma_mau: "grey", ten_mau: "Xám", hex_code: "#718096" }
-]
+// Tương thích ngược
+const mau_ngoai_that = colors;
+const mau_noi_that = colors;
 
 // ===========================
 // THÔNG TIN XE VÀ PHIÊN BẢN
@@ -37,10 +34,22 @@ const danh_sach_xe = [
         phien_ban: "VF 3 Base",
         gia_niem_yet: 240000000,
         loai_dong_co: "dien",
-        mau_ngoai_that: ["white", "grey", "black", "red"],
-        mau_noi_that: ["black", "beige"],
-        hinh_anh_ngoai: "images/vf3_full.jpg",
-        hinh_anh_noi: "images/vf3_in.jpg"
+        mau_ngoai_that: [
+            { ma_mau: "yellow", icon: "images/vf3/car-4.webp" },
+            { ma_mau: "blue", icon: "images/vf3/car-3.webp" },
+            { ma_mau: "red", icon: "images/vf3/car-5.webp" },
+            { ma_mau: "blue-light", icon: "images/vf3/car-6.webp" },
+            { ma_mau: "green-grey", icon: "images/vf3/car-7.webp" },
+            { ma_mau: "white", icon: "images/vf3/car-8.webp" },
+            { ma_mau: "grey", icon: "images/vf3/car-2.webp" },
+
+            { ma_mau: "purple-gray2", icon: "images/vf3/car-1.webp" },
+            { ma_mau: "purple-gray", icon: "images/vf3/car-0.webp" },
+        ],
+        mau_noi_that: [
+            { ma_mau: "grey", hinh_anh_noi: "images/vf3/car-0-in.jpg" }
+        ],
+    
     },
     
     // VF 5
@@ -50,10 +59,15 @@ const danh_sach_xe = [
         phien_ban: "VF 5 Plus",
         gia_niem_yet: 468000000,
         loai_dong_co: "dien",
-        mau_ngoai_that: ["white", "grey", "black", "blue", "red"],
-        mau_noi_that: ["black", "beige"],
-        hinh_anh_ngoai: "images/vf5_full.webp",
-        hinh_anh_noi: "images/vf5_in.jpg"
+        mau_ngoai_that: [
+            { ma_mau: "white", hinh_anh_ngoai: "images/vf5_white.webp" },
+            { ma_mau: "grey", hinh_anh_ngoai: "images/vf5_grey.webp" },
+            { ma_mau: "blue", hinh_anh_ngoai: "images/vf5_blue.webp" },
+            { ma_mau: "red", hinh_anh_ngoai: "images/vf5_red.webp" }
+        ],
+        mau_noi_that: [
+            { ma_mau: "grey", hinh_anh_noi: "images/vf5_in_black.jpg" }
+        ],
     },
     
     // VF 6
@@ -63,10 +77,15 @@ const danh_sach_xe = [
         phien_ban: "VF 6 Eco",
         gia_niem_yet: 675000000,
         loai_dong_co: "dien",
-        mau_ngoai_that: ["white", "grey", "black", "blue", "red", "silver"],
-        mau_noi_that: ["black", "beige", "brown"],
-        hinh_anh_ngoai: "images/vf6_eco_exterior.jpg",
-        hinh_anh_noi: "images/vf6_eco_interior.jpg"
+        mau_ngoai_that: [
+            { ma_mau: "white", hinh_anh_ngoai: "images/vf6_eco_white.jpg" },
+            { ma_mau: "grey", hinh_anh_ngoai: "images/vf6_eco_grey.jpg" },
+            { ma_mau: "blue", hinh_anh_ngoai: "images/vf6_eco_blue.jpg" },
+            { ma_mau: "red", hinh_anh_ngoai: "images/vf6_eco_red.jpg" }
+        ],
+        mau_noi_that: [
+            { ma_mau: "grey", hinh_anh_noi: "images/vf6_eco_in_black.jpg" }
+        ],
     },
     { 
         dong_xe: "vf_6",
@@ -74,10 +93,15 @@ const danh_sach_xe = [
         phien_ban: "VF 6 Plus",
         gia_niem_yet: 765000000,
         loai_dong_co: "dien",
-        mau_ngoai_that: ["white", "grey", "black", "blue", "red", "silver"],
-        mau_noi_that: ["black", "beige", "brown"],
-        hinh_anh_ngoai: "images/vf6_plus_exterior.jpg",
-        hinh_anh_noi: "images/vf6_plus_interior.jpg"
+        mau_ngoai_that: [
+            { ma_mau: "white", hinh_anh_ngoai: "images/vf6_plus_white.jpg" },
+            { ma_mau: "grey", hinh_anh_ngoai: "images/vf6_plus_grey.jpg" },
+            { ma_mau: "blue", hinh_anh_ngoai: "images/vf6_plus_blue.jpg" },
+            { ma_mau: "red", hinh_anh_ngoai: "images/vf6_plus_red.jpg" }
+        ],
+        mau_noi_that: [
+            { ma_mau: "grey", hinh_anh_noi: "images/vf6_plus_in_black.jpg" }
+        ],
     },
     
     // VF 7
@@ -87,10 +111,15 @@ const danh_sach_xe = [
         phien_ban: "VF 7 Eco",
         gia_niem_yet: 850000000,
         loai_dong_co: "dien",
-        mau_ngoai_that: ["white", "grey", "black", "blue", "red", "silver"],
-        mau_noi_that: ["black", "beige", "brown"],
-        hinh_anh_ngoai: "images/vf7_eco_exterior.jpg",
-        hinh_anh_noi: "images/vf7_eco_interior.jpg"
+        mau_ngoai_that: [
+            { ma_mau: "white", hinh_anh_ngoai: "images/vf7_eco_white.jpg" },
+            { ma_mau: "grey", hinh_anh_ngoai: "images/vf7_eco_grey.jpg" },
+            { ma_mau: "blue", hinh_anh_ngoai: "images/vf7_eco_blue.jpg" },
+            { ma_mau: "red", hinh_anh_ngoai: "images/vf7_eco_red.jpg" }
+        ],
+        mau_noi_that: [
+            { ma_mau: "grey", hinh_anh_noi: "images/vf7_eco_in_black.jpg" }
+        ],
     },
     { 
         dong_xe: "vf_7",
@@ -98,10 +127,15 @@ const danh_sach_xe = [
         phien_ban: "VF 7 Plus 1 Cầu",
         gia_niem_yet: 950000000,
         loai_dong_co: "dien",
-        mau_ngoai_that: ["white", "grey", "black", "blue", "red", "silver"],
-        mau_noi_that: ["black", "beige", "brown"],
-        hinh_anh_ngoai: "images/vf7_plus_1cau_exterior.jpg",
-        hinh_anh_noi: "images/vf7_plus_1cau_interior.jpg"
+        mau_ngoai_that: [
+            { ma_mau: "white", hinh_anh_ngoai: "images/vf7_plus_white.jpg" },
+            { ma_mau: "grey", hinh_anh_ngoai: "images/vf7_plus_grey.jpg" },
+            { ma_mau: "blue", hinh_anh_ngoai: "images/vf7_plus_blue.jpg" },
+            { ma_mau: "red", hinh_anh_ngoai: "images/vf7_plus_red.jpg" }
+        ],
+        mau_noi_that: [
+            { ma_mau: "grey", hinh_anh_noi: "images/vf7_plus_1cau_in_black.jpg" }
+        ],
     },
     { 
         dong_xe: "vf_7",
@@ -109,10 +143,15 @@ const danh_sach_xe = [
         phien_ban: "VF 7 Plus 2 Cầu",
         gia_niem_yet: 1050000000,
         loai_dong_co: "dien",
-        mau_ngoai_that: ["white", "grey", "black", "blue", "red", "silver"],
-        mau_noi_that: ["black", "beige", "brown"],
-        hinh_anh_ngoai: "images/vf7_plus_2cau_exterior.jpg",
-        hinh_anh_noi: "images/vf7_plus_2cau_interior.jpg"
+        mau_ngoai_that: [
+            { ma_mau: "white", hinh_anh_ngoai: "images/vf7_plus2_white.jpg" },
+            { ma_mau: "grey", hinh_anh_ngoai: "images/vf7_plus2_grey.jpg" },
+            { ma_mau: "blue", hinh_anh_ngoai: "images/vf7_plus2_blue.jpg" },
+            { ma_mau: "red", hinh_anh_ngoai: "images/vf7_plus2_red.jpg" }
+        ],
+        mau_noi_that: [
+            { ma_mau: "grey", hinh_anh_noi: "images/vf7_plus_2cau_in_black.jpg" }
+        ],
     },
     
     // VF 8
@@ -122,10 +161,15 @@ const danh_sach_xe = [
         phien_ban: "VF 8 Eco",
         gia_niem_yet: 1050000000,
         loai_dong_co: "dien",
-        mau_ngoai_that: ["white", "grey", "black", "blue", "red", "silver"],
-        mau_noi_that: ["black", "beige", "brown", "grey"],
-        hinh_anh_ngoai: "images/vf8_eco_exterior.jpg",
-        hinh_anh_noi: "images/vf8_eco_interior.jpg"
+        mau_ngoai_that: [
+            { ma_mau: "white", hinh_anh_ngoai: "images/vf8_eco_white.jpg" },
+            { ma_mau: "grey", hinh_anh_ngoai: "images/vf8_eco_grey.jpg" },
+            { ma_mau: "blue", hinh_anh_ngoai: "images/vf8_eco_blue.jpg" },
+            { ma_mau: "red", hinh_anh_ngoai: "images/vf8_eco_red.jpg" }
+        ],
+        mau_noi_that: [
+            { ma_mau: "grey", hinh_anh_noi: "images/vf8_eco_in_black.jpg" }
+        ],
     },
     { 
         dong_xe: "vf_8",
@@ -133,10 +177,15 @@ const danh_sach_xe = [
         phien_ban: "VF 8 Plus",
         gia_niem_yet: 1199000000,
         loai_dong_co: "dien",
-        mau_ngoai_that: ["white", "grey", "black", "blue", "red", "silver"],
-        mau_noi_that: ["black", "beige", "brown", "grey"],
-        hinh_anh_ngoai: "images/vf8_plus_exterior.jpg",
-        hinh_anh_noi: "images/vf8_plus_interior.jpg"
+        mau_ngoai_that: [
+            { ma_mau: "white", hinh_anh_ngoai: "images/vf8_plus_white.jpg" },
+            { ma_mau: "grey", hinh_anh_ngoai: "images/vf8_plus_grey.jpg" },
+            { ma_mau: "blue", hinh_anh_ngoai: "images/vf8_plus_blue.jpg" },
+            { ma_mau: "red", hinh_anh_ngoai: "images/vf8_plus_red.jpg" }
+        ],
+        mau_noi_that: [
+            { ma_mau: "grey", hinh_anh_noi: "images/vf8_plus_in_black.jpg" }
+        ],
     },
     
     // VF 9
@@ -146,10 +195,15 @@ const danh_sach_xe = [
         phien_ban: "VF 9 Eco",
         gia_niem_yet: 1491000000,
         loai_dong_co: "dien",
-        mau_ngoai_that: ["white", "grey", "black", "blue", "red", "silver"],
-        mau_noi_that: ["black", "beige", "brown", "grey"],
-        hinh_anh_ngoai: "images/vf9_eco_exterior.jpg",
-        hinh_anh_noi: "images/vf9_eco_interior.jpg"
+        mau_ngoai_that: [
+            { ma_mau: "white", hinh_anh_ngoai: "images/vf9_eco_white.jpg" },
+            { ma_mau: "grey", hinh_anh_ngoai: "images/vf9_eco_grey.jpg" },
+            { ma_mau: "blue", hinh_anh_ngoai: "images/vf9_eco_blue.jpg" },
+            { ma_mau: "red", hinh_anh_ngoai: "images/vf9_eco_red.jpg" }
+        ],
+        mau_noi_that: [
+            { ma_mau: "grey", hinh_anh_noi: "images/vf9_eco_in_black.jpg" }
+        ],
     },
     { 
         dong_xe: "vf_9",
@@ -157,10 +211,15 @@ const danh_sach_xe = [
         phien_ban: "VF 9 Plus",
         gia_niem_yet: 1691000000,
         loai_dong_co: "dien",
-        mau_ngoai_that: ["white", "grey", "black", "blue", "red", "silver"],
-        mau_noi_that: ["black", "beige", "brown", "grey"],
-        hinh_anh_ngoai: "images/vf9_plus_exterior.jpg",
-        hinh_anh_noi: "images/vf9_plus_interior.jpg"
+        mau_ngoai_that: [
+            { ma_mau: "white", hinh_anh_ngoai: "images/vf9_plus_white.jpg" },
+            { ma_mau: "grey", hinh_anh_ngoai: "images/vf9_plus_grey.jpg" },
+            { ma_mau: "blue", hinh_anh_ngoai: "images/vf9_plus_blue.jpg" },
+            { ma_mau: "red", hinh_anh_ngoai: "images/vf9_plus_red.jpg" }
+        ],
+        mau_noi_that: [
+            { ma_mau: "grey", hinh_anh_noi: "images/vf9_plus_in_black.jpg" }
+        ],
     },
     { 
         dong_xe: "vf_9",
@@ -168,10 +227,15 @@ const danh_sach_xe = [
         phien_ban: "VF 9 Plus 6 Chỗ",
         gia_niem_yet: 1691000000,
         loai_dong_co: "dien",
-        mau_ngoai_that: ["white", "grey", "black", "blue", "red", "silver"],
-        mau_noi_that: ["black", "beige", "brown", "grey"],
-        hinh_anh_ngoai: "images/vf9_plus_6cho_exterior.jpg",
-        hinh_anh_noi: "images/vf9_plus_6cho_interior.jpg"
+        mau_ngoai_that: [
+            { ma_mau: "white", hinh_anh_ngoai: "images/vf9_plus6_white.jpg" },
+            { ma_mau: "grey", hinh_anh_ngoai: "images/vf9_plus6_grey.jpg" },
+            { ma_mau: "blue", hinh_anh_ngoai: "images/vf9_plus6_blue.jpg" },
+            { ma_mau: "red", hinh_anh_ngoai: "images/vf9_plus6_red.jpg" }
+        ],
+        mau_noi_that: [
+            { ma_mau: "grey", hinh_anh_noi: "images/vf9_plus_6cho_in_black.jpg" }
+        ],
     },
     
     // MINIO
@@ -181,10 +245,15 @@ const danh_sach_xe = [
         phien_ban: "MINIO Green",
         gia_niem_yet: 239000000,
         loai_dong_co: "dien",
-        mau_ngoai_that: ["white", "yellow", "blue", "red"],
-        mau_noi_that: ["black", "beige"],
-        hinh_anh_ngoai: "images/minio_exterior.jpg",
-        hinh_anh_noi: "images/minio_interior.jpg"
+        mau_ngoai_that: [
+            { ma_mau: "white", hinh_anh_ngoai: "images/minio_white.jpg" },
+            { ma_mau: "yellow", hinh_anh_ngoai: "images/minio_yellow.jpg" },
+            { ma_mau: "blue", hinh_anh_ngoai: "images/minio_blue.jpg" },
+            { ma_mau: "red", hinh_anh_ngoai: "images/minio_red.jpg" }
+        ],
+        mau_noi_that: [
+            { ma_mau: "grey", hinh_anh_noi: "images/minio_in_black.jpg" }
+        ],
     },
     
     // HERIO
@@ -194,10 +263,15 @@ const danh_sach_xe = [
         phien_ban: "HERIO Green",
         gia_niem_yet: 469000000,
         loai_dong_co: "dien",
-        mau_ngoai_that: ["white", "grey", "black", "blue", "red"],
-        mau_noi_that: ["black", "beige"],
-        hinh_anh_ngoai: "images/herio_exterior.jpg",
-        hinh_anh_noi: "images/herio_interior.jpg"
+        mau_ngoai_that: [
+            { ma_mau: "white", hinh_anh_ngoai: "images/herio_white.jpg" },
+            { ma_mau: "grey", hinh_anh_ngoai: "images/herio_grey.jpg" },
+            { ma_mau: "blue", hinh_anh_ngoai: "images/herio_blue.jpg" },
+            { ma_mau: "red", hinh_anh_ngoai: "images/herio_red.jpg" }
+        ],
+        mau_noi_that: [
+            { ma_mau: "grey", hinh_anh_noi: "images/herio_in_black.jpg" }
+        ],
     },
     
     // NERIO
@@ -207,10 +281,16 @@ const danh_sach_xe = [
         phien_ban: "NERIO",
         gia_niem_yet: 650000000,
         loai_dong_co: "dien",
-        mau_ngoai_that: ["white", "grey", "black", "blue", "red", "yellow"],
-        mau_noi_that: ["black", "beige", "brown"],
-        hinh_anh_ngoai: "images/nerio_exterior.jpg",
-        hinh_anh_noi: "images/nerio_interior.jpg"
+        mau_ngoai_that: [
+            { ma_mau: "white", hinh_anh_ngoai: "images/nerio_white.jpg" },
+            { ma_mau: "grey", hinh_anh_ngoai: "images/nerio_grey.jpg" },
+            { ma_mau: "blue", hinh_anh_ngoai: "images/nerio_blue.jpg" },
+            { ma_mau: "red", hinh_anh_ngoai: "images/nerio_red.jpg" },
+            { ma_mau: "yellow", hinh_anh_ngoai: "images/nerio_yellow.jpg" }
+        ],
+        mau_noi_that: [
+            { ma_mau: "grey", hinh_anh_noi: "images/nerio_in_black.jpg" }
+        ],
     },
     
     // LIMO
@@ -220,10 +300,13 @@ const danh_sach_xe = [
         phien_ban: "Limo Green",
         gia_niem_yet: 850000000,
         loai_dong_co: "dien",
-        mau_ngoai_that: ["white", "grey", "black"],
-        mau_noi_that: ["black", "beige", "brown"],
-        hinh_anh_ngoai: "images/limo_exterior.jpg",
-        hinh_anh_noi: "images/limo_interior.jpg"
+        mau_ngoai_that: [
+            { ma_mau: "white", hinh_anh_ngoai: "images/limo_white.jpg" },
+            { ma_mau: "grey", hinh_anh_ngoai: "images/limo_grey.jpg" }
+        ],
+        mau_noi_that: [
+            { ma_mau: "grey", hinh_anh_noi: "images/limo_in_black.jpg" }
+        ],
     },
     
     // EC Van
@@ -233,10 +316,14 @@ const danh_sach_xe = [
         phien_ban: "EC Van",
         gia_niem_yet: 415000000,
         loai_dong_co: "dien",
-        mau_ngoai_that: ["white", "grey", "blue"],
-        mau_noi_that: ["black", "grey"],
-        hinh_anh_ngoai: "images/ec_exterior.jpg",
-        hinh_anh_noi: "images/ec_interior.jpg"
+        mau_ngoai_that: [
+            { ma_mau: "white", hinh_anh_ngoai: "images/ec_white.jpg" },
+            { ma_mau: "grey", hinh_anh_ngoai: "images/ec_grey.jpg" },
+            { ma_mau: "blue", hinh_anh_ngoai: "images/ec_blue.jpg" }
+        ],
+        mau_noi_that: [
+            { ma_mau: "grey", hinh_anh_noi: "images/ec_in_black.jpg" }
+        ],
     },
     
     // EC Nâng Cao
@@ -246,10 +333,14 @@ const danh_sach_xe = [
         phien_ban: "EC Nâng Cao Van",
         gia_niem_yet: 476000000,
         loai_dong_co: "dien",
-        mau_ngoai_that: ["white", "grey", "blue"],
-        mau_noi_that: ["black", "grey"],
-        hinh_anh_ngoai: "images/ec_nangcao_exterior.jpg",
-        hinh_anh_noi: "images/ec_nangcao_interior.jpg"
+        mau_ngoai_that: [
+            { ma_mau: "white", hinh_anh_ngoai: "images/ec_nangcao_white.jpg" },
+            { ma_mau: "grey", hinh_anh_ngoai: "images/ec_nangcao_grey.jpg" },
+            { ma_mau: "blue", hinh_anh_ngoai: "images/ec_nangcao_blue.jpg" }
+        ],
+        mau_noi_that: [
+            { ma_mau: "grey", hinh_anh_noi: "images/ec_nangcao_in_black.jpg" }
+        ],
     }
 ]
 

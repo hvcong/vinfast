@@ -387,6 +387,66 @@
       color: #333;
     }
 
+    /* Color Picker */
+    .color-picker {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      padding: 8px 0;
+    }
+
+    .color-option {
+      width: 60px;
+      height: 60px;
+      border-radius: 12px;
+      border: 3px solid transparent;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      overflow: hidden;
+      position: relative;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    .color-option img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .color-option:hover {
+      transform: scale(1.1);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    }
+
+    .color-option.selected {
+      border-color: #3182ce;
+      box-shadow: 0 0 0 1px #3182ce, 0 2px 8px rgba(49, 130, 206, 0.3);
+      transform: scale(1.03);
+    }
+
+    .color-option-label {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(0, 0, 0, 0.7);
+      color: white;
+      font-size: 10px;
+      padding: 4px;
+      text-align: center;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .color-option:hover .color-option-label {
+      opacity: 1;
+    }
+
+    /* Hidden select for form compatibility */
+    .color-select-hidden {
+      display: none;
+    }
+
     /* Radio Buttons */
     .radio-group {
       display: flex;
@@ -907,17 +967,23 @@
       <div class="config-section">
         <div class="config-title">2. Tuỳ chọn ngoại thất & nội thất</div>
         
-        <div style="margin-bottom: 16px;">
+        <div style="margin-bottom: 20px;">
           <label class="form-label">Ngoại thất</label>
-          <select class="dropdown" id="exteriorColor">
-            <!-- Options will be populated dynamically from database -->
+          <div class="color-picker" id="exteriorColorPicker">
+            <!-- Color options will be populated dynamically -->
+          </div>
+          <select class="color-select-hidden" id="exteriorColor">
+            <!-- Hidden select for form compatibility -->
           </select>
         </div>
 
         <div>
           <label class="form-label">Nội thất</label>
-          <select class="dropdown" id="interiorColor">
-            <!-- Options will be populated dynamically from database -->
+          <div class="color-picker" id="interiorColorPicker">
+            <!-- Color options will be populated dynamically -->
+          </div>
+          <select class="color-select-hidden" id="interiorColor">
+            <!-- Hidden select for form compatibility -->
           </select>
         </div>
       </div>
@@ -1113,7 +1179,6 @@
           option.textContent = version.phien_ban;
           option.dataset.price = version.gia_niem_yet;
           option.dataset.carModel = version.dong_xe;
-          option.dataset.imageExterior = version.hinh_anh_ngoai;
           option.dataset.imageInterior = version.hinh_anh_noi;
           if (index === 0) option.selected = true;
           versionSelect.appendChild(option);
@@ -1133,10 +1198,14 @@
       }
     }
 
-    // Update car images based on selected version
+    // Update car images based on selected version and color
     function updateCarImages() {
       const versionSelect = document.getElementById('carVersion');
       const selectedOption = versionSelect.options[versionSelect.selectedIndex];
+      const exteriorColorSelect = document.getElementById('exteriorColor');
+      const selectedExteriorColor = exteriorColorSelect.value;
+      const interiorColorSelect = document.getElementById('interiorColor');
+      const selectedInteriorColor = interiorColorSelect.value;
       
       const exteriorImg = document.getElementById('carImageExterior');
       const interiorImg = document.getElementById('carImageInterior');
@@ -1147,12 +1216,61 @@
       
       // Wait for fade-out animation to complete, then change image and fade-in
       setTimeout(() => {
-        if (selectedOption.dataset.imageExterior) {
-          exteriorImg.src = selectedOption.dataset.imageExterior;
-        }
+        // Find the selected car in danh_sach_xe
+        const selectedCar = danh_sach_xe.find(xe => xe.phien_ban === versionSelect.value);
         
-        if (selectedOption.dataset.imageInterior) {
-          interiorImg.src = selectedOption.dataset.imageInterior;
+        if (selectedCar) {
+          // Update exterior image based on selected exterior color
+          if (selectedExteriorColor) {
+            const exteriorColorData = selectedCar.mau_ngoai_that.find(mau => mau.ma_mau === selectedExteriorColor);
+            if (exteriorColorData) {
+              // Support both 'icon' (VF3) and 'hinh_anh_ngoai' (other cars)
+              const imageSource = exteriorColorData.icon || exteriorColorData.hinh_anh_ngoai;
+              if (imageSource) {
+                exteriorImg.src = imageSource;
+              }
+            }
+          }
+          
+          // Update interior image based on selected interior color
+          if (selectedInteriorColor) {
+            const interiorColorData = selectedCar.mau_noi_that.find(mau => {
+              // Support both old format (string) and new format (object)
+              const maMau = typeof mau === 'string' ? mau : mau.ma_mau;
+              return maMau === selectedInteriorColor;
+            });
+            
+            if (interiorColorData && typeof interiorColorData === 'object') {
+              // ALWAYS use image from car data (icon or hinh_anh_noi), NOT from metadata
+              const imageSource = interiorColorData.icon || interiorColorData.hinh_anh_noi;
+              if (imageSource) {
+                interiorImg.src = imageSource;
+              } else if (selectedCar.hinh_anh_noi) {
+                // Fallback: use default interior image
+                interiorImg.src = selectedCar.hinh_anh_noi;
+              }
+            } else if (selectedCar.hinh_anh_noi) {
+              // Fallback: use default interior image
+              interiorImg.src = selectedCar.hinh_anh_noi;
+            }
+          } else {
+            // No color selected - use first available interior image or default
+            if (selectedCar.mau_noi_that && selectedCar.mau_noi_that.length > 0) {
+              const firstInterior = selectedCar.mau_noi_that[0];
+              if (typeof firstInterior === 'object') {
+                const imageSource = firstInterior.icon || firstInterior.hinh_anh_noi;
+                if (imageSource) {
+                  interiorImg.src = imageSource;
+                } else if (selectedCar.hinh_anh_noi) {
+                  interiorImg.src = selectedCar.hinh_anh_noi;
+                }
+              } else if (selectedCar.hinh_anh_noi) {
+                interiorImg.src = selectedCar.hinh_anh_noi;
+              }
+            } else if (selectedOption.dataset.imageInterior) {
+              interiorImg.src = selectedOption.dataset.imageInterior;
+            }
+          }
         }
         
         // Remove fade-out and add fade-in effect
@@ -1176,17 +1294,59 @@
       if (!selectedCar) return;
       
       // Populate exterior colors
+      const exteriorColorPicker = document.getElementById('exteriorColorPicker');
       const exteriorColorSelect = document.getElementById('exteriorColor');
       const currentExteriorColor = exteriorColorSelect.value;
+      exteriorColorPicker.innerHTML = '';
       exteriorColorSelect.innerHTML = '';
       
-      selectedCar.mau_ngoai_that.forEach((maMau, index) => {
-        const colorInfo = getDataByKey(mau_ngoai_that, 'ma_mau', maMau);
+      selectedCar.mau_ngoai_that.forEach((colorData, index) => {
+        const colorInfo = getDataByKey(colors, 'ma_mau', colorData.ma_mau);
         if (colorInfo) {
+          // Create visual color option
+          const colorOption = document.createElement('div');
+          colorOption.className = 'color-option';
+          colorOption.dataset.color = colorInfo.ma_mau;
+          
+          const img = document.createElement('img');
+          // Always use icon from colors metadata for color picker display
+          img.src = colorInfo.icon;
+          img.alt = colorInfo.ten_mau;
+          
+          const label = document.createElement('div');
+          label.className = 'color-option-label';
+          label.textContent = colorInfo.ten_mau;
+          
+          colorOption.appendChild(img);
+          colorOption.appendChild(label);
+          
+          // Select first color as default if no current selection
+          if (index === 0 && !currentExteriorColor) {
+            colorOption.classList.add('selected');
+          } else if (colorInfo.ma_mau === currentExteriorColor) {
+            colorOption.classList.add('selected');
+          }
+          
+          // Add click event
+          colorOption.addEventListener('click', function() {
+            // Remove selected class from all options
+            exteriorColorPicker.querySelectorAll('.color-option').forEach(opt => {
+              opt.classList.remove('selected');
+            });
+            // Add selected class to clicked option
+            this.classList.add('selected');
+            // Update hidden select
+            exteriorColorSelect.value = this.dataset.color;
+            // Trigger change event
+            exteriorColorSelect.dispatchEvent(new Event('change'));
+          });
+          
+          exteriorColorPicker.appendChild(colorOption);
+          
+          // Also populate hidden select for form compatibility
           const option = document.createElement('option');
           option.value = colorInfo.ma_mau;
           option.textContent = colorInfo.ten_mau;
-          // Select first color as default if no current selection
           if (index === 0 && !currentExteriorColor) {
             option.selected = true;
           } else if (colorInfo.ma_mau === currentExteriorColor) {
@@ -1197,17 +1357,61 @@
       });
       
       // Populate interior colors
+      const interiorColorPicker = document.getElementById('interiorColorPicker');
       const interiorColorSelect = document.getElementById('interiorColor');
       const currentInteriorColor = interiorColorSelect.value;
+      interiorColorPicker.innerHTML = '';
       interiorColorSelect.innerHTML = '';
       
-      selectedCar.mau_noi_that.forEach((maMau, index) => {
-        const colorInfo = getDataByKey(mau_noi_that, 'ma_mau', maMau);
+      selectedCar.mau_noi_that.forEach((item, index) => {
+        // Support both old format (string) and new format (object)
+        const maMau = typeof item === 'string' ? item : item.ma_mau;
+        const colorInfo = getDataByKey(colors, 'ma_mau', maMau);
         if (colorInfo) {
+          // Create visual color option
+          const colorOption = document.createElement('div');
+          colorOption.className = 'color-option';
+          colorOption.dataset.color = colorInfo.ma_mau;
+          
+          const img = document.createElement('img');
+          // Always use icon from colors metadata for color picker display
+          img.src = colorInfo.icon;
+          img.alt = colorInfo.ten_mau;
+          
+          const label = document.createElement('div');
+          label.className = 'color-option-label';
+          label.textContent = colorInfo.ten_mau;
+          
+          colorOption.appendChild(img);
+          colorOption.appendChild(label);
+          
+          // Select first color as default if no current selection
+          if (index === 0 && !currentInteriorColor) {
+            colorOption.classList.add('selected');
+          } else if (colorInfo.ma_mau === currentInteriorColor) {
+            colorOption.classList.add('selected');
+          }
+          
+          // Add click event
+          colorOption.addEventListener('click', function() {
+            // Remove selected class from all options
+            interiorColorPicker.querySelectorAll('.color-option').forEach(opt => {
+              opt.classList.remove('selected');
+            });
+            // Add selected class to clicked option
+            this.classList.add('selected');
+            // Update hidden select
+            interiorColorSelect.value = this.dataset.color;
+            // Trigger change event
+            interiorColorSelect.dispatchEvent(new Event('change'));
+          });
+          
+          interiorColorPicker.appendChild(colorOption);
+          
+          // Also populate hidden select for form compatibility
           const option = document.createElement('option');
           option.value = colorInfo.ma_mau;
           option.textContent = colorInfo.ten_mau;
-          // Select first color as default if no current selection
           if (index === 0 && !currentInteriorColor) {
             option.selected = true;
           } else if (colorInfo.ma_mau === currentInteriorColor) {
@@ -1457,8 +1661,14 @@
     }
     
     // Color changes
-    document.getElementById('exteriorColor').addEventListener('change', calculateAll);
-    document.getElementById('interiorColor').addEventListener('change', calculateAll);
+    document.getElementById('exteriorColor').addEventListener('change', function() {
+      updateCarImages();
+      calculateAll();
+    });
+    document.getElementById('interiorColor').addEventListener('change', function() {
+      updateCarImages();
+      calculateAll();
+    });
     
     // Discount checkboxes
     document.getElementById('discount1').addEventListener('change', calculateAll);
@@ -1689,7 +1899,11 @@
         console.log('🎨 Loading color options...');
         populateColorOptions();
         
-        // Step 4: Calculate and display all costs
+        // Step 4: Update car images with default color
+        console.log('🖼️ Loading car images...');
+        updateCarImages();
+        
+        // Step 5: Calculate and display all costs
         console.log('💰 Calculating costs...');
         calculateAll();
         
