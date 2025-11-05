@@ -1286,7 +1286,10 @@
       <!-- Footer Action Buttons -->
       <div class="header-actions" style="margin-top: 20px">
         <button class="btn btn-secondary" id="printBtnFooter">
-          In Báo Giá
+          In Báo Giá 1
+        </button>
+        <button class="btn btn-secondary" id="printBtn2Footer">
+          In Báo Giá 2
         </button>
         <button class="btn btn-primary" id="emailBtnFooter">
           Gửi Email Báo Giá
@@ -2260,6 +2263,22 @@
       document
         .getElementById("printBtnFooter")
         .addEventListener("click", handlePrintQuote);
+
+      // Print Quote 2 Button - redirect to invoice2.html
+      function handlePrintQuote2() {
+        const invoiceData = collectInvoiceData();
+        
+        // Save to localStorage
+        localStorage.setItem("invoiceData", JSON.stringify(invoiceData));
+        
+        // Redirect to invoice2 page
+        window.location.href = "invoice2.html";
+      }
+      
+      // Bind button event listeners
+      document
+        .getElementById("printBtn2Footer")
+        .addEventListener("click", handlePrintQuote2);
 
       // Email quote buttons
       function sendEmail() {

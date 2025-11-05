@@ -9,25 +9,26 @@
       font-family: Arial, sans-serif;
       max-width: 800px;
       margin: 0 auto;
-      padding: 40px;
+      padding: 20px;
       color: #000;
       background: white;
     }
 
     @media print {
       body {
-        padding: 20px;
+        padding: 15px;
       }
     }
 
     h2 {
       text-align: center;
       text-transform: uppercase;
-      margin-bottom: 24px;
+      margin-bottom: 12px;
       background-color: #e8f0ff;
       color: #004aad;
-      padding: 10px;
+      padding: 8px;
       border: 1px solid #004aad;
+      font-size: 16px;
     }
 
     .section-title {
@@ -35,23 +36,24 @@
       color: #004aad;
       font-weight: bold;
       text-transform: uppercase;
-      padding: 6px 10px;
-      margin-top: 20px;
+      padding: 4px 8px;
+      margin-top: 12px;
       margin-bottom: 0;
       border: 1px solid #ccc;
+      font-size: 13px;
     }
 
     table {
       width: 100%;
       border-collapse: collapse;
       margin-top: 0;
-      font-size: 14px;
+      font-size: 13px;
       background-color: white;
     }
 
     th, td {
       border: 1px solid #ccc;
-      padding: 6px 8px;
+      padding: 4px 6px;
       vertical-align: top;
     }
 
@@ -65,18 +67,18 @@
     }
 
     .note {
-      font-size: 13px;
+      font-size: 12px;
       font-style: italic;
-      margin-top: 12px;
+      margin-top: 8px;
       text-align: right;
       color: #333;
     }
 
     footer {
-      margin-top: 20px;
+      margin-top: 15px;
       display: flex;
       justify-content: space-between;
-      font-size: 14px;
+      font-size: 13px;
     }
 
     .footer-section {
@@ -86,15 +88,70 @@
 
     .footer-section strong {
       display: block;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
 
     .footer-date {
       text-align: right;
-      margin-top: 8px;
-      font-size: 13px;
+      margin-top: 6px;
+      font-size: 12px;
       font-style: italic;
       font-weight: medium;
+    }
+
+    /* Action Buttons */
+    .action-buttons {
+      text-align: center;
+      margin: 20px 0 15px 0;
+      padding: 15px 0;
+      border-top: 2px solid #004aad;
+    }
+
+    .btn {
+      padding: 12px 30px;
+      font-size: 16px;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s;
+      border-radius: 4px;
+    }
+
+    .btn-print {
+      background-color: #004aad;
+      color: white;
+    }
+
+    .btn-print:hover {
+      background-color: #003380;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 74, 173, 0.3);
+    }
+
+    /* Hide elements when printing */
+    @media print {
+      body {
+        padding: 20px;
+      }
+
+      .no-print,
+      .action-buttons {
+        display: none !important;
+      }
+
+      /* Adjust page breaks */
+      h2, .section-title {
+        page-break-after: avoid;
+      }
+
+      table {
+        page-break-inside: avoid;
+      }
+
+      /* Reduce spacing for print */
+      .section-title {
+        margin-top: 10px;
+      }
     }
   </style>
 </head>
@@ -104,24 +161,24 @@
   <table class="no-border">
     <tr>
       <td style="width: 15%;"><strong>Kính Gửi:</strong></td>
-      <td style="width: 35%;">QUÝ KHÁCH HÀNG</td>
+      <td style="width: 35%;" id="customerName">QUÝ KHÁCH HÀNG</td>
       <td style="width: 15%;"><strong>Đóng Tên:</strong></td>
-      <td style="width: 35%;">Công Ty</td>
+      <td style="width: 35%;" id="customerTypeLabel">Công Ty</td>
     </tr>
     <tr>
       <td style="width: 15%;"><strong>Địa Chỉ:</strong></td>
-      <td style="width: 35%;">Thành phố Hồ Chí Minh</td>
+      <td style="width: 35%;" id="customerAddress">Thành phố Hồ Chí Minh</td>
       <td style="width: 15%;"><strong>Như Chủ:</strong></td>
-      <td style="width: 35%;">Không Kinh Doanh</td>
+      <td style="width: 35%;" id="businessType">Không Kinh Doanh</td>
     </tr>
   </table>
 
   <div class="section-title">Thông tin sản phẩm</div>
   <table>
-    <tr><td style="width: 33%;"><strong>Dòng xe</strong></td><td>VF 9</td></tr>
-    <tr><td style="width: 33%;"><strong>Phiên bản</strong></td><td>Plus - 6 Chỗ</td></tr>
-    <tr><td style="width: 33%;"><strong>Ngoại thất</strong></td><td>Xanh Lá Nhạt</td></tr>
-    <tr><td style="width: 33%;"><strong>Nội thất</strong></td><td>Nâu</td></tr>
+    <tr><td style="width: 33%;"><strong>Dòng xe</strong></td><td id="carModel">VF 9</td></tr>
+    <tr><td style="width: 33%;"><strong>Phiên bản</strong></td><td id="carVersion">Plus - 6 Chỗ</td></tr>
+    <tr><td style="width: 33%;"><strong>Ngoại thất</strong></td><td id="exteriorColor">Xanh Lá Nhạt</td></tr>
+    <tr><td style="width: 33%;"><strong>Nội thất</strong></td><td id="interiorColor">Nâu</td></tr>
   </table>
 
   <!-- <div class="section-title">Giá xe & Chương trình khuyến mãi</div>
@@ -153,38 +210,38 @@
 
   <div class="section-title">Chi phí lăn bánh</div>
   <table>
-    <tr><td style="width: 5%;">1</td><td>Lệ phí trước bạ</td><td style="width: 15%;">10%</td><td class="text-right">Miễn Phí</td><td class="text-right">Hóa đơn</td></tr>
-    <tr><td style="width: 5%;">2</td><td>Phí 01 năm BH Dân sự</td><td style="width: 15%;">Thành phố</td><td class="text-right">950.000</td><td class="text-right">Hóa đơn</td></tr>
-    <tr><td style="width: 5%;">3</td><td>Phí cấp biển số</td><td style="width: 15%;"></td><td class="text-right">20.000.000</td><td class="text-right">Biên Lai</td></tr>
-    <tr><td style="width: 5%;">4</td><td>Phí kiểm định</td><td style="width: 15%;"></td><td class="text-right">340.000</td><td class="text-right">Biên Lai</td></tr>
-    <tr><td style="width: 5%;">5</td><td>Phí bảo trì đường bộ</td><td style="width: 15%;">Công ty</td><td class="text-right">2160000</td><td class="text-right">Biên Lai</td></tr>
-    <tr><td style="width: 5%;">6</td><td>Phí dịch vụ</td><td style="width: 15%;"></td><td class="text-right">3.000.000</td><td></td></tr>
-    <tr><td style="width: 5%;">7</td><td>BHVC bao gồm Pin</td><td style="width: 15%;"></td><td class="text-right">24.095.520</td><td class="text-right">Hóa Đơn</td></tr>
+    <tr><td style="width: 8%;">1</td><td style="width: 40%;">Lệ phí trước bạ</td><td style="width: 15%;" id="registrationTax">10%</td><td style="width: 20%;" class="text-right" id="registrationTaxAmount">Miễn Phí</td><td style="width: 17%;" class="text-right">Hóa đơn</td></tr>
+    <tr><td style="width: 8%;">2</td><td style="width: 40%;">Phí 01 năm BH Dân sự</td><td style="width: 15%;"></td><td style="width: 20%;" class="text-right" id="liabilityInsurance">950.000</td><td style="width: 17%;" class="text-right">Hóa đơn</td></tr>
+    <tr><td style="width: 8%;">3</td><td style="width: 40%;">Phí cấp biển số</td><td style="width: 15%;" id="plateLocation">TP. HCM</td><td style="width: 20%;" class="text-right" id="plateFee">20.000.000</td><td style="width: 17%;" class="text-right">Biên Lai</td></tr>
+    <tr><td style="width: 8%;">4</td><td style="width: 40%;">Phí kiểm định</td><td style="width: 15%;"></td><td style="width: 20%;" class="text-right" id="inspectionFee">340.000</td><td style="width: 17%;" class="text-right">Biên Lai</td></tr>
+    <tr><td style="width: 8%;">5</td><td style="width: 40%;">Phí bảo trì đường bộ</td><td style="width: 15%;" id="customerTypeRoad">Công ty</td><td style="width: 20%;" class="text-right" id="roadFee">2.160.000</td><td style="width: 17%;" class="text-right">Biên Lai</td></tr>
+    <tr><td style="width: 8%;">6</td><td style="width: 40%;">Phí dịch vụ</td><td style="width: 15%;"></td><td style="width: 20%;" class="text-right" id="registrationServiceFee">3.000.000</td><td style="width: 17%;"></td></tr>
+    <tr><td style="width: 8%;">7</td><td style="width: 40%;">BHVC bao gồm Pin</td><td style="width: 15%;" id="bhvcType">Kinh Doanh</td><td style="width: 20%;" class="text-right" id="bodyInsurance">24.095.520</td><td style="width: 17%;" class="text-right">Hóa Đơn</td></tr>
   </table>
 
   <div class="section-title">Tổng chi phí lăn bánh</div>
   <table>
     <tr style="background-color: #e8f0ff;">
-      <td style="width: 5%;"><strong>STT</strong></td>
-      <td><strong>Hình thức</strong></td>
+      <td style="width: 8%;"><strong>STT</strong></td>
+      <td style="width: 40%;"><strong>Hình thức</strong></td>
       <td style="width: 15%; text-align: center;"><strong>%</strong></td>
-      <td class="text-right" style="width: 25%;"><strong>Số tiền</strong></td>
+      <td style="width: 37%;" class="text-right"><strong>Số tiền</strong></td>
     </tr>
     <tr>
-      <td style="width: 5%;">1</td>
-      <td>Ngân hàng</td>
-      <td style="width: 15%; text-align: center;">90%</td>
-      <td class="text-right" style="width: 25%;">45.310.968</td>
+      <td style="width: 8%;">1</td>
+      <td style="width: 40%;">Ngân hàng</td>
+      <td style="width: 15%; text-align: center;" id="loanRatioDisplay">90%</td>
+      <td style="width: 37%;" class="text-right" id="bankPayment">45.310.968</td>
     </tr>
     <tr>
-      <td style="width: 5%;">2</td>
-      <td>Đối Ứng</td>
+      <td style="width: 8%;">2</td>
+      <td style="width: 40%;">Đối Ứng</td>
       <td style="width: 15%; text-align: center;"></td>
-      <td class="text-right" style="width: 25%;">216.521.520</td>
+      <td style="width: 37%;" class="text-right" id="downPaymentAmount">216.521.520</td>
     </tr>
     <tr style="background-color: #e8f0ff;">
       <td colspan="3"><strong>Tổng</strong></td>
-      <td class="text-right"><strong>50.345.520</strong></td>
+      <td class="text-right" id="totalOnRoadCost"><strong>50.345.520</strong></td>
     </tr>
   </table>
 
@@ -198,11 +255,10 @@
     </tr>
     <tr>
       <td>Ngân hàng</td>
-      <td class="text-right">50.000.000</td>
-      <td class="text-right">33.783.440</td>
-      <td class="text-right">50.345.520</td>
+      <td class="text-right" id="depositAmount">50.000.000</td>
+      <td class="text-right" id="payment1">33.783.440</td>
+      <td class="text-right" id="payment2">50.345.520</td>
     </tr>
-  
   </table>
 
   <div class="section-title">Quà tặng</div>
@@ -211,8 +267,12 @@
   </table>
 
   <p class="note">Báo giá có hiệu lực đến hết ngày 30/11/2025</p>
-<div class="footer-date">
-    Ngày ... tháng ... năm 2025
+
+  <div class="footer-date">
+    <strong >
+        Thành phố Hồ Chí Minh, Ngày ... tháng ... năm 2025
+    </strong>
+
   </div>
   <footer>
     <div class="footer-section">
@@ -225,6 +285,173 @@
     </div>
   </footer>
 
-  
+  <!-- Action Buttons - Below Footer -->
+  <div class="action-buttons no-print">
+    <button class="btn btn-print" onclick="handlePrint()">
+      IN BÁO GIÁ
+    </button>
+  </div>
+
+  <!-- Import database.js -->
+  <script src="database.js"></script>
+
+  <script>
+    // Format currency helper
+    function formatCurrency(amount) {
+      return new Intl.NumberFormat('vi-VN').format(Math.round(amount));
+    }
+
+    // Format date helper
+    function formatDate(dateString) {
+      if (!dateString) return '';
+      const date = new Date(dateString);
+      const day = String(date.getDate()).padStart(2, '0');
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const year = date.getFullYear();
+      return `${day}/${month}/${year}`;
+    }
+
+    // Function to update invoice data from calculator
+    function updateInvoice(data) {
+      console.log('Updating invoice2 with data:', data);
+      
+      // Update customer info in header table
+      if (data.customerName) {
+        document.getElementById('customerName').textContent = data.customerName.toUpperCase();
+      }
+      if (data.customerAddress) {
+        document.getElementById('customerAddress').textContent = data.customerAddress;
+      }
+      
+      // Update customer type
+      if (data.customerType) {
+        const typeText = data.customerType === 'ca_nhan' ? 'Cá nhân' : 'Công ty';
+        document.getElementById('customerTypeLabel').textContent = typeText;
+        document.getElementById('businessType').textContent = data.customerType === 'ca_nhan' ? 'Không Kinh Doanh' : 'Kinh Doanh';
+      }
+      
+      // Update car info
+      if (data.carModel) {
+        document.getElementById('carModel').textContent = data.carModel;
+      }
+      if (data.carVersion) {
+        document.getElementById('carVersion').textContent = data.carVersion;
+      }
+      if (data.exteriorColor) {
+        document.getElementById('exteriorColor').textContent = data.exteriorColor;
+      }
+      if (data.interiorColor) {
+        document.getElementById('interiorColor').textContent = data.interiorColor;
+      }
+      
+      // Update registration location
+      if (data.registrationLocation) {
+        document.getElementById('plateLocation').textContent = data.registrationLocation;
+      }
+      
+      // Update on-road costs
+      if (data.plateFee !== undefined) {
+        document.getElementById('plateFee').textContent = formatCurrency(data.plateFee);
+      }
+      if (data.liabilityInsurance !== undefined) {
+        document.getElementById('liabilityInsurance').textContent = formatCurrency(data.liabilityInsurance);
+      }
+      if (data.inspectionFee !== undefined) {
+        document.getElementById('inspectionFee').textContent = formatCurrency(data.inspectionFee);
+      }
+      if (data.roadFee !== undefined) {
+        document.getElementById('roadFee').textContent = formatCurrency(data.roadFee);
+      }
+      if (data.registrationFee !== undefined) {
+        document.getElementById('registrationServiceFee').textContent = formatCurrency(data.registrationFee);
+      }
+      if (data.bodyInsurance !== undefined) {
+        document.getElementById('bodyInsurance').textContent = formatCurrency(data.bodyInsurance);
+      }
+      
+      // Update registration tax
+      document.getElementById('registrationTax').textContent = data.carModel && data.carModel.includes('VF') ? '0%' : '10%';
+      document.getElementById('registrationTaxAmount').textContent = 'Miễn Phí';
+      
+      // Update customer type in road fee
+      if (data.customerType) {
+        document.getElementById('customerTypeRoad').textContent = data.customerType === 'ca_nhan' ? 'Cá nhân' : 'Công ty';
+        // Update BHVC type (same as customer type for business type)
+        document.getElementById('bhvcType').textContent = data.customerType === 'ca_nhan' ? 'Không Kinh Doanh' : 'Kinh Doanh';
+      }
+      
+      // Update total on-road cost
+      if (data.totalOnRoadCost !== undefined) {
+        document.getElementById('totalOnRoadCost').textContent = formatCurrency(data.totalOnRoadCost);
+      }
+      
+      // Update loan details if exists
+      if (data.hasLoan && data.loanRatio !== undefined) {
+        document.getElementById('loanRatioDisplay').textContent = `${data.loanRatio}%`;
+        
+        // Calculate bank payment (loanRatio% of total on-road cost)
+        if (data.totalOnRoadCost !== undefined) {
+          const bankPayment = Math.round(data.totalOnRoadCost * (data.loanRatio / 100));
+          const downPayment = data.totalOnRoadCost - bankPayment;
+          document.getElementById('bankPayment').textContent = formatCurrency(bankPayment);
+          document.getElementById('downPaymentAmount').textContent = formatCurrency(downPayment);
+        }
+      }
+      
+      // Update payment schedule
+      if (data.depositAmount !== undefined) {
+        document.getElementById('depositAmount').textContent = formatCurrency(data.depositAmount);
+      }
+      
+      // Calculate payment schedule (example logic - adjust as needed)
+      if (data.carTotal !== undefined && data.totalOnRoadCost !== undefined) {
+        const totalAmount = data.carTotal + data.totalOnRoadCost;
+        const deposit = data.depositAmount || 0;
+        const remaining = totalAmount - deposit;
+        const payment1 = Math.round(remaining * 0.4); // 40% khi xuất hóa đơn
+        const payment2 = remaining - payment1; // Còn lại khi đăng ký
+        
+        document.getElementById('payment1').textContent = formatCurrency(payment1);
+        document.getElementById('payment2').textContent = formatCurrency(payment2);
+      }
+      
+      console.log('Invoice2 updated successfully');
+    }
+
+    // Handle print with delay to ensure data is loaded
+    function handlePrint() {
+      // Small delay to ensure DOM is fully updated
+      setTimeout(function() {
+        window.print();
+      }, 100);
+    }
+
+    // Initialize with default data or data from localStorage
+    window.addEventListener('DOMContentLoaded', function() {
+      // Check if there's data passed from calculator
+      const urlParams = new URLSearchParams(window.location.search);
+      const dataParam = urlParams.get('data');
+      
+      if (dataParam) {
+        try {
+          const data = JSON.parse(decodeURIComponent(dataParam));
+          updateInvoice(data);
+        } catch (e) {
+          console.error('Error parsing invoice data:', e);
+        }
+      }
+      
+      // Or check localStorage
+      const savedData = localStorage.getItem('invoiceData');
+      if (savedData && !dataParam) {
+        try {
+          const data = JSON.parse(savedData);
+          updateInvoice(data);
+        } catch (e) {
+          console.error('Error loading saved invoice data:', e);
+        }
+      }
+    });
+  </script>
 </body>
 </html>
