@@ -1476,13 +1476,16 @@
     // Loan term change
     document.getElementById('loanTerm').addEventListener('change', calculateAll);
 
-    // Print quote buttons - Using external function from print-invoice.js
-    document.getElementById('printBtn').addEventListener('click', printInvoiceWithValidation);
-    document.getElementById('printBtnFooter').addEventListener('click', printInvoiceWithValidation);
+    // Print quote buttons
+    document.getElementById('printBtn').addEventListener('click', () => window.print());
+    document.getElementById('printBtnFooter').addEventListener('click', () => window.print());
 
-    // Email quote buttons - Using external function from print-invoice.js
-    document.getElementById('emailBtn').addEventListener('click', sendEmailInvoice);
-    document.getElementById('emailBtnFooter').addEventListener('click', sendEmailInvoice);
+    // Email quote buttons
+    function sendEmail() {
+      alert('Tính năng gửi email báo giá sẽ được triển khai sớm!');
+    }
+    document.getElementById('emailBtn').addEventListener('click', sendEmail);
+    document.getElementById('emailBtnFooter').addEventListener('click', sendEmail);
 
     // ============================================
     // INITIALIZATION FUNCTION - AUTO LOAD DATA
@@ -1586,9 +1589,6 @@
 
   <!-- Import database.js FIRST - CRITICAL -->
   <script src="database.js"></script>
-  
-  <!-- Import print invoice handler -->
-  <script src="print-invoice.js"></script>
   
   <!-- Swiper JS -->
   <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
