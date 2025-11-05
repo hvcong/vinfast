@@ -1,0 +1,1259 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Công cụ tính giá xe VinFast</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: #f5f5f5;
+      padding: 16px;
+      min-height: 100vh;
+      color: #333;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* View Toggle Button */
+    .view-toggle {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1000;
+      background: white;
+      border: 2px solid #3182ce;
+      border-radius: 8px;
+      padding: 8px 16px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #3182ce;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s;
+    }
+
+    .view-toggle:hover {
+      background: #3182ce;
+      color: white;
+    }
+
+    /* Desktop Layout */
+    @media (min-width: 1024px) {
+      .container {
+        max-width: 1400px;
+        padding: 0 20px;
+      }
+
+      body.mobile-view .container {
+        max-width: 600px;
+      }
+
+      .content-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        align-items: start;
+      }
+
+      body.mobile-view .content-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Header */
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .logo {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .logo-icon {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+      font-size: 24px;
+    }
+
+    .logo-text {
+      font-size: 10px;
+      font-weight: 600;
+      color: #333;
+      margin-top: 2px;
+    }
+
+    .header-title {
+      flex: 1;
+      font-size: 18px;
+      font-weight: 700;
+      color: #1a1a1a;
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+
+    .btn {
+      flex: 1;
+      padding: 12px 16px;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .btn-secondary {
+      background: #4a5568;
+      color: white;
+    }
+
+    .btn-secondary:hover {
+      background: #2d3748;
+    }
+
+    .btn-primary {
+      background: #3182ce;
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: #2c5aa0;
+    }
+
+    /* Main Card */
+    .main-card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .car-image-container {
+      width: 100%;
+      height: 200px;
+      border-radius: 8px;
+      overflow: hidden;
+      margin-bottom: 20px;
+      background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
+      position: relative;
+    }
+
+    .car-image {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center;
+    }
+
+    .car-brand-text {
+      position: absolute;
+      bottom: 10px;
+      left: 10px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #333;
+      background: rgba(255, 255, 255, 0.9);
+      padding: 4px 8px;
+      border-radius: 4px;
+    }
+
+    .config-section {
+      margin-bottom: 24px;
+    }
+
+    .config-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #4a5568;
+      margin-bottom: 12px;
+    }
+
+    .dropdown-group {
+      display: flex;
+      gap: 12px;
+    }
+
+    .dropdown-wrapper {
+      flex: 1;
+      position: relative;
+    }
+
+    .dropdown {
+      width: 100%;
+      padding: 12px 16px;
+      background: #4a5568;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      -webkit-appearance: none;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='white' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 16px center;
+      padding-right: 40px;
+    }
+
+    .dropdown option {
+      background: white;
+      color: #333;
+    }
+
+    /* Radio Buttons */
+    .radio-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .radio-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .radio-item input[type="radio"] {
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+      accent-color: #3182ce;
+    }
+
+    .radio-item label {
+      font-size: 14px;
+      color: #333;
+      cursor: pointer;
+    }
+
+    /* Loan Section */
+    .loan-card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+    }
+
+    .loan-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin-bottom: 20px;
+    }
+
+    .loan-option {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 0;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .loan-option:last-child {
+      border-bottom: none;
+    }
+
+    .loan-label {
+      font-size: 14px;
+      font-weight: 500;
+      color: #333;
+    }
+
+    /* Toggle Switch */
+    .toggle-switch {
+      position: relative;
+      width: 48px;
+      height: 24px;
+    }
+
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .toggle-slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #cbd5e0;
+      transition: 0.3s;
+      border-radius: 24px;
+    }
+
+    .toggle-slider:before {
+      position: absolute;
+      content: "";
+      height: 18px;
+      width: 18px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: 0.3s;
+      border-radius: 50%;
+    }
+
+    .toggle-switch input:checked + .toggle-slider {
+      background-color: #3182ce;
+    }
+
+    .toggle-switch input:checked + .toggle-slider:before {
+      transform: translateX(24px);
+    }
+
+    /* Slider */
+    .slider-container {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .slider-wrapper {
+      flex: 1;
+    }
+
+    .slider {
+      width: 100%;
+      height: 6px;
+      border-radius: 3px;
+      background: #e2e8f0;
+      outline: none;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    .slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #3182ce;
+      cursor: pointer;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .slider::-moz-range-thumb {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #3182ce;
+      cursor: pointer;
+      border: none;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .slider-value {
+      font-size: 14px;
+      font-weight: 600;
+      color: #3182ce;
+      min-width: 120px;
+      text-align: right;
+    }
+
+    /* Customer Info & Cost Estimation */
+    .customer-info-card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .card-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid #e2e8f0;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 14px;
+      font-weight: 500;
+      color: #4a5568;
+      margin-bottom: 8px;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1px solid #cbd5e0;
+      border-radius: 8px;
+      font-size: 14px;
+      background: white;
+      transition: all 0.3s;
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: #3182ce;
+      box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.1);
+    }
+
+    .date-input-wrapper {
+      position: relative;
+    }
+
+    .date-icon {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      pointer-events: none;
+      color: #718096;
+    }
+
+    /* Cost Breakdown */
+    .cost-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid #e2e8f0;
+      font-size: 14px;
+    }
+
+    .cost-row:last-child {
+      border-bottom: none;
+    }
+
+    .cost-label {
+      color: #4a5568;
+      font-weight: 500;
+    }
+
+    .cost-value {
+      color: #1a1a1a;
+      font-weight: 600;
+    }
+
+    .cost-total {
+      font-size: 20px;
+      font-weight: 700;
+      color: #3182ce;
+      padding-top: 16px;
+      margin-top: 16px;
+      border-top: 2px solid #e2e8f0;
+    }
+
+    .checkbox-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .checkbox-group input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+      accent-color: #3182ce;
+    }
+
+    .checkbox-group label {
+      font-size: 14px;
+      color: #333;
+      cursor: pointer;
+      flex: 1;
+    }
+
+    .discount-value {
+      color: #e53e3e;
+      font-weight: 600;
+    }
+
+    /* Loan Details */
+    .loan-details {
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 2px solid #e2e8f0;
+    }
+
+    .loan-detail-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px 0;
+      font-size: 14px;
+    }
+
+    .loan-detail-label {
+      color: #4a5568;
+      font-weight: 500;
+    }
+
+    .loan-detail-value {
+      color: #1a1a1a;
+      font-weight: 600;
+    }
+
+    .monthly-payment {
+      font-size: 20px;
+      font-weight: 700;
+      color: #3182ce;
+      padding-top: 16px;
+      margin-top: 16px;
+      border-top: 2px solid #e2e8f0;
+    }
+
+    /* Hide on mobile */
+    @media (max-width: 1023px) {
+      .desktop-only {
+        display: none;
+      }
+    }
+
+    /* Show on desktop */
+    @media (min-width: 1024px) {
+      .mobile-only {
+        display: none;
+      }
+
+      body:not(.mobile-view) .desktop-only {
+        display: block;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- View Toggle Button -->
+  <button class="view-toggle" id="viewToggle">🖥️ Desktop View</button>
+
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <div class="logo">
+        <div class="logo-icon">V</div>
+        <div class="logo-text">VINFAST</div>
+      </div>
+      <div class="header-title">Công cụ tính giá xe VinFast</div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="header-actions">
+      <button class="btn btn-secondary" id="printBtn">In Báo Giá</button>
+      <button class="btn btn-primary" id="emailBtn">Gửi Email Báo Giá</button>
+    </div>
+
+    <!-- Content Grid (Desktop) / Single Column (Mobile) -->
+    <div class="content-grid">
+      <!-- Left Column - Customer Info & Cost Estimation (Desktop Only) -->
+      <div class="desktop-only">
+        <!-- Customer Info Card -->
+        <div class="customer-info-card">
+          <div class="card-title">Thông tin khách hàng & Giao dịch</div>
+          
+          <div class="form-group">
+            <label class="form-label">Họ tên khách hàng</label>
+            <input type="text" class="form-input" id="customerName" placeholder="Nhập họ tên">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Số điện thoại</label>
+            <input type="tel" class="form-input" id="customerPhone" placeholder="Nhập số điện thoại">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Email</label>
+            <input type="email" class="form-input" id="customerEmail" placeholder="Nhập email">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Địa chỉ</label>
+            <input type="text" class="form-input" id="customerAddress" placeholder="Nhập địa chỉ">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Loại khách hàng</label>
+            <select class="form-input" id="customerType" style="cursor: pointer;">
+              <option value="ca_nhan">Cá nhân</option>
+              <option value="cong_ty">Công ty</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Số tiền cọc</label>
+            <input type="number" class="form-input" id="depositAmount" value="0" min="0">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Ngày nhận cọc</label>
+            <div class="date-input-wrapper">
+              <input type="date" class="form-input" id="depositDate">
+              <span class="date-icon">📅</span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Ngày hẹn giao xe</label>
+            <div class="date-input-wrapper">
+              <input type="date" class="form-input" id="deliveryDate">
+              <span class="date-icon">📅</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Cost Estimation Card -->
+        <div class="customer-info-card">
+          <div class="card-title" id="costEstimationTitle">Dự toán chi phí cho VF 7 Tiêu chuẩn</div>
+          
+          <div class="cost-row">
+            <span class="cost-label">Giá xe (gồm VAT)</span>
+            <span class="cost-value" id="carPriceWithVAT">850.000.000 ₫</span>
+          </div>
+
+          <div class="cost-row">
+            <span class="cost-label">Tổng giá trị xe</span>
+            <span class="cost-value" id="totalCarValue">850.000.000 ₫</span>
+          </div>
+
+          <div style="margin: 16px 0;">
+            <div class="form-label">Chọn ưu đãi áp dụng</div>
+            <div class="checkbox-group">
+              <input type="checkbox" id="discount1" data-discount="37960000">
+              <label for="discount1">Ưu đãi Lái xe Xanh (VN3)</label>
+              <span class="discount-value">-37.960.000 ₫</span>
+            </div>
+            <div class="checkbox-group">
+              <input type="checkbox" id="discount2" data-discount="50000000">
+              <label for="discount2">Ưu đãi tháng 10</label>
+              <span class="discount-value">-50.000.000 ₫</span>
+            </div>
+            
+            <!-- VinClub Voucher -->
+            <div style="margin-top: 12px;">
+              <label class="form-label">Voucher VinClub</label>
+              <div style="display: flex; gap: 16px; justify-content: space-between;">
+                <select class="form-input" id="vinClubVoucher" style="cursor: pointer; width: fit-content;">
+                  <option value="none">Không áp dụng</option>
+                  <option value="gold">Gold (0.5%)</option>
+                  <option value="platinum">Platinum (1%)</option>
+                  <option value="diamond">Diamond (1.5%)</option>
+                </select>
+                <div class="discount-value" id="vinClubDiscountValue">0</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="cost-row">
+            <span class="cost-label">Giá sau ưu đãi</span>
+            <span class="cost-value" id="priceAfterDiscount">850.000.000 ₫</span>
+          </div>
+
+          <div style="margin-top: 20px;">
+            <div class="form-label" style="font-weight: 600; margin-bottom: 12px;">Chi phí lăn bánh dự tính</div>
+            
+            <div class="cost-row">
+              <span class="cost-label">Phí biển số (TP. Hồ Chí Minh)</span>
+              <span class="cost-value" id="plateFee">20.000.000 ₫</span>
+            </div>
+            <div class="cost-row">
+              <span class="cost-label">Phí lưu hành đường bộ (1 năm)</span>
+              <span class="cost-value" id="roadFee">1.560.000 ₫</span>
+            </div>
+            <div class="cost-row">
+              <span class="cost-label">Bảo hiểm TNDS (1 năm)</span>
+              <span class="cost-value" id="liabilityInsurance">480.700 ₫</span>
+            </div>
+            <div class="cost-row">
+              <span class="cost-label">Phí đăng kiểm</span>
+              <span class="cost-value" id="inspectionFee">90.000 ₫</span>
+            </div>
+            <div class="cost-row">
+              <span class="cost-label">Bảo hiểm thân vỏ (1.5%)</span>
+              <span class="cost-value" id="bodyInsurance">12.750.000 ₫</span>
+            </div>
+            <div class="cost-row">
+              <span class="cost-label">Chi phí dịch vụ đăng ký</span>
+              <span class="cost-value" id="registrationFee">3.900.000 ₫</span>
+            </div>
+            <div class="cost-row">
+              <span class="cost-label">Tổng chi phí lăn bánh</span>
+              <span class="cost-value" id="totalOnRoadCost">38.780.700 ₫</span>
+            </div>
+          </div>
+
+          <div class="cost-row cost-total">
+            <span>TỔNG CHI PHÍ</span>
+            <span id="totalCost">888.780.700 ₫</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column - Car Configuration & Loan Details -->
+      <div>
+        <!-- Main Configuration Card -->
+    <div class="main-card">
+      <!-- Car Image -->
+      <div class="car-image-container">
+        <img src="https://via.placeholder.com/600x200/e0f2fe/3182ce?text=VinFast+VF+7" alt="VinFast VF 7" class="car-image" id="carImage">
+        <div class="car-brand-text">VinFast Cộng Hòa</div>
+      </div>
+
+      <!-- Configuration Sections -->
+      <div class="config-section">
+        <div class="config-title">1. Chọn mẫu xe & phiên bản</div>
+        <div class="dropdown-group">
+          <div class="dropdown-wrapper">
+            <select class="dropdown" id="carModel">
+              <option value="vf_3">VF 3</option>
+              <option value="vf_5">VF 5</option>
+              <option value="vf_6">VF 6</option>
+              <option value="vf_7" selected>VF 7</option>
+              <option value="vf_8">VF 8</option>
+              <option value="vf_9">VF 9</option>
+              <option value="minio">MINIO</option>
+              <option value="herio">HERIO</option>
+              <option value="nerio">NERIO</option>
+              <option value="limo">Limo</option>
+              <option value="ec">EC Van</option>
+              <option value="ec_nang_cao">EC Nâng Cao</option>
+            </select>
+          </div>
+          <div class="dropdown-wrapper">
+            <select class="dropdown" id="carVersion">
+              <!-- Options will be populated dynamically based on selected car model -->
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="config-section">
+        <div class="config-title">2. Tuỳ chọn ngoại thất & nội thất</div>
+        
+        <div style="margin-bottom: 16px;">
+          <label class="form-label">Ngoại thất</label>
+          <select class="dropdown" id="exteriorColor">
+            <option value="white">Trắng</option>
+            <option value="grey">Xám</option>
+            <option value="black">Đen</option>
+            <option value="blue">Xanh</option>
+            <option value="red">Đỏ</option>
+            <option value="lightgrey">Xám nhạt</option>
+            <option value="yellow">Vàng</option>
+            <option value="silver">Bạc</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="form-label">Nội thất</label>
+          <select class="dropdown" id="interiorColor">
+            <option value="black">Đen</option>
+            <option value="beige">Be</option>
+            <option value="brown">Nâu</option>
+            <option value="grey">Xám</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="config-section">
+        <div class="config-title">3. Chọn nơi đăng ký biển số</div>
+        <div class="dropdown-wrapper">
+          <select class="dropdown" id="registrationLocation">
+            <option value="hcm">TP. Hồ Chí Minh</option>
+            <option value="hanoi">Hà Nội</option>
+            <option value="danang">Đà Nẵng</option>
+            <option value="cantho">Cần Thơ</option>
+            <option value="haiphong">Hải Phòng</option>
+            <option value="other">Tỉnh thành khác</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- <div class="config-section">
+        <div class="config-title">4. Loại khách hàng</div>
+        <div class="dropdown-wrapper">
+          <select class="dropdown" id="customerTypeMobile">
+            <option value="ca_nhan">Cá nhân</option>
+            <option value="cong_ty">Công ty</option>
+          </select>
+        </div>
+      </div> -->
+    </div>
+
+        <!-- Loan Options Card -->
+        <div class="loan-card">
+          <div class="loan-title">Tùy chọn & Chi tiết trả góp</div>
+          
+          <div class="loan-option">
+            <span class="loan-label">Vay mua xe trả góp</span>
+            <label class="toggle-switch">
+              <input type="checkbox" id="loanToggle" checked>
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+
+          <div class="loan-option" id="loanRatioOption">
+            <span class="loan-label">Tỷ lệ vay</span>
+            <div class="slider-container">
+              <div class="slider-wrapper">
+                <input type="range" min="0" max="100" value="70" class="slider" id="loanRatio">
+              </div>
+              <span class="slider-value" id="loanRatioValue">70% giá trị xe</span>
+            </div>
+          </div>
+
+          <div class="loan-option" id="loanTermOption">
+            <span class="loan-label">Thời hạn vay</span>
+            <div class="dropdown-wrapper" style="max-width: 200px;">
+              <select class="dropdown" id="loanTerm">
+                <option value="12">12 tháng</option>
+                <option value="24">24 tháng</option>
+                <option value="36">36 tháng</option>
+                <option value="48">48 tháng</option>
+                <option value="60" selected>60 tháng (5 năm)</option>
+                <option value="72">72 tháng</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Loan Details (Desktop) -->
+          <div class="loan-details desktop-only">
+            <div class="form-label" style="font-weight: 600; margin-bottom: 12px;">Chi tiết trả góp dự tính</div>
+            
+            <div class="loan-detail-row">
+              <span class="loan-detail-label">Số tiền trả trước</span>
+              <span class="loan-detail-value" id="downPayment">266.634.210 ₫</span>
+            </div>
+            <div class="loan-detail-row">
+              <span class="loan-detail-label">Số tiền vay</span>
+              <span class="loan-detail-value" id="loanAmount">622.146.490 ₫</span>
+            </div>
+            <div class="loan-detail-row">
+              <span class="loan-detail-label">Tổng lãi phải trả</span>
+              <span class="loan-detail-value" id="totalInterest">170.979.967 ₫</span>
+            </div>
+            <div class="loan-detail-row monthly-payment">
+              <span>Gốc & lãi hàng tháng</span>
+              <span id="monthlyPayment">13.218.774 ₫</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer Action Buttons -->
+    <div class="header-actions" style="margin-top: 20px;">
+      <button class="btn btn-secondary" id="printBtnFooter">In Báo Giá</button>
+      <button class="btn btn-primary" id="emailBtnFooter">Gửi Email Báo Giá</button>
+    </div>
+  </div>
+
+  <script>
+    // View Toggle
+    const viewToggle = document.getElementById('viewToggle');
+    const isDesktop = window.innerWidth >= 1024;
+    
+    // Set initial view based on screen size
+    if (isDesktop && !localStorage.getItem('mobileView')) {
+      document.body.classList.remove('mobile-view');
+      viewToggle.textContent = '📱 Mobile View';
+    } else {
+      document.body.classList.add('mobile-view');
+      viewToggle.textContent = '🖥️ Desktop View';
+    }
+
+    viewToggle.addEventListener('click', function() {
+      document.body.classList.toggle('mobile-view');
+      if (document.body.classList.contains('mobile-view')) {
+        this.textContent = '🖥️ Desktop View';
+        localStorage.setItem('mobileView', 'true');
+      } else {
+        this.textContent = '📱 Mobile View';
+        localStorage.removeItem('mobileView');
+      }
+      calculateAll();
+    });
+
+    // Helper function to get data from database.js
+    function getDataByKey(array, key, value) {
+      const item = array.find(item => item[key] === value);
+      return item || null;
+    }
+
+    // Get all data by key (for multiple matches)
+    function getAllDataByKey(array, key, value) {
+      return array.filter(item => item[key] === value);
+    }
+
+    // Get unique car models from database
+    function getCarModels() {
+      const uniqueModels = {};
+      danh_sach_xe.forEach(xe => {
+        if (!uniqueModels[xe.dong_xe]) {
+          uniqueModels[xe.dong_xe] = xe.ten_hien_thi;
+        }
+      });
+      return uniqueModels;
+    }
+
+    // Map location to database key
+    const locationMap = {
+      hcm: 'ho_chi_minh',
+      hanoi: 'ha_noi',
+      danang: 'da_nang',
+      cantho: 'can_tho',
+      haiphong: 'hai_phong',
+      other: 'tinh_khac'
+    };
+
+    // Populate car versions based on selected model
+    function populateCarVersions(carModel) {
+      const versionSelect = document.getElementById('carVersion');
+      versionSelect.innerHTML = '';
+      
+      // Get all versions for this car model from danh_sach_xe
+      const versions = getAllDataByKey(danh_sach_xe, 'dong_xe', carModel);
+      
+      if (versions.length > 0) {
+        versions.forEach((version, index) => {
+          const option = document.createElement('option');
+          option.value = version.phien_ban;
+          option.textContent = version.phien_ban;
+          option.dataset.price = version.gia_niem_yet;
+          option.dataset.carModel = version.dong_xe;
+          if (index === 0) option.selected = true;
+          versionSelect.appendChild(option);
+        });
+      } else {
+        // Fallback if no data found
+        const option = document.createElement('option');
+        option.value = 'standard';
+        option.textContent = 'Tiêu chuẩn';
+        option.dataset.price = '0';
+        option.dataset.carModel = carModel;
+        versionSelect.appendChild(option);
+      }
+    }
+
+    // Get car price from selected version
+    function getCarPrice() {
+      const versionSelect = document.getElementById('carVersion');
+      const selectedOption = versionSelect.options[versionSelect.selectedIndex];
+      return parseInt(selectedOption.dataset.price) || 0;
+    }
+
+    // Get current car model key
+    function getCurrentCarModel() {
+      const versionSelect = document.getElementById('carVersion');
+      const selectedOption = versionSelect.options[versionSelect.selectedIndex];
+      return selectedOption.dataset.carModel || document.getElementById('carModel').value;
+    }
+
+    // Format currency
+    function formatCurrency(amount) {
+      return new Intl.NumberFormat('vi-VN').format(amount) + ' ₫';
+    }
+
+    // Calculate all costs
+    function calculateAll() {
+      console.log('=== Calculating costs ===');
+      
+      const carModel = document.getElementById('carModel').value;
+      const carVersion = document.getElementById('carVersion').value;
+      const registrationLocation = document.getElementById('registrationLocation').value;
+      
+      console.log('Car Model:', carModel);
+      console.log('Car Version:', carVersion);
+      console.log('Registration Location:', registrationLocation);
+      
+      // Get base price from selected version
+      const basePrice = getCarPrice();
+      console.log('Base Price:', basePrice);
+      
+      // Calculate discounts - Using data from database.js or data attributes
+      const discount1Element = document.getElementById('discount1');
+      const discount2Element = document.getElementById('discount2');
+      const discount1 = discount1Element.checked ? parseInt(discount1Element.getAttribute('data-discount') || 0) : 0;
+      const discount2 = discount2Element.checked ? parseInt(discount2Element.getAttribute('data-discount') || 0) : 0;
+      
+      // Calculate VinClub discount from database.js
+      const vinClubSelect = document.getElementById('vinClubVoucher');
+      const vinClubValue = vinClubSelect ? vinClubSelect.value : 'none';
+      let vinClubDiscount = 0;
+      
+      if (vinClubValue !== 'none') {
+        const vinClubData = getDataByKey(uu_dai_vin_club, 'hang', vinClubValue);
+        if (vinClubData) {
+          vinClubDiscount = Math.round(basePrice * vinClubData.ty_le);
+        }
+      }
+      
+      // Update VinClub discount display
+      const vinClubDiscountDisplay = document.getElementById('vinClubDiscountValue');
+      if (vinClubDiscountDisplay) {
+        if (vinClubDiscount > 0) {
+          vinClubDiscountDisplay.textContent = `-${formatCurrency(vinClubDiscount)}`;
+        } else {
+          vinClubDiscountDisplay.textContent = '';
+        }
+      }
+      
+      const totalDiscount = discount1 + discount2 + vinClubDiscount;
+      const priceAfterDiscount = Math.max(0, basePrice - totalDiscount);
+      
+      console.log('Discounts:', { discount1, discount2, vinClubDiscount, totalDiscount, priceAfterDiscount });
+      
+      // Get car model key for database lookup
+      const carModelKey = getCurrentCarModel();
+      console.log('Car Model Key:', carModelKey);
+      
+      // Get customer type for road fee calculation
+      // Try to get from desktop first, if not available use mobile
+      const customerTypeDesktop = document.getElementById('customerType');
+      const customerTypeMobile = document.getElementById('customerTypeMobile');
+      const customerType = customerTypeDesktop ? customerTypeDesktop.value : 
+                          (customerTypeMobile ? customerTypeMobile.value : 'ca_nhan');
+      console.log('Customer Type:', customerType);
+      
+      // Calculate on-road costs using database.js
+      // Phí cấp biển số
+      const locationKey = locationMap[registrationLocation] || 'tinh_khac';
+      const plateFeeData = getDataByKey(phi_cap_bien_so, 'khu_vuc', locationKey);
+      const plateFee = plateFeeData ? plateFeeData.gia_tri : getDataByKey(phi_cap_bien_so, 'khu_vuc', 'tinh_khac').gia_tri;
+      console.log('Plate Fee:', { locationKey, plateFee });
+      
+      // Phí đường bộ - based on customer type (cá nhân hoặc công ty)
+      const roadFeeData = getDataByKey(phi_duong_bo, 'loai', customerType);
+      const roadFee = roadFeeData ? roadFeeData.gia_tri : getDataByKey(phi_duong_bo, 'loai', 'ca_nhan').gia_tri;
+      console.log('Road Fee:', { customerType, roadFee, roadFeeData });
+      
+      // Get thông tin xe for insurance calculation
+      const carInfo = getDataByKey(thong_tin_ky_thuat_xe, 'dong_xe', carModelKey);
+      console.log('Car Info:', carInfo);
+      
+      // Phí TNDS - based on customer type
+      const liabilityInsurance = carInfo ? 
+        (customerType === 'ca_nhan' ? carInfo.phi_tnds_ca_nhan : carInfo.phi_tnds_kinh_doanh) 
+        : getDataByKey(thong_tin_ky_thuat_xe, 'dong_xe', 'vf_7').phi_tnds_ca_nhan;
+      console.log('Liability Insurance:', liabilityInsurance);
+      
+      // Phí kiểm định
+      const inspectionFee = phi_kiem_dinh;
+      console.log('Inspection Fee:', inspectionFee);
+      
+      // Bảo hiểm thân vỏ - based on customer type
+      const bhvcRate = carInfo ? 
+        (customerType === 'ca_nhan' ? carInfo.ty_le_bhvc_ca_nhan : carInfo.ty_le_bhvc_kinh_doanh) 
+        : 0.01;
+      const bodyInsurance = Math.round(priceAfterDiscount * bhvcRate);
+      console.log('Body Insurance:', { bhvcRate, bodyInsurance });
+      
+      // Chi phí dịch vụ đăng ký - from database.js
+      const registrationFee = chi_phi_dich_vu_dang_ky;
+      
+      const totalOnRoadCost = plateFee + roadFee + liabilityInsurance + inspectionFee + bodyInsurance + registrationFee;
+      const totalCost = priceAfterDiscount + totalOnRoadCost;
+      
+      console.log('Total:', { totalOnRoadCost, totalCost });
+      console.log('=== End calculation ===\n');
+      
+      // Update cost display
+      document.getElementById('carPriceWithVAT').textContent = formatCurrency(basePrice);
+      document.getElementById('totalCarValue').textContent = formatCurrency(basePrice);
+      document.getElementById('priceAfterDiscount').textContent = formatCurrency(priceAfterDiscount);
+      document.getElementById('plateFee').textContent = formatCurrency(plateFee);
+      
+      // Update plate fee label with location name
+      const plateFeeLabel = document.querySelector('.cost-row:has(#plateFee) .cost-label');
+      if (plateFeeLabel && plateFeeData) {
+        plateFeeLabel.textContent = `Phí biển số (${plateFeeData.ten_khu_vuc})`;
+      }
+      
+      document.getElementById('roadFee').textContent = formatCurrency(roadFee);
+      document.getElementById('liabilityInsurance').textContent = formatCurrency(liabilityInsurance);
+      document.getElementById('inspectionFee').textContent = formatCurrency(inspectionFee);
+      document.getElementById('bodyInsurance').textContent = formatCurrency(bodyInsurance);
+      document.getElementById('registrationFee').textContent = formatCurrency(registrationFee);
+      document.getElementById('totalOnRoadCost').textContent = formatCurrency(totalOnRoadCost);
+      document.getElementById('totalCost').textContent = formatCurrency(totalCost);
+      
+      // Update title with car version
+      document.getElementById('costEstimationTitle').textContent = 
+        `Dự toán chi phí cho ${carVersion}`;
+      
+      // Calculate loan details if enabled
+      if (document.getElementById('loanToggle').checked) {
+        calculateLoanDetails(totalCost);
+      } else {
+        document.getElementById('downPayment').textContent = formatCurrency(0);
+        document.getElementById('loanAmount').textContent = formatCurrency(0);
+        document.getElementById('totalInterest').textContent = formatCurrency(0);
+        document.getElementById('monthlyPayment').textContent = formatCurrency(0);
+      }
+    }
+
+    // Calculate loan details
+    function calculateLoanDetails(carPrice) {
+      const loanRatio = parseFloat(document.getElementById('loanRatio').value) / 100;
+      const loanTerm = parseInt(document.getElementById('loanTerm').value);
+      const annualRate = lai_suat_vay_hang_nam; // Lãi suất từ database.js
+      const monthlyRate = annualRate / 12;
+      
+      const loanAmount = Math.round(carPrice * loanRatio);
+      const downPayment = carPrice - loanAmount;
+      
+      // Calculate monthly payment using loan formula
+      const monthlyPayment = loanAmount * (monthlyRate * Math.pow(1 + monthlyRate, loanTerm)) / 
+                            (Math.pow(1 + monthlyRate, loanTerm) - 1);
+      const totalPayment = monthlyPayment * loanTerm;
+      const totalInterest = totalPayment - loanAmount;
+      
+      document.getElementById('downPayment').textContent = formatCurrency(downPayment);
+      document.getElementById('loanAmount').textContent = formatCurrency(loanAmount);
+      document.getElementById('totalInterest').textContent = formatCurrency(Math.round(totalInterest));
+      document.getElementById('monthlyPayment').textContent = formatCurrency(Math.round(monthlyPayment));
+    }
+
+    // Loan ratio slider
+    const loanRatioSlider = document.getElementById('loanRatio');
+    const loanRatioValue = document.getElementById('loanRatioValue');
+    
+    loanRatioSlider.addEventListener('input', function() {
+      loanRatioValue.textContent = `${this.value}% giá trị xe`;
+      calculateAll();
+    });
+
+    // Loan toggle
+    const loanToggle = document.getElementById('loanToggle');
+    const loanRatioOption = document.getElementById('loanRatioOption');
+    const loanTermOption = document.getElementById('loanTermOption');
+    
+    loanToggle.addEventListener('change', function() {
+      if (this.checked) {
+        loanRatioOption.style.display = 'flex';
+        loanTermOption.style.display = 'flex';
+      } else {
+        loanRatioOption.style.display = 'none';
+        loanTermOption.style.display = 'none';
+      }
+      calculateAll();
+    });
+
+    // Car model and version change
+    document.getElementById('carModel').addEventListener('change', function() {
+      populateCarVersions(this.value);
+      calculateAll();
+    });
+    document.getElementById('carVersion').addEventListener('change', calculateAll);
+    document.getElementById('registrationLocation').addEventListener('change', calculateAll);
+    
+    // Customer type change - sync between desktop and mobile
+    const customerTypeDesktop = document.getElementById('customerType');
+    const customerTypeMobile = document.getElementById('customerTypeMobile');
+    
+    if (customerTypeDesktop) {
+      customerTypeDesktop.addEventListener('change', function() {
+        if (customerTypeMobile) {
+          customerTypeMobile.value = this.value;
+        }
+        calculateAll();
+      });
+    }
+    
+    if (customerTypeMobile) {
+      customerTypeMobile.addEventListener('change', function() {
+        if (customerTypeDesktop) {
+          customerTypeDesktop.value = this.value;
+        }
+        calculateAll();
+      });
+    }
+    
+    // Color changes
+    document.getElementById('exteriorColor').addEventListener('change', calculateAll);
+    document.getElementById('interiorColor').addEventListener('change', calculateAll);
+    
+    // Discount checkboxes
+    document.getElementById('discount1').addEventListener('change', calculateAll);
+    document.getElementById('discount2').addEventListener('change', calculateAll);
+    
+    // VinClub voucher dropdown
+    const vinClubVoucherElement = document.getElementById('vinClubVoucher');
+    if (vinClubVoucherElement) {
+      vinClubVoucherElement.addEventListener('change', calculateAll);
+    }
+    
+    // Loan term change
+    document.getElementById('loanTerm').addEventListener('change', calculateAll);
+
+    // Print quote buttons
+    document.getElementById('printBtn').addEventListener('click', () => window.print());
+    document.getElementById('printBtnFooter').addEventListener('click', () => window.print());
+
+    // Email quote buttons
+    function sendEmail() {
+      alert('Tính năng gửi email báo giá sẽ được triển khai sớm!');
+    }
+    document.getElementById('emailBtn').addEventListener('click', sendEmail);
+    document.getElementById('emailBtnFooter').addEventListener('click', sendEmail);
+
+    // Set default dates
+    const today = new Date();
+    const depositDate = new Date(today);
+    depositDate.setDate(today.getDate() + 5);
+    const deliveryDate = new Date(today);
+    deliveryDate.setMonth(today.getMonth() + 1);
+    
+    document.getElementById('depositDate').valueAsDate = depositDate;
+    document.getElementById('deliveryDate').valueAsDate = deliveryDate;
+
+    // Initialize car versions on page load
+    populateCarVersions(document.getElementById('carModel').value);
+
+    // Initial calculation
+    calculateAll();
+
+    // Handle window resize
+    window.addEventListener('resize', function() {
+      if (window.innerWidth >= 1024 && !localStorage.getItem('mobileView')) {
+        document.body.classList.remove('mobile-view');
+        viewToggle.textContent = '📱 Mobile View';
+      } else if (window.innerWidth < 1024) {
+        document.body.classList.add('mobile-view');
+        viewToggle.textContent = '🖥️ Desktop View';
+      }
+    });
+  </script>
+
+  <!-- Import database.js -->
+  <script src="database.js"></script>
+</body>
+</html>
+
