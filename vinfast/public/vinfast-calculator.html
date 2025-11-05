@@ -178,7 +178,7 @@
       height: 100%;
       object-fit: contain;
       object-position: center;
-      transition: opacity 0.3s ease-in-out;
+      transition: all 0.4s ease-in-out;
       border-radius: 8px;
     }
 
@@ -190,9 +190,55 @@
       opacity: 1;
     }
 
+    /* Slide animation for exterior (left side) */
+    #carImageExterior.fade-out {
+      opacity: 0;
+      transform: translateX(-30px);
+    }
+
+    #carImageExterior.fade-in {
+      opacity: 1;
+      transform: translateX(0);
+      animation: slideInFromLeft 0.5s ease-out;
+    }
+
+    @keyframes slideInFromLeft {
+      0% {
+        opacity: 0;
+        transform: translateX(-30px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    /* Slide animation for interior (right side) */
+    #carImageInterior.fade-out {
+      opacity: 0;
+      transform: translateX(30px);
+    }
+
+    #carImageInterior.fade-in {
+      opacity: 1;
+      transform: translateX(0);
+      animation: slideInFromRight 0.5s ease-out;
+    }
+
+    @keyframes slideInFromRight {
+      0% {
+        opacity: 0;
+        transform: translateX(30px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
     .car-image:hover {
       cursor: pointer;
-      opacity: 0.9;
+      opacity: 0.85;
       transition: opacity 0.2s ease;
     }
 
@@ -1210,6 +1256,14 @@
       const exteriorImg = document.getElementById('carImageExterior');
       const interiorImg = document.getElementById('carImageInterior');
       
+      // Remove any existing animation classes first
+      exteriorImg.classList.remove('fade-out', 'fade-in');
+      interiorImg.classList.remove('fade-out', 'fade-in');
+      
+      // Force reflow to restart animation
+      void exteriorImg.offsetWidth;
+      void interiorImg.offsetWidth;
+      
       // Add fade-out effect
       exteriorImg.classList.add('fade-out');
       interiorImg.classList.add('fade-out');
@@ -1279,8 +1333,14 @@
           exteriorImg.classList.add('fade-in');
           interiorImg.classList.remove('fade-out');
           interiorImg.classList.add('fade-in');
+          
+          // Clean up animation class after animation completes
+          setTimeout(() => {
+            exteriorImg.classList.remove('fade-in');
+            interiorImg.classList.remove('fade-in');
+          }, 500); // Match animation duration
         }, 50);
-      }, 300); // Match the CSS transition duration
+      }, 400); // Match the fade-out transition duration
     }
 
     // Populate color options based on selected car version
