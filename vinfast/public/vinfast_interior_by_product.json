@@ -1,0 +1,593 @@
+{
+  "VF5": {
+    "model_codes": [
+      "EA15"
+    ],
+    "unique_interior_colors": [
+      {
+        "code": "CI11",
+        "name": "Black"
+      }
+    ],
+    "exterior_to_interior_map": {
+      "181Y": [
+        {
+          "code": "CI11",
+          "name": "Black"
+        }
+      ],
+      "111U": [
+        {
+          "code": "CI11",
+          "name": "Black"
+        }
+      ],
+      "CE1W": [
+        {
+          "code": "CI11",
+          "name": "Black"
+        }
+      ],
+      "CE1V": [
+        {
+          "code": "CI11",
+          "name": "Black"
+        }
+      ],
+      "CE18": [
+        {
+          "code": "CI11",
+          "name": "Black"
+        }
+      ],
+      "CE1M": [
+        {
+          "code": "CI11",
+          "name": "Black"
+        }
+      ],
+      "CE1U": [
+        {
+          "code": "CI11",
+          "name": "Black"
+        }
+      ],
+      "CE11": [
+        {
+          "code": "CI11",
+          "name": "Black"
+        }
+      ],
+      "CE17": [
+        {
+          "code": "CI11",
+          "name": "Black"
+        }
+      ]
+    }
+  },
+  "VF6": {
+    "model_codes": [
+      "EB15"
+    ],
+    "unique_interior_colors": [
+      {
+        "code": "CI11",
+        "name": "Black"
+      },
+      {
+        "code": "CI13",
+        "name": "Cotton Beige"
+      },
+      {
+        "code": "CI18",
+        "name": "Mocca Brown"
+      }
+    ],
+    "exterior_to_interior_map": {
+      "CE17": [
+        {
+          "code": "CI11",
+          "name": "Black"
+        }
+      ],
+      "CE11": [
+        {
+          "code": "CI11",
+          "name": "Black"
+        },
+        {
+          "code": "CI13",
+          "name": "Cotton Beige"
+        },
+        {
+          "code": "CI18",
+          "name": "Mocca Brown"
+        }
+      ],
+      "CE18": [
+        {
+          "code": "CI11",
+          "name": "Black"
+        },
+        {
+          "code": "CI18",
+          "name": "Mocca Brown"
+        }
+      ],
+      "CE1V": [
+        {
+          "code": "CI11",
+          "name": "Black"
+        },
+        {
+          "code": "CI18",
+          "name": "Mocca Brown"
+        }
+      ],
+      "CE1M": [
+        {
+          "code": "CI11",
+          "name": "Black"
+        },
+        {
+          "code": "CI13",
+          "name": "Cotton Beige"
+        }
+      ],
+      "CE1W": [
+        {
+          "code": "CI11",
+          "name": "Black"
+        },
+        {
+          "code": "CI18",
+          "name": "Mocca Brown"
+        }
+      ],
+      "CE1U": [
+        {
+          "code": "CI11",
+          "name": "Black"
+        }
+      ]
+    }
+  },
+  "VF7": {
+    "model_codes": [
+      "EC15"
+    ],
+    "unique_interior_colors": [
+      {
+        "code": "CI11",
+        "name": "Black"
+      },
+      {
+        "code": "CI13",
+        "name": "Cotton Beige"
+      },
+      {
+        "code": "CI18",
+        "name": "Mocca Brown"
+      }
+    ],
+    "exterior_to_interior_map": {
+      "CE11": [
+        {
+          "code": "CI11",
+          "name": "Black"
+        },
+        {
+          "code": "CI13",
+          "name": "Cotton Beige"
+        },
+        {
+          "code": "CI18",
+          "name": "Mocca Brown"
+        }
+      ],
+      "CE1M": [
+        {
+          "code": "CI11",
+          "name": "Black"
+        },
+        {
+          "code": "CI13",
+          "name": "Cotton Beige"
+        }
+      ],
+      "CE1W": [
+        {
+          "code": "CI11",
+          "name": "Black"
+        },
+        {
+          "code": "CI18",
+          "name": "Mocca Brown"
+        }
+      ],
+      "CE1V": [
+        {
+          "code": "CI11",
+          "name": "Black"
+        },
+        {
+          "code": "CI18",
+          "name": "Mocca Brown"
+        }
+      ],
+      "CE18": [
+        {
+          "code": "CI11",
+          "name": "Black"
+        },
+        {
+          "code": "CI18",
+          "name": "Mocca Brown"
+        }
+      ]
+    }
+  },
+  "VF8": {
+    "model_codes": [
+      "EC1V",
+      "PD1U"
+    ],
+    "unique_interior_colors": [
+      {
+        "code": "CI11",
+        "name": "Black"
+      },
+      {
+        "code": "CI12",
+        "name": "Saddle Brown"
+      },
+      {
+        "code": "CI1H",
+        "name": "Black"
+      }
+    ],
+    "exterior_to_interior_map": {
+      "CE17": [
+        {
+          "code": "CI1H",
+          "name": "Black"
+        }
+      ],
+      "CE11": [
+        {
+          "code": "CI11",
+          "name": "Black"
+        },
+        {
+          "code": "CI12",
+          "name": "Saddle Brown"
+        },
+        {
+          "code": "CI1H",
+          "name": "Black"
+        }
+      ],
+      "CE1M": [
+        {
+          "code": "CI11",
+          "name": "Black"
+        },
+        {
+          "code": "CI1H",
+          "name": "Black"
+        }
+      ],
+      "CE1U": [
+        {
+          "code": "CI1H",
+          "name": "Black"
+        }
+      ],
+      "171V": [
+        {
+          "code": "CI11",
+          "name": "Black"
+        },
+        {
+          "code": "CI12",
+          "name": "Saddle Brown"
+        }
+      ],
+      "CE22": [
+        {
+          "code": "CI11",
+          "name": "Black"
+        },
+        {
+          "code": "CI12",
+          "name": "Saddle Brown"
+        }
+      ],
+      "1V18": [
+        {
+          "code": "CI11",
+          "name": "Black"
+        },
+        {
+          "code": "CI12",
+          "name": "Saddle Brown"
+        }
+      ],
+      "2927": [
+        {
+          "code": "CI11",
+          "name": "Black"
+        },
+        {
+          "code": "CI12",
+          "name": "Saddle Brown"
+        }
+      ],
+      "2911": [
+        {
+          "code": "CI11",
+          "name": "Black"
+        },
+        {
+          "code": "CI12",
+          "name": "Saddle Brown"
+        }
+      ],
+      "CE18": [
+        {
+          "code": "CI11",
+          "name": "Black"
+        },
+        {
+          "code": "CI12",
+          "name": "Saddle Brown"
+        }
+      ]
+    }
+  },
+  "VF3": {
+    "model_codes": [
+      "EI13",
+      "EM1V"
+    ],
+    "unique_interior_colors": [
+      {
+        "code": "CI11",
+        "name": "Black"
+      }
+    ],
+    "exterior_to_interior_map": {
+      "CE18": [
+        {
+          "code": "CI11",
+          "name": "Black"
+        }
+      ],
+      "181U": [
+        {
+          "code": "CI11",
+          "name": "Black"
+        }
+      ],
+      "CE1W": [
+        {
+          "code": "CI11",
+          "name": "Black"
+        }
+      ],
+      "1821": [
+        {
+          "code": "CI11",
+          "name": "Black"
+        }
+      ],
+      "CE1V": [
+        {
+          "code": "CI11",
+          "name": "Black"
+        }
+      ],
+      "CE1M": [
+        {
+          "code": "CI11",
+          "name": "Black"
+        }
+      ],
+      "181Y": [
+        {
+          "code": "CI11",
+          "name": "Black"
+        }
+      ],
+      "CE1U": [
+        {
+          "code": "CI11",
+          "name": "Black"
+        }
+      ]
+    }
+  },
+  "VF9": {
+    "model_codes": [
+      "EI23",
+      "PE1U"
+    ],
+    "unique_interior_colors": [
+      {
+        "code": "CI11",
+        "name": "Black"
+      },
+      {
+        "code": "CI12",
+        "name": "Saddle Brown"
+      },
+      {
+        "code": "CI13",
+        "name": "Cotton Beige"
+      },
+      {
+        "code": "CI1M",
+        "name": "Grey"
+      }
+    ],
+    "exterior_to_interior_map": {
+      "181U": [
+        {
+          "code": "CI1M",
+          "name": "Grey"
+        }
+      ],
+      "182K": [
+        {
+          "code": "CI1M",
+          "name": "Grey"
+        }
+      ],
+      "1P2K": [
+        {
+          "code": "CI1M",
+          "name": "Grey"
+        }
+      ],
+      "182I": [
+        {
+          "code": "CI1M",
+          "name": "Grey"
+        }
+      ],
+      "CE2K": [
+        {
+          "code": "CI1M",
+          "name": "Grey"
+        }
+      ],
+      "1U2I": [
+        {
+          "code": "CI1M",
+          "name": "Grey"
+        }
+      ],
+      "CE1U": [
+        {
+          "code": "CI1M",
+          "name": "Grey"
+        }
+      ],
+      "1U11": [
+        {
+          "code": "CI1M",
+          "name": "Grey"
+        }
+      ],
+      "CE17": [
+        {
+          "code": "CI11",
+          "name": "Black"
+        },
+        {
+          "code": "CI12",
+          "name": "Saddle Brown"
+        },
+        {
+          "code": "CI1M",
+          "name": "Grey"
+        }
+      ],
+      "CE11": [
+        {
+          "code": "CI11",
+          "name": "Black"
+        },
+        {
+          "code": "CI12",
+          "name": "Saddle Brown"
+        },
+        {
+          "code": "CI13",
+          "name": "Cotton Beige"
+        },
+        {
+          "code": "CI1M",
+          "name": "Grey"
+        }
+      ],
+      "1117": [
+        {
+          "code": "CI1M",
+          "name": "Grey"
+        }
+      ],
+      "181M": [
+        {
+          "code": "CI1M",
+          "name": "Grey"
+        }
+      ],
+      "CE1M": [
+        {
+          "code": "CI11",
+          "name": "Black"
+        },
+        {
+          "code": "CI13",
+          "name": "Cotton Beige"
+        },
+        {
+          "code": "CI1M",
+          "name": "Grey"
+        }
+      ],
+      "CE2I": [
+        {
+          "code": "CI1M",
+          "name": "Grey"
+        }
+      ],
+      "CE18": [
+        {
+          "code": "CI11",
+          "name": "Black"
+        },
+        {
+          "code": "CI12",
+          "name": "Saddle Brown"
+        }
+      ],
+      "CE1W": [
+        {
+          "code": "CI11",
+          "name": "Black"
+        },
+        {
+          "code": "CI12",
+          "name": "Saddle Brown"
+        }
+      ],
+      "CE22": [
+        {
+          "code": "CI11",
+          "name": "Black"
+        },
+        {
+          "code": "CI12",
+          "name": "Saddle Brown"
+        },
+        {
+          "code": "CI13",
+          "name": "Cotton Beige"
+        }
+      ],
+      "CE1V": [
+        {
+          "code": "CI11",
+          "name": "Black"
+        },
+        {
+          "code": "CI12",
+          "name": "Saddle Brown"
+        }
+      ]
+    }
+  }
+}

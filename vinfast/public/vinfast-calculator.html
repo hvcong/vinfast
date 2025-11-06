@@ -1102,6 +1102,16 @@
                   <!-- Hidden select for form compatibility -->
                 </select>
               </div>
+
+              <div style="margin-bottom: 20px">
+                <label class="form-label">Nội thất</label>
+                <div class="color-picker" id="interiorColorPicker">
+                  <!-- Interior color options will be populated dynamically -->
+                </div>
+                <select class="color-select-hidden" id="interiorColor">
+                  <!-- Hidden select for form compatibility -->
+                </select>
+              </div>
             </div>
 
             <div class="config-section">
@@ -1696,6 +1706,89 @@
             exteriorColorSelect.appendChild(option);
           }
         });
+
+        // Populate interior colors
+        const currentInteriorColor = keepCurrentColor ? document.getElementById("interiorColor").value : null;
+        populateInteriorColors(selectedCar, currentInteriorColor);
+      }
+
+      // Populate interior color picker for selected car
+      function populateInteriorColors(selectedCar, currentInteriorColor = null) {
+        const interiorColorPicker = document.getElementById("interiorColorPicker");
+        const interiorColorSelect = document.getElementById("interiorColor");
+
+        // Clear existing options
+        interiorColorPicker.innerHTML = "";
+        interiorColorSelect.innerHTML = "";
+
+        // Check if car has interior colors
+        if (!selectedCar.mau_noi_that || selectedCar.mau_noi_that.length === 0) {
+          interiorColorPicker.innerHTML = '<p style="color: #999; font-size: 14px;">Không có thông tin màu nội thất</p>';
+          return;
+        }
+
+        // Check if current color exists in new car's interior color list
+        let colorExists = false;
+        if (currentInteriorColor) {
+          colorExists = selectedCar.mau_noi_that.some(
+            colorData => colorData.ma_mau_noi === currentInteriorColor
+          );
+        }
+
+        // If color doesn't exist or we're not keeping it, select first color
+        let selectedColorCode = (colorExists && currentInteriorColor) 
+          ? currentInteriorColor 
+          : selectedCar.mau_noi_that[0]?.ma_mau_noi;
+
+        selectedCar.mau_noi_that.forEach((colorData, index) => {
+          // Create visual color option
+          const colorOption = document.createElement("div");
+          colorOption.className = "color-option";
+          colorOption.dataset.color = colorData.ma_mau_noi;
+
+          const img = document.createElement("img");
+          img.src = colorData.icon;
+          img.alt = colorData.ten_mau_noi;
+
+          const label = document.createElement("div");
+          label.className = "color-option-label";
+          label.textContent = colorData.ten_mau_noi;
+
+          colorOption.appendChild(img);
+          colorOption.appendChild(label);
+
+          // Mark selected color
+          if (colorData.ma_mau_noi === selectedColorCode) {
+            colorOption.classList.add("selected");
+          }
+
+          // Add click event
+          colorOption.addEventListener("click", function () {
+            // Remove selected class from all options
+            interiorColorPicker
+              .querySelectorAll(".color-option")
+              .forEach((opt) => {
+                opt.classList.remove("selected");
+              });
+            // Add selected class to clicked option
+            this.classList.add("selected");
+            // Update hidden select
+            interiorColorSelect.value = this.dataset.color;
+            // Trigger change event
+            interiorColorSelect.dispatchEvent(new Event("change"));
+          });
+
+          interiorColorPicker.appendChild(colorOption);
+
+          // Also populate hidden select for form compatibility
+          const option = document.createElement("option");
+          option.value = colorData.ma_mau_noi;
+          option.textContent = colorData.ten_mau_noi;
+          if (colorData.ma_mau_noi === selectedColorCode) {
+            option.selected = true;
+          }
+          interiorColorSelect.appendChild(option);
+        });
       }
 
       // Get car price from selected version
@@ -2063,6 +2156,12 @@
         const exteriorColorText =
           exteriorColorSelect.options[exteriorColorSelect.selectedIndex].text;
 
+        // Get interior color
+        const interiorColorSelect = document.getElementById("interiorColor");
+        const interiorColorText = interiorColorSelect && interiorColorSelect.options.length > 0
+          ? interiorColorSelect.options[interiorColorSelect.selectedIndex].text
+          : "Không có thông tin";
+
         // Get registration location
         const registrationLocationSelect = document.getElementById(
           "registrationLocation"
@@ -2246,6 +2345,7 @@
           carModel: carModelText,
           carVersion: carVersionText,
           exteriorColor: exteriorColorText,
+          interiorColor: interiorColorText,
           registrationLocation: registrationLocationText,
           carBasePrice: basePrice,
           carDiscount: totalDiscount,

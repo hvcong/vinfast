@@ -482,6 +482,66 @@ const vinfast_colors_data = {
     }
 };
 
+// ===========================
+// DỮ LIỆU NỘI THẤT (Interior colors)
+// ===========================
+const interior_colors =  [
+            {
+                "code": "CI11",
+                "name": "Black",
+                "car_image_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw9a153245/images/deposit/interior/CI11.webp",
+                "color_icon_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw9a153245/images/deposit/interior/CI11.webp"
+            },
+            {
+                "code": "CI12",
+                "name": "Saddle Brown",
+                "car_image_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw65203801/images/deposit/interior/CI12.webp",
+                "color_icon_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw65203801/images/deposit/interior/CI12.webp"
+            },
+            {
+                "code": "CI13",
+                "name": "Beige",
+                "car_image_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwf0048a4b/images/deposit/interior/CI13.webp",
+                "color_icon_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwf0048a4b/images/deposit/interior/CI13.webp"
+            },
+            {
+                "code": "CI18",
+                "name": "Mocca Brown",
+                "car_image_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw8df6787c/images/deposit/interior/CI18.webp",
+                "color_icon_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw8df6787c/images/deposit/interior/CI18.webp"
+            },
+            {
+                "code": "CI19",
+                "name": "Light Grey",
+                "car_image_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwa04d4c4b/images/deposit/interior/CI19.webp",
+                "color_icon_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwa04d4c4b/images/deposit/interior/CI19.webp"
+            },
+            {
+                "code": "CI1M",
+                "name": "Grey",
+                "car_image_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw33eb76b4/images/deposit/interior/CI1M.webp",
+                "color_icon_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw33eb76b4/images/deposit/interior/CI1M.webp"
+            },
+            {
+                "code": "CI1N",
+                "name": "Beige Grey",
+                "car_image_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwe7a55cfa/images/deposit/interior/CI1N.webp",
+                "color_icon_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwe7a55cfa/images/deposit/interior/CI1N.webp"
+            },
+            {
+                "code": "CI1P",
+                "name": "Navy Blue",
+                "car_image_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw85e1a126/images/deposit/interior/CI1P.webp",
+                "color_icon_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw85e1a126/images/deposit/interior/CI1P.webp"
+            },
+            {
+                "code": "CI1Q",
+                "name": "Light Beige",
+                "car_image_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw07e7d2b3/images/deposit/interior/CI1Q.webp",
+                "color_icon_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw07e7d2b3/images/deposit/interior/CI1Q.webp"
+            }
+        ];
+
 // Mapping tên xe trong database với tên trong dữ liệu màu
 const product_mapping = {
     'vf3': 'VF3',
@@ -529,6 +589,37 @@ function getColorsForProduct(productCode) {
     }));
 }
 
+// Helper function to get interior colors by name
+function getInteriorColorsByNames(colorNames) {
+    if (!colorNames || colorNames.length === 0) return [];
+    
+    const nameMapping = {
+        'black': 'Black',
+        'granite black': 'Black',
+        'saddle brown': 'Saddle Brown',
+        'beige': 'Beige',
+        'mocca brown': 'Mocca Brown',
+        'light grey': 'Light Grey',
+        'grey': 'Grey',
+        'beige grey': 'Beige Grey',
+        'navy blue': 'Navy Blue',
+        'light beige': 'Light Beige'
+    };
+    
+    return colorNames.map(name => {
+        const normalizedName = nameMapping[name.toLowerCase()] || name;
+        const color = interior_colors.find(c => c.name === normalizedName);
+        if (color) {
+            return {
+                ma_mau_noi: color.code,
+                ten_mau_noi: color.name,
+                icon: color.color_icon_url
+            };
+        }
+        return null;
+    }).filter(c => c !== null);
+}
+
 
 // ===========================
 // THÔNG TIN XE VÀ PHIÊN BẢN
@@ -543,7 +634,8 @@ const danh_sach_xe = [
         phien_ban: "VF 3 Base",
         gia_niem_yet: 240000000,
         loai_dong_co: "dien",
-        mau_ngoai_that: getColorsForProduct('vf3')
+        mau_ngoai_that: getColorsForProduct('vf3'),
+        mau_noi_that: getInteriorColorsByNames(['black'])
     },
     
     // VF 5
@@ -553,7 +645,8 @@ const danh_sach_xe = [
         phien_ban: "VF 5 Plus",
         gia_niem_yet: 468000000,
         loai_dong_co: "dien",
-        mau_ngoai_that: getColorsForProduct('vf5')
+        mau_ngoai_that: getColorsForProduct('vf5'),
+        mau_noi_that: getInteriorColorsByNames(['granite black'])
     },
     
     // VF 6
@@ -563,7 +656,8 @@ const danh_sach_xe = [
         phien_ban: "VF 6 Eco",
         gia_niem_yet: 675000000,
         loai_dong_co: "dien",
-        mau_ngoai_that: getColorsForProduct('vf6')
+        mau_ngoai_that: getColorsForProduct('vf6'),
+        mau_noi_that: getInteriorColorsByNames(['black'])
     },
     { 
         dong_xe: "vf_6",
@@ -571,7 +665,8 @@ const danh_sach_xe = [
         phien_ban: "VF 6 Plus",
         gia_niem_yet: 765000000,
         loai_dong_co: "dien",
-        mau_ngoai_that: getColorsForProduct('vf6')
+        mau_ngoai_that: getColorsForProduct('vf6'),
+        mau_noi_that: getInteriorColorsByNames(['mocca brown'])
     },
     
     // VF 7
@@ -581,7 +676,8 @@ const danh_sach_xe = [
         phien_ban: "VF 7 Eco",
         gia_niem_yet: 850000000,
         loai_dong_co: "dien",
-        mau_ngoai_that: getColorsForProduct('vf7')
+        mau_ngoai_that: getColorsForProduct('vf7'),
+        mau_noi_that: getInteriorColorsByNames(['black'])
     },
     { 
         dong_xe: "vf_7",
@@ -589,7 +685,8 @@ const danh_sach_xe = [
         phien_ban: "VF 7 Plus 1 Cầu",
         gia_niem_yet: 950000000,
         loai_dong_co: "dien",
-        mau_ngoai_that: getColorsForProduct('vf7')
+        mau_ngoai_that: getColorsForProduct('vf7'),
+        mau_noi_that: getInteriorColorsByNames(['mocca brown'])
     },
     { 
         dong_xe: "vf_7",
@@ -597,7 +694,8 @@ const danh_sach_xe = [
         phien_ban: "VF 7 Plus 2 Cầu",
         gia_niem_yet: 1050000000,
         loai_dong_co: "dien",
-        mau_ngoai_that: getColorsForProduct('vf7')
+        mau_ngoai_that: getColorsForProduct('vf7'),
+        mau_noi_that: getInteriorColorsByNames(['mocca brown'])
     },
     
     // VF 8
@@ -607,7 +705,8 @@ const danh_sach_xe = [
         phien_ban: "VF 8 Eco",
         gia_niem_yet: 1050000000,
         loai_dong_co: "dien",
-        mau_ngoai_that: getColorsForProduct('vf8')
+        mau_ngoai_that: getColorsForProduct('vf8'),
+        mau_noi_that: getInteriorColorsByNames(['granite black'])
     },
     { 
         dong_xe: "vf_8",
@@ -615,7 +714,8 @@ const danh_sach_xe = [
         phien_ban: "VF 8 Plus",
         gia_niem_yet: 1199000000,
         loai_dong_co: "dien",
-        mau_ngoai_that: getColorsForProduct('vf8')
+        mau_ngoai_that: getColorsForProduct('vf8'),
+        mau_noi_that: getInteriorColorsByNames(['granite black', 'saddle brown'])
     },
     
     // VF 9
@@ -625,7 +725,8 @@ const danh_sach_xe = [
         phien_ban: "VF 9 Eco",
         gia_niem_yet: 1491000000,
         loai_dong_co: "dien",
-        mau_ngoai_that: getColorsForProduct('vf9')
+        mau_ngoai_that: getColorsForProduct('vf9'),
+        mau_noi_that: getInteriorColorsByNames(['granite black'])
     },
     { 
         dong_xe: "vf_9",
@@ -633,7 +734,8 @@ const danh_sach_xe = [
         phien_ban: "VF 9 Plus",
         gia_niem_yet: 1691000000,
         loai_dong_co: "dien",
-        mau_ngoai_that: getColorsForProduct('vf9')
+        mau_ngoai_that: getColorsForProduct('vf9'),
+        mau_noi_that: getInteriorColorsByNames(['saddle brown', 'black'])
     },
     { 
         dong_xe: "vf_9",
@@ -641,7 +743,8 @@ const danh_sach_xe = [
         phien_ban: "VF 9 Plus 6 Chỗ",
         gia_niem_yet: 1691000000,
         loai_dong_co: "dien",
-        mau_ngoai_that: getColorsForProduct('vf9')
+        mau_ngoai_that: getColorsForProduct('vf9'),
+        mau_noi_that: getInteriorColorsByNames(['saddle brown', 'black'])
     },
     
     // MINIO (MINIOGREEN trong dữ liệu màu)
@@ -651,7 +754,8 @@ const danh_sach_xe = [
         phien_ban: "MINIO Green",
         gia_niem_yet: 239000000,
         loai_dong_co: "dien",
-        mau_ngoai_that: getColorsForProduct('nimo_green')
+        mau_ngoai_that: getColorsForProduct('nimo_green'),
+        mau_noi_that: getInteriorColorsByNames(['grey'])
     },
     
     // HERIO
@@ -661,7 +765,8 @@ const danh_sach_xe = [
         phien_ban: "HERIO Green",
         gia_niem_yet: 469000000,
         loai_dong_co: "dien",
-        mau_ngoai_that: getColorsForProduct('herio_green')
+        mau_ngoai_that: getColorsForProduct('herio_green'),
+        mau_noi_that: getInteriorColorsByNames(['granite black'])
     },
     
     // NERIO
@@ -671,7 +776,8 @@ const danh_sach_xe = [
         phien_ban: "NERIO",
         gia_niem_yet: 650000000,
         loai_dong_co: "dien",
-        mau_ngoai_that: getColorsForProduct('nerio_greeb')
+        mau_ngoai_that: getColorsForProduct('nerio_greeb'),
+        mau_noi_that: getInteriorColorsByNames(['black'])
     },
     
     // LIMO
@@ -681,7 +787,8 @@ const danh_sach_xe = [
         phien_ban: "Limo Green",
         gia_niem_yet: 850000000,
         loai_dong_co: "dien",
-        mau_ngoai_that: getColorsForProduct('limo_green')
+        mau_ngoai_that: getColorsForProduct('limo_green'),
+        mau_noi_that: getInteriorColorsByNames(['black'])
     },
     
     // EC Van
@@ -691,7 +798,8 @@ const danh_sach_xe = [
         phien_ban: "EC Van",
         gia_niem_yet: 415000000,
         loai_dong_co: "dien",
-        mau_ngoai_that: getColorsForProduct('ecvan')
+        mau_ngoai_that: getColorsForProduct('ecvan'),
+        mau_noi_that: getInteriorColorsByNames(['black'])
     },
     
     // EC Nâng Cao
@@ -701,7 +809,8 @@ const danh_sach_xe = [
         phien_ban: "EC Nâng Cao Van",
         gia_niem_yet: 476000000,
         loai_dong_co: "dien",
-        mau_ngoai_that: getColorsForProduct('ecvan')
+        mau_ngoai_that: getColorsForProduct('ecvan'),
+        mau_noi_that: getInteriorColorsByNames(['black'])
     }
 ]
 

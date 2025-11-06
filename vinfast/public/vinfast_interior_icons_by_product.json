@@ -1,0 +1,30 @@
+{
+  "VF3": [
+    {
+      "code": "CI11",
+      "name": "Black",
+      "icon": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw9a153245/images/deposit/interior/CI11.webp"
+    }
+  ],
+  "VF9": [
+    {
+      "code": "CI1M",
+      "name": "Grey",
+      "icon": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw33eb76b4/images/deposit/interior/CI1M.webp"
+    }
+  ],
+  "VF7": [
+    {
+      "code": "CI18",
+      "name": "Mocca Brown",
+      "icon": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw8df6787c/images/deposit/interior/CI18.webp"
+    }
+  ],
+  "VF8": [
+    {
+      "code": "CI12",
+      "name": "Saddle Brown",
+      "icon": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw65203801/images/deposit/interior/CI12.webp"
+    }
+  ]
+}
