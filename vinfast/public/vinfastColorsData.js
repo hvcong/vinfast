@@ -1,0 +1,431 @@
+// VinFast Colors Data
+export const vinfastColorsData = {
+  "ECVAN": {
+    "model_name": "ECVAN",
+    "total_colors": 4,
+    "colors": [
+      {
+        "code": "CE18",
+        "name": "",
+        "car_image_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw5c48778b/images/ECVAN/TG10V/CE18.webp",
+        "color_icon_url": ""
+      },
+      {
+        "code": "CE1M",
+        "name": "",
+        "car_image_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwf77a99e9/images/ECVAN/TG10V/CE1M.webp",
+        "color_icon_url": ""
+      },
+      {
+        "code": "CE1U",
+        "name": "",
+        "car_image_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw98cd8878/images/ECVAN/TG10V/CE1U.webp",
+        "color_icon_url": ""
+      },
+      {
+        "code": "CE1W",
+        "name": "",
+        "car_image_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw1df7d0ef/images/ECVAN/TG10V/CE1W.webp",
+        "color_icon_url": ""
+      }
+    ]
+  },
+  "HERIOGREEN": {
+    "model_name": "HERIOGREEN",
+    "total_colors": 4,
+    "colors": [
+      {
+        "code": "CE11",
+        "name": "",
+        "car_image_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwec051223/images/HerioGreen/GA1QV/CE11.webp",
+        "color_icon_url": ""
+      },
+      {
+        "code": "CE17",
+        "name": "",
+        "car_image_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwb821ed3f/images/HerioGreen/GA1QV/CE17.webp",
+        "color_icon_url": ""
+      },
+      {
+        "code": "CE1M",
+        "name": "",
+        "car_image_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw5c4d321f/images/HerioGreen/GA1QV/CE1M.webp",
+        "color_icon_url": ""
+      },
+      {
+        "code": "CE1U",
+        "name": "",
+        "car_image_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw4133c4e7/images/HerioGreen/GA1QV/CE1U.webp",
+        "color_icon_url": ""
+      }
+    ]
+  },
+  "LIMOGREEN": {
+    "model_name": "LIMOGREEN",
+    "total_colors": 4,
+    "colors": [
+      {
+        "code": "CE11",
+        "name": "",
+        "car_image_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw253b7a82/images/LimoGreen/SL1VV/CE11.webp",
+        "color_icon_url": ""
+      },
+      {
+        "code": "CE17",
+        "name": "",
+        "car_image_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwe5430911/images/LimoGreen/SL1VV/CE17.webp",
+        "color_icon_url": ""
+      },
+      {
+        "code": "CE1M",
+        "name": "",
+        "car_image_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw2c17d02e/images/LimoGreen/SL1VV/CE1M.webp",
+        "color_icon_url": ""
+      },
+      {
+        "code": "CE1U",
+        "name": "",
+        "car_image_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw11f0d527/images/LimoGreen/SL1VV/CE1U.webp",
+        "color_icon_url": ""
+      }
+    ]
+  },
+  "MINIOGREEN": {
+    "model_name": "MINIOGREEN",
+    "total_colors": 14,
+    "colors": [
+      {
+        "code": "1117",
+        "name": "",
+        "car_image_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw6a02a423/images/MinioGreen/TH12V/1117.webp",
+        "color_icon_url": ""
+      },
+      {
+        "code": "181M",
+        "name": "",
+        "car_image_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwa4154af5/images/MinioGreen/TH12V/181M.webp",
+        "color_icon_url": ""
+      },
+      {
+        "code": "181U",
+        "name": "",
+        "car_image_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw8509640a/images/MinioGreen/TH12V/181U.webp",
+        "color_icon_url": ""
+      },
+      {
+        "code": "182I",
+        "name": "",
+        "car_image_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw43f70966/images/MinioGreen/TH12V/182I.webp",
+        "color_icon_url": ""
+      },
+      {
+        "code": "182K",
+        "name": "",
+        "car_image_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwf543b132/images/MinioGreen/TH12V/182K.webp",
+        "color_icon_url": ""
+      },
+      {
+        "code": "1P2K",
+        "name": "",
+        "car_image_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw6b4005ab/images/MinioGreen/TH12V/1P2K.webp",
+        "color_icon_url": ""
+      },
+      {
+        "code": "1U11",
+        "name": "",
+        "car_image_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw4070a884/images/MinioGreen/TH12V/1U11.webp",
+        "color_icon_url": ""
+      },
+      {
+        "code": "1U2I",
+        "name": "",
+        "car_image_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwab6f48f3/images/MinioGreen/TH12V/1U2I.webp",
+        "color_icon_url": ""
+      },
+      {
+        "code": "CE11",
+        "name": "",
+        "car_image_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwf23fb6a1/images/MinioGreen/TH12V/CE11.webp",
+        "color_icon_url": ""
+      },
+      {
+        "code": "CE17",
+        "name": "",
+        "car_image_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw0dc5937a/images/MinioGreen/TH12V/CE17.webp",
+        "color_icon_url": ""
+      },
+      {
+        "code": "CE1M",
+        "name": "",
+        "car_image_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw9691ed87/images/MinioGreen/TH12V/CE1M.webp",
+        "color_icon_url": ""
+      },
+      {
+        "code": "CE1U",
+        "name": "",
+        "car_image_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwaeea1413/images/MinioGreen/TH12V/CE1U.webp",
+        "color_icon_url": ""
+      },
+      {
+        "code": "CE2I",
+        "name": "",
+        "car_image_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwd9828d8e/images/MinioGreen/TH12V/CE2I.webp",
+        "color_icon_url": ""
+      },
+      {
+        "code": "CE2K",
+        "name": "",
+        "car_image_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwdb061a35/images/MinioGreen/TH12V/CE2K.webp",
+        "color_icon_url": ""
+      }
+    ]
+  },
+  "NERIOGREEN": {
+    "model_name": "NERIOGREEN",
+    "total_colors": 4,
+    "colors": [
+      {
+        "code": "CE11",
+        "name": "",
+        "car_image_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw69d29b94/images/NerioGreen/GK1DV/CE11.webp",
+        "color_icon_url": ""
+      },
+      {
+        "code": "CE17",
+        "name": "",
+        "car_image_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw2309112d/images/NerioGreen/GK1DV/CE17.webp",
+        "color_icon_url": ""
+      },
+      {
+        "code": "CE1M",
+        "name": "",
+        "car_image_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwd7020583/images/NerioGreen/GK1DV/CE1M.webp",
+        "color_icon_url": ""
+      },
+      {
+        "code": "CE1U",
+        "name": "",
+        "car_image_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwc51cb34b/images/NerioGreen/GK1DV/CE1U.webp",
+        "color_icon_url": ""
+      }
+    ]
+  },
+  "VF5": {
+    "model_name": "VF5",
+    "total_colors": 6,
+    "colors": [
+      {
+        "code": "111U",
+        "name": "",
+        "car_image_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwf62f0986/images/VF5/GA12V/111U.webp",
+        "color_icon_url": ""
+      },
+      {
+        "code": "181Y",
+        "name": "",
+        "car_image_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw6a8286c7/images/VF5/GA12V/181Y.webp",
+        "color_icon_url": ""
+      },
+      {
+        "code": "CE18",
+        "name": "",
+        "car_image_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw15a07f69/images/VF5/GA12V/CE18.webp",
+        "color_icon_url": ""
+      },
+      {
+        "code": "CE1M",
+        "name": "",
+        "car_image_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw3ceb9d0f/images/VF5/GA12V/CE1M.webp",
+        "color_icon_url": ""
+      },
+      {
+        "code": "CE1V",
+        "name": "",
+        "car_image_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw571c8451/images/VF5/GA12V/CE1V.webp",
+        "color_icon_url": ""
+      },
+      {
+        "code": "CE1W",
+        "name": "",
+        "car_image_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwfa8dfe57/images/VF5/GA12V/CE1W.webp",
+        "color_icon_url": ""
+      }
+    ]
+  },
+  "VF6": {
+    "model_name": "VF6",
+    "total_colors": 5,
+    "colors": [
+      {
+        "code": "CE11",
+        "name": "",
+        "car_image_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw93093fe2/images/VF6/JB12V/CE11.webp",
+        "color_icon_url": ""
+      },
+      {
+        "code": "CE18",
+        "name": "",
+        "car_image_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw66b28186/images/VF6/JB12V/CE18.webp",
+        "color_icon_url": ""
+      },
+      {
+        "code": "CE1M",
+        "name": "",
+        "car_image_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwb1100c8f/images/VF6/JB12V/CE1M.webp",
+        "color_icon_url": ""
+      },
+      {
+        "code": "CE1V",
+        "name": "",
+        "car_image_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw1a6f13c2/images/VF6/JB12V/CE1V.webp",
+        "color_icon_url": ""
+      },
+      {
+        "code": "CE1W",
+        "name": "",
+        "car_image_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwf17afb72/images/VF6/JB12V/CE1W.webp",
+        "color_icon_url": ""
+      }
+    ]
+  },
+  "VF7": {
+    "model_name": "VF7",
+    "total_colors": 5,
+    "colors": [
+      {
+        "code": "CE11",
+        "name": "",
+        "car_image_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw06ef2b07/images/VF7/GC12V/CE11.webp",
+        "color_icon_url": ""
+      },
+      {
+        "code": "CE18",
+        "name": "",
+        "car_image_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw4880850d/images/VF7/GC12V/CE18.webp",
+        "color_icon_url": ""
+      },
+      {
+        "code": "CE1M",
+        "name": "",
+        "car_image_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwe99d5f22/images/VF7/GC12V/CE1M.webp",
+        "color_icon_url": ""
+      },
+      {
+        "code": "CE1V",
+        "name": "",
+        "car_image_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw4486ff28/images/VF7/GC12V/CE1V.webp",
+        "color_icon_url": ""
+      },
+      {
+        "code": "CE1W",
+        "name": "",
+        "car_image_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwebf3fab6/images/VF7/GC12V/CE1W.webp",
+        "color_icon_url": ""
+      }
+    ]
+  },
+  "VF8": {
+    "model_name": "VF8",
+    "total_colors": 8,
+    "colors": [
+      {
+        "code": "171V",
+        "name": "",
+        "car_image_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwa349f493/images/VF8/ND31V/171V.webp",
+        "color_icon_url": ""
+      },
+      {
+        "code": "1V18",
+        "name": "",
+        "car_image_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwf71b68ce/images/VF8/ND31V/1V18.webp",
+        "color_icon_url": ""
+      },
+      {
+        "code": "2911",
+        "name": "",
+        "car_image_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw5ab1cf86/images/VF8/ND31V/2911.webp",
+        "color_icon_url": ""
+      },
+      {
+        "code": "2927",
+        "name": "",
+        "car_image_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw19366c63/images/VF8/ND31V/2927.webp",
+        "color_icon_url": ""
+      },
+      {
+        "code": "CE11",
+        "name": "",
+        "car_image_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw19321e63/images/VF8/ND31V/CE11.webp",
+        "color_icon_url": ""
+      },
+      {
+        "code": "CE18",
+        "name": "",
+        "car_image_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwafc3ac80/images/VF8/ND31V/CE18.webp",
+        "color_icon_url": ""
+      },
+      {
+        "code": "CE1M",
+        "name": "",
+        "car_image_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw65f5fd6d/images/VF8/ND31V/CE1M.webp",
+        "color_icon_url": ""
+      },
+      {
+        "code": "CE22",
+        "name": "",
+        "car_image_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw5aa8e062/images/VF8/ND31V/CE22.webp",
+        "color_icon_url": ""
+      }
+    ]
+  },
+  "VF9": {
+    "model_name": "VF9",
+    "total_colors": 7,
+    "colors": [
+      {
+        "code": "CE11",
+        "name": "",
+        "car_image_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw9f28c7cd/images/VF9/NE3NV/CE11.webp",
+        "color_icon_url": ""
+      },
+      {
+        "code": "CE17",
+        "name": "",
+        "car_image_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw9386fa1c/images/VF9/NE3NV/CE17.webp",
+        "color_icon_url": ""
+      },
+      {
+        "code": "CE18",
+        "name": "",
+        "car_image_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwd1845889/images/VF9/NE3NV/CE18.webp",
+        "color_icon_url": ""
+      },
+      {
+        "code": "CE1M",
+        "name": "",
+        "car_image_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw1cc6342e/images/VF9/NE3NV/CE1M.webp",
+        "color_icon_url": ""
+      },
+      {
+        "code": "CE1V",
+        "name": "",
+        "car_image_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw24a20061/images/VF9/NE3NV/CE1V.webp",
+        "color_icon_url": ""
+      },
+      {
+        "code": "CE1W",
+        "name": "",
+        "car_image_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw609cbf4b/images/VF9/NE3NV/CE1W.webp",
+        "color_icon_url": ""
+      },
+      {
+        "code": "CE22",
+        "name": "",
+        "car_image_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dweca0851a/images/VF9/NE3NV/CE22.webp",
+        "color_icon_url": ""
+      }
+    ]
+  }
+};
+
+export default vinfastColorsData;

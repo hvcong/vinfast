@@ -569,6 +569,61 @@
         cursor: pointer;
       }
 
+      /* Version Radio Buttons - Enhanced style */
+      .version-radio-item {
+        display: flex;
+        align-items: center;
+        padding: 12px 16px;
+        border: 2px solid #e2e8f0;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s;
+        background: white;
+      }
+
+      .version-radio-item:hover {
+        border-color: #3182ce;
+        background: #f7fafc;
+      }
+
+      .version-radio-item.selected {
+        border-color: #3182ce;
+        background: #ebf8ff;
+      }
+
+      .version-radio-item input[type="radio"] {
+        width: 18px;
+        height: 18px;
+        cursor: pointer;
+        accent-color: #3182ce;
+        margin-right: 12px;
+      }
+
+      .version-radio-content {
+        flex: 1;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .version-radio-label {
+        font-size: 14px;
+        font-weight: 500;
+        color: #333;
+        cursor: pointer;
+      }
+
+      .version-radio-price {
+        font-size: 14px;
+        font-weight: 600;
+        color: #3182ce;
+      }
+
+      .version-radio-item.selected .version-radio-label {
+        font-weight: 600;
+        color: #3182ce;
+      }
+
       /* Loan Section */
       .loan-card {
         background: white;
@@ -1018,23 +1073,25 @@
             </div>
             <!-- Configuration Sections -->
             <div class="config-section">
-              <div class="config-title">1. Chọn mẫu xe & phiên bản</div>
-              <div class="dropdown-group">
-                <div class="dropdown-wrapper">
-                  <select class="dropdown" id="carModel">
-                    <!-- Options will be populated dynamically from database -->
-                  </select>
-                </div>
-                <div class="dropdown-wrapper">
-                  <select class="dropdown" id="carVersion">
-                    <!-- Options will be populated dynamically based on selected car model -->
-                  </select>
-                </div>
+              <div class="config-title">1. Chọn mẫu xe</div>
+              <div class="dropdown-wrapper">
+                <select class="dropdown" id="carModel">
+                  <!-- Options will be populated dynamically from database -->
+                </select>
               </div>
             </div>
 
             <div class="config-section">
-              <div class="config-title">2. Tuỳ chọn ngoại thất & nội thất</div>
+              <div class="config-title">2. Chọn phiên bản</div>
+              <div class="radio-group" id="carVersionRadioGroup">
+                <!-- Radio options will be populated dynamically based on selected car model -->
+              </div>
+              <!-- Hidden select for backward compatibility -->
+              <select style="display: none;" id="carVersion"></select>
+            </div>
+
+            <div class="config-section">
+              <div class="config-title">3. Tuỳ chọn ngoại thất</div>
 
               <div style="margin-bottom: 20px">
                 <label class="form-label">Ngoại thất</label>
@@ -1045,20 +1102,10 @@
                   <!-- Hidden select for form compatibility -->
                 </select>
               </div>
-
-              <div style="display: none">
-                <label class="form-label">Nội thất</label>
-                <div class="color-picker" id="interiorColorPicker">
-                  <!-- Color options will be populated dynamically -->
-                </div>
-                <select class="color-select-hidden" id="interiorColor">
-                  <!-- Hidden select for form compatibility -->
-                </select>
-              </div>
             </div>
 
             <div class="config-section">
-              <div class="config-title">3. Chọn nơi đăng ký biển số</div>
+              <div class="config-title">4. Chọn nơi đăng ký biển số</div>
               <div class="dropdown-wrapper">
                 <select class="dropdown" id="registrationLocation">
                   <option value="hcm">TP. Hồ Chí Minh</option>
@@ -1381,8 +1428,11 @@
       };
 
       // Populate car versions based on selected model
-      function populateCarVersions(carModel) {
+      function populateCarVersions(carModel, keepCurrentColor = false) {
+        const versionRadioGroup = document.getElementById("carVersionRadioGroup");
         const versionSelect = document.getElementById("carVersion");
+        
+        versionRadioGroup.innerHTML = "";
         versionSelect.innerHTML = "";
 
         // Get all versions for this car model from danh_sach_xe
@@ -1390,6 +1440,68 @@
 
         if (versions.length > 0) {
           versions.forEach((version, index) => {
+            // Create radio item wrapper
+            const radioItem = document.createElement("div");
+            radioItem.className = "version-radio-item";
+            if (index === 0) radioItem.classList.add("selected");
+
+            // Create radio input
+            const radioInput = document.createElement("input");
+            radioInput.type = "radio";
+            radioInput.id = `version_${version.phien_ban.replace(/\s+/g, '_')}`;
+            radioInput.name = "carVersion";
+            radioInput.value = version.phien_ban;
+            radioInput.dataset.price = version.gia_niem_yet;
+            radioInput.dataset.carModel = version.dong_xe;
+            radioInput.dataset.imageInterior = version.hinh_anh_noi;
+            if (index === 0) radioInput.checked = true;
+
+            // Create content wrapper
+            const contentWrapper = document.createElement("div");
+            contentWrapper.className = "version-radio-content";
+
+            // Create label
+            const label = document.createElement("label");
+            label.className = "version-radio-label";
+            label.htmlFor = radioInput.id;
+            label.textContent = version.phien_ban;
+
+            // Create price display
+            const priceSpan = document.createElement("span");
+            priceSpan.className = "version-radio-price";
+            priceSpan.textContent = formatCurrency(version.gia_niem_yet);
+
+            // Assemble the radio item
+            contentWrapper.appendChild(label);
+            contentWrapper.appendChild(priceSpan);
+            radioItem.appendChild(radioInput);
+            radioItem.appendChild(contentWrapper);
+
+            // Add click handler to the entire item
+            radioItem.addEventListener("click", function() {
+              // Update all radio items
+              versionRadioGroup.querySelectorAll(".version-radio-item").forEach(item => {
+                item.classList.remove("selected");
+              });
+              radioItem.classList.add("selected");
+              radioInput.checked = true;
+
+              // Update hidden select - select the matching option
+              const optionToSelect = Array.from(versionSelect.options).find(
+                opt => opt.value === version.phien_ban
+              );
+              if (optionToSelect) {
+                versionSelect.value = version.phien_ban;
+                optionToSelect.selected = true;
+              }
+              
+              // Trigger change event on the hidden select
+              versionSelect.dispatchEvent(new Event("change", { bubbles: true }));
+            });
+
+            versionRadioGroup.appendChild(radioItem);
+
+            // Also populate hidden select for backward compatibility
             const option = document.createElement("option");
             option.value = version.phien_ban;
             option.textContent = version.phien_ban;
@@ -1400,9 +1512,10 @@
             versionSelect.appendChild(option);
           });
 
-          // Update car images and color options after populating versions
+          // IMPORTANT: Populate colors FIRST, then update images
+          // This ensures color is selected before trying to display it
+          populateColorOptions(keepCurrentColor);
           updateCarImages();
-          populateColorOptions();
         } else {
           // Fallback if no data found
           const option = document.createElement("option");
@@ -1421,11 +1534,15 @@
           versionSelect.options[versionSelect.selectedIndex];
         const exteriorColorSelect = document.getElementById("exteriorColor");
         const selectedExteriorColor = exteriorColorSelect.value;
-        const interiorColorSelect = document.getElementById("interiorColor");
-        const selectedInteriorColor = interiorColorSelect.value;
 
         const exteriorImg = document.getElementById("carImageExterior");
         const interiorImg = document.getElementById("carImageInterior");
+
+        // If no color is selected yet, don't update images
+        if (!selectedExteriorColor) {
+          console.warn("No exterior color selected yet, skipping image update");
+          return;
+        }
 
         // Remove any existing animation classes first
         exteriorImg.classList.remove("fade-out", "fade-in");
@@ -1453,58 +1570,25 @@
                 (mau) => mau.ma_mau === selectedExteriorColor
               );
               if (exteriorColorData) {
-                // Support both 'icon' (VF3) and 'hinh_anh_ngoai' (other cars)
-                const imageSource =
-                  exteriorColorData.icon || exteriorColorData.hinh_anh_ngoai;
+                // Use hinh_anh_ngoai for main car image display
+                const imageSource = exteriorColorData.hinh_anh_ngoai;
                 if (imageSource) {
                   exteriorImg.src = imageSource;
+                } else {
+                  // Fallback to first color if selected color has no image
+                  const fallbackImage = selectedCar.mau_ngoai_that[0]?.hinh_anh_ngoai;
+                  if (fallbackImage) {
+                    exteriorImg.src = fallbackImage;
+                  }
                 }
               }
             }
 
-            // Update interior image based on selected interior color
-            if (selectedInteriorColor) {
-              const interiorColorData = selectedCar.mau_noi_that.find((mau) => {
-                // Support both old format (string) and new format (object)
-                const maMau = typeof mau === "string" ? mau : mau.ma_mau;
-                return maMau === selectedInteriorColor;
-              });
-
-              if (interiorColorData && typeof interiorColorData === "object") {
-                // ALWAYS use image from car data (icon or hinh_anh_noi), NOT from metadata
-                const imageSource =
-                  interiorColorData.icon || interiorColorData.hinh_anh_noi;
-                if (imageSource) {
-                  interiorImg.src = imageSource;
-                } else if (selectedCar.hinh_anh_noi) {
-                  // Fallback: use default interior image
-                  interiorImg.src = selectedCar.hinh_anh_noi;
-                }
-              } else if (selectedCar.hinh_anh_noi) {
-                // Fallback: use default interior image
-                interiorImg.src = selectedCar.hinh_anh_noi;
-              }
-            } else {
-              // No color selected - use first available interior image or default
-              if (
-                selectedCar.mau_noi_that &&
-                selectedCar.mau_noi_that.length > 0
-              ) {
-                const firstInterior = selectedCar.mau_noi_that[0];
-                if (typeof firstInterior === "object") {
-                  const imageSource =
-                    firstInterior.icon || firstInterior.hinh_anh_noi;
-                  if (imageSource) {
-                    interiorImg.src = imageSource;
-                  } else if (selectedCar.hinh_anh_noi) {
-                    interiorImg.src = selectedCar.hinh_anh_noi;
-                  }
-                } else if (selectedCar.hinh_anh_noi) {
-                  interiorImg.src = selectedCar.hinh_anh_noi;
-                }
-              } else if (selectedOption.dataset.imageInterior) {
-                interiorImg.src = selectedOption.dataset.imageInterior;
-              }
+            // Update interior image - always use default from car data
+            if (selectedCar.hinh_anh_noi) {
+              interiorImg.src = selectedCar.hinh_anh_noi;
+            } else if (selectedOption.dataset.imageInterior) {
+              interiorImg.src = selectedOption.dataset.imageInterior;
             }
           }
 
@@ -1525,7 +1609,7 @@
       }
 
       // Populate color options based on selected car version
-      function populateColorOptions() {
+      function populateColorOptions(keepCurrentColor = false) {
         const versionSelect = document.getElementById("carVersion");
         const selectedVersion = versionSelect.value;
 
@@ -1541,9 +1625,23 @@
           "exteriorColorPicker"
         );
         const exteriorColorSelect = document.getElementById("exteriorColor");
-        const currentExteriorColor = exteriorColorSelect.value;
+        const currentExteriorColor = keepCurrentColor ? exteriorColorSelect.value : null;
+        
         exteriorColorPicker.innerHTML = "";
         exteriorColorSelect.innerHTML = "";
+
+        // Check if current color exists in new car's color list
+        let colorExists = false;
+        if (currentExteriorColor) {
+          colorExists = selectedCar.mau_ngoai_that.some(
+            colorData => colorData.ma_mau === currentExteriorColor
+          );
+        }
+
+        // If color doesn't exist or we're not keeping it, select first color
+        let selectedColorCode = (colorExists && currentExteriorColor) 
+          ? currentExteriorColor 
+          : selectedCar.mau_ngoai_that[0]?.ma_mau;
 
         selectedCar.mau_ngoai_that.forEach((colorData, index) => {
           const colorInfo = getDataByKey(colors, "ma_mau", colorData.ma_mau);
@@ -1551,12 +1649,12 @@
             // Create visual color option
             const colorOption = document.createElement("div");
             colorOption.className = "color-option";
-            colorOption.dataset.color = colorInfo.ma_mau;
+            colorOption.dataset.color = colorData.ma_mau;
 
             const img = document.createElement("img");
-            // Always use icon from colors metadata for color picker display
-            img.src = colorInfo.icon;
-            img.alt = colorInfo.ten_mau;
+            // Use icon from colorData (has color_icon_url from database.js)
+            img.src = colorData.icon || colorInfo.icon;
+            img.alt = colorData.ten_mau || colorInfo.ten_mau;
 
             const label = document.createElement("div");
             label.className = "color-option-label";
@@ -1565,10 +1663,8 @@
             colorOption.appendChild(img);
             colorOption.appendChild(label);
 
-            // Select first color as default if no current selection
-            if (index === 0 && !currentExteriorColor) {
-              colorOption.classList.add("selected");
-            } else if (colorInfo.ma_mau === currentExteriorColor) {
+            // Mark selected color
+            if (colorInfo.ma_mau === selectedColorCode) {
               colorOption.classList.add("selected");
             }
 
@@ -1594,81 +1690,10 @@
             const option = document.createElement("option");
             option.value = colorInfo.ma_mau;
             option.textContent = colorInfo.ten_mau;
-            if (index === 0 && !currentExteriorColor) {
-              option.selected = true;
-            } else if (colorInfo.ma_mau === currentExteriorColor) {
+            if (colorInfo.ma_mau === selectedColorCode) {
               option.selected = true;
             }
             exteriorColorSelect.appendChild(option);
-          }
-        });
-
-        // Populate interior colors
-        const interiorColorPicker = document.getElementById(
-          "interiorColorPicker"
-        );
-        const interiorColorSelect = document.getElementById("interiorColor");
-        const currentInteriorColor = interiorColorSelect.value;
-        interiorColorPicker.innerHTML = "";
-        interiorColorSelect.innerHTML = "";
-
-        selectedCar.mau_noi_that.forEach((item, index) => {
-          // Support both old format (string) and new format (object)
-          const maMau = typeof item === "string" ? item : item.ma_mau;
-          const colorInfo = getDataByKey(colors, "ma_mau", maMau);
-          if (colorInfo) {
-            // Create visual color option
-            const colorOption = document.createElement("div");
-            colorOption.className = "color-option";
-            colorOption.dataset.color = colorInfo.ma_mau;
-
-            const img = document.createElement("img");
-            // Always use icon from colors metadata for color picker display
-            img.src = colorInfo.icon;
-            img.alt = colorInfo.ten_mau;
-
-            const label = document.createElement("div");
-            label.className = "color-option-label";
-            label.textContent = colorInfo.ten_mau;
-
-            colorOption.appendChild(img);
-            colorOption.appendChild(label);
-
-            // Select first color as default if no current selection
-            if (index === 0 && !currentInteriorColor) {
-              colorOption.classList.add("selected");
-            } else if (colorInfo.ma_mau === currentInteriorColor) {
-              colorOption.classList.add("selected");
-            }
-
-            // Add click event
-            colorOption.addEventListener("click", function () {
-              // Remove selected class from all options
-              interiorColorPicker
-                .querySelectorAll(".color-option")
-                .forEach((opt) => {
-                  opt.classList.remove("selected");
-                });
-              // Add selected class to clicked option
-              this.classList.add("selected");
-              // Update hidden select
-              interiorColorSelect.value = this.dataset.color;
-              // Trigger change event
-              interiorColorSelect.dispatchEvent(new Event("change"));
-            });
-
-            interiorColorPicker.appendChild(colorOption);
-
-            // Also populate hidden select for form compatibility
-            const option = document.createElement("option");
-            option.value = colorInfo.ma_mau;
-            option.textContent = colorInfo.ten_mau;
-            if (index === 0 && !currentInteriorColor) {
-              option.selected = true;
-            } else if (colorInfo.ma_mau === currentInteriorColor) {
-              option.selected = true;
-            }
-            interiorColorSelect.appendChild(option);
           }
         });
       }
@@ -1958,14 +1983,16 @@
       document
         .getElementById("carModel")
         .addEventListener("change", function () {
-          populateCarVersions(this.value);
+          // When changing car model, don't keep current color (reset to default)
+          populateCarVersions(this.value, false);
           calculateAll();
         });
       document
         .getElementById("carVersion")
         .addEventListener("change", function () {
+          // When changing version within same model, try to keep current color
+          populateColorOptions(true);
           updateCarImages();
-          populateColorOptions();
           calculateAll();
         });
       document
@@ -1997,12 +2024,6 @@
       // Color changes
       document
         .getElementById("exteriorColor")
-        .addEventListener("change", function () {
-          updateCarImages();
-          calculateAll();
-        });
-      document
-        .getElementById("interiorColor")
         .addEventListener("change", function () {
           updateCarImages();
           calculateAll();
@@ -2041,9 +2062,6 @@
         const exteriorColorSelect = document.getElementById("exteriorColor");
         const exteriorColorText =
           exteriorColorSelect.options[exteriorColorSelect.selectedIndex].text;
-        const interiorColorSelect = document.getElementById("interiorColor");
-        const interiorColorText =
-          interiorColorSelect.options[interiorColorSelect.selectedIndex].text;
 
         // Get registration location
         const registrationLocationSelect = document.getElementById(
@@ -2228,7 +2246,6 @@
           carModel: carModelText,
           carVersion: carVersionText,
           exteriorColor: exteriorColorText,
-          interiorColor: interiorColorText,
           registrationLocation: registrationLocationText,
           carBasePrice: basePrice,
           carDiscount: totalDiscount,
@@ -2318,19 +2335,12 @@
           const defaultModel = populateCarModels();
           console.log("✅ Selected default model:", defaultModel);
 
-          // Step 2: Populate versions for the default model
-          console.log("🔧 Loading car versions...");
-          populateCarVersions(defaultModel || "vf_3");
+          // Step 2: Populate versions, colors, and images for the default model
+          // populateCarVersions already calls populateColorOptions and updateCarImages in correct order
+          console.log("� Loading car versions, colors, and images...");
+          populateCarVersions(defaultModel || "vf_3", false);
 
-          // Step 3: Populate colors for the default version
-          console.log("🎨 Loading color options...");
-          populateColorOptions();
-
-          // Step 4: Update car images with default color
-          console.log("🖼️ Loading car images...");
-          updateCarImages();
-
-          // Step 5: Calculate and display all costs
+          // Step 3: Calculate and display all costs
           console.log("💰 Calculating costs...");
           calculateAll();
 
@@ -2393,7 +2403,10 @@
       </div>
     </div>
 
-    <!-- Import database.js FIRST - CRITICAL -->
+    <!-- Import vinfast_images_metadata.js FIRST - Required by database.js -->
+    <script src="vinfast_images_metadata.js"></script>
+    
+    <!-- Import database.js SECOND - Depends on vinfast_images_metadata -->
     <script src="database.js"></script>
 
     <!-- Swiper JS -->
@@ -2402,6 +2415,10 @@
     <!-- Initialize App After Database Loaded -->
     <script>
       // Check if database is loaded
+      console.log(
+        "🔍 Checking metadata...",
+        typeof vinfast_images_metadata !== "undefined" ? "✅ Loaded" : "❌ Not loaded"
+      );
       console.log(
         "🔍 Checking database...",
         typeof danh_sach_xe !== "undefined" ? "✅ Loaded" : "❌ Not loaded"
