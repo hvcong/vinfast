@@ -208,6 +208,25 @@
     </tr>
   </table> -->
 
+  <div class="section-title">Giá xe & Chương trình khuyến mãi</div>
+  <table>
+    <tr>
+      <td style="width: 50%;"><strong>Giá Xe Đã Bao Gồm VAT</strong></td>
+      <td class="text-right" id="carBasePrice"><strong>0</strong></td>
+    </tr>
+    <tr>
+      <td colspan="2" style="background-color: #e8f0ff;"><strong>Chương trình khuyến mãi</strong></td>
+    </tr>
+    <tr><td style="width: 50%;">Giảm giá khuyến mãi cơ bản</td><td class="text-right" id="basicDiscounts">0</td></tr>
+    <tr><td style="width: 50%;">Giá sau ưu đãi cơ bản</td><td class="text-right" id="priceAfterBasicPromotions">0</td></tr>
+    <tr><td style="width: 50%;">Giảm giá VinClub</td><td class="text-right" id="vinClubDiscount">0</td></tr>
+    <tr><td style="width: 50%;">Hỗ trợ đổi xe xăng → điện</td><td class="text-right" id="convertSupport">0</td></tr>
+    <tr>
+      <td style="background-color: #e8f0ff;"><strong>Giá xuất hóa đơn</strong></td>
+      <td class="text-right" style="background-color: #e8f0ff;" id="carTotal"><strong>0</strong></td>
+    </tr>
+  </table>
+
   <div class="section-title">Chi phí lăn bánh</div>
   <table>
     <tr><td style="width: 8%;">1</td><td style="width: 40%;">Lệ phí trước bạ</td><td style="width: 15%;" id="registrationTax">10%</td><td style="width: 20%;" class="text-right" id="registrationTaxAmount">Miễn Phí</td><td style="width: 17%;" class="text-right">Hóa đơn</td></tr>
@@ -342,6 +361,34 @@
       }
       if (data.interiorColor) {
         document.getElementById('interiorColor').textContent = data.interiorColor;
+      }
+      
+      // Update car price information
+      if (data.carBasePrice !== undefined) {
+        document.getElementById('carBasePrice').textContent = formatCurrency(data.carBasePrice);
+      }
+      
+      // Calculate basic discounts (discount1 + discount2)
+      const basicDiscounts = (data.carBasePrice || 0) - (data.carPriceAfterPromotions || 0);
+      document.getElementById('basicDiscounts').textContent = formatCurrency(basicDiscounts);
+      
+      // Price after basic promotions
+      if (data.carPriceAfterPromotions !== undefined) {
+        document.getElementById('priceAfterBasicPromotions').textContent = formatCurrency(data.carPriceAfterPromotions);
+      }
+      
+      // Calculate VinClub discount
+      const vinClubDiscount = (data.carPriceAfterPromotions || 0) - ((data.carTotal || 0) + (data.convertSupportDiscount || 0));
+      document.getElementById('vinClubDiscount').textContent = formatCurrency(Math.max(0, vinClubDiscount));
+      
+      // Convert support discount
+      if (data.convertSupportDiscount !== undefined) {
+        document.getElementById('convertSupport').textContent = formatCurrency(data.convertSupportDiscount);
+      }
+      
+      // Final car total
+      if (data.carTotal !== undefined) {
+        document.getElementById('carTotal').textContent = formatCurrency(data.carTotal);
       }
       
       // Update registration location
