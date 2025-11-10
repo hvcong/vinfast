@@ -1,4 +1,108 @@
 
+//---------------------------------
+
+
+// Phí 01 năm BH Dân sự
+const phi_bh_dan_su = {
+    'khong_kinh_doanh':{
+            "5cho":530000,
+            "7cho":950000,
+    },
+    'kinh_doanh':{
+            "5cho":850000,
+            "7cho":1200000,
+    },
+}
+
+// Phí lưu hành đường bộ (1 năm)
+const phi_duong_bo = [
+    { loai: "ca_nhan", gia_tri: 1560000 },
+    { loai: "cong_ty", gia_tri: 2160000 }
+]
+
+// Lệ phí trước bạ (xe xăng 10%, xe điện 0%)
+const le_phi_truoc_ba = [
+    { loai: "xe_xang_dau", ten_loai: "Xe xăng/dầu", ty_le: 0.10 },
+    { loai: "xe_dien", ten_loai: "Xe điện", ty_le: 0 }
+]
+
+
+
+// Ưu đãi VinClub
+const uu_dai_vin_club = [
+    { hang: "gold", ten_hang: "Gold", ty_le: 0.005 },
+    { hang: "platinum", ten_hang: "Platinum", ty_le: 0.01 },
+    { hang: "diamond", ten_hang: "Diamond", ty_le: 0.015 }
+]
+
+
+// Phí kiểm định
+const phi_kiem_dinh = 140000
+
+// Hỗ trợ đổi xe xăng sang xe điện
+const ho_tro_doi_xe = [
+    { dong_xe: "vf_3", gia_tri: 5000000 },
+    { dong_xe: "vf_5", gia_tri: 10000000 },
+    { dong_xe: "vf_6", gia_tri: 15000000 },
+    { dong_xe: "vf_7", gia_tri: 50000000 },
+    { dong_xe: "vf_8", gia_tri: 70000000 },
+    { dong_xe: "vf_9", gia_tri: 100000000 },
+    { dong_xe: "herio", gia_tri: 9500000 },
+    { dong_xe: "limo", gia_tri: 15000000 },
+    { dong_xe: "minio", gia_tri: 0 },
+    { dong_xe: "nerio", gia_tri: 0 },
+    { dong_xe: "ec", gia_tri: 0 },
+    { dong_xe: "ec_nang_cao", gia_tri: 0 }
+]
+
+
+// ĐẶT CỌC
+const gia_tri_dat_coc = [
+    { dong_xe: "vf_3", gia_tri: 15000000 },
+    { dong_xe: "vf_5", gia_tri: 20000000 },
+    { dong_xe: "vf_6", gia_tri: 30000000 },
+    { dong_xe: "vf_7", gia_tri: 50000000 },
+    { dong_xe: "vf_8", gia_tri: 50000000 },
+    { dong_xe: "vf_9", gia_tri: 50000000 },
+    { dong_xe: "minio", gia_tri: 15000000 },
+    { dong_xe: "herio", gia_tri: 20000000 },
+    { dong_xe: "nerio", gia_tri: 30000000 },
+    { dong_xe: "limo", gia_tri: 15000000 },
+    { dong_xe: "ec", gia_tri: 15000000 },
+    { dong_xe: "ec_nang_cao", gia_tri: 15000000 }
+]
+
+
+
+// Chương trình Sài Gòn Xanh
+const chuong_trinh_sai_gon_xanh = [
+    { dong_xe: "vf_3", gia_tri: 6000000 },
+    { dong_xe: "vf_5", gia_tri: 10000000 },
+    { dong_xe: "vf_6", gia_tri: 15000000 },
+    { dong_xe: "vf_7", gia_tri: 35000000 },
+    { dong_xe: "vf_8", gia_tri: 50000000 },
+    { dong_xe: "vf_9", gia_tri: 70000000 },
+    { dong_xe: "herio", gia_tri: 5000000 },
+    { dong_xe: "limo", gia_tri: 7500000 },
+    { dong_xe: "minio", gia_tri: 0 },
+    { dong_xe: "nerio", gia_tri: 0 },
+    { dong_xe: "ec", gia_tri: 0 },
+    { dong_xe: "ec_nang_cao", gia_tri: 0 }
+]
+
+
+
+
+
+// Phí cấp biển số
+const phi_cap_bien_so = [
+    { khu_vuc: "ho_chi_minh", ten_khu_vuc: "TP. Hồ Chí Minh", gia_tri: 20000000 },
+    { khu_vuc: "tinh_khac", ten_khu_vuc: "Tỉnh thành khác", gia_tri: 1000000 },
+    { khu_vuc: "tai", ten_khu_vuc: "Tải", gia_tri: 500000 },
+]
+
+
+
 
 // ===========================
 // MÀU SẮC XE - Dữ liệu màu mới từ VinFast Shop (với icon)
@@ -482,6 +586,365 @@ const vinfast_colors_data = {
     }
 };
 
+
+// Dữ liệu màu sắc đã cào từ website VinFast
+const ngoai_that_colors = [
+
+    {
+        "code": "CE18",
+        "name": "Infinity Blanc",
+        "car_image_url": "vinfast_images/vf3/Infinity Blanc.png",
+        "color_icon_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw301d5100/images/deposit/exterior/CE18.webp"
+    },
+    {
+        "code": "CE1M",
+        "name": "Crimson Red",
+        "color_icon_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw2082ad33/images/deposit/exterior/CE1M.webp"
+    },
+    {
+        "code": "CE1V",
+        "name": "Zenith Grey",
+        "color_icon_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwb6055fb1/images/deposit/exterior/CE1V.webp"
+    },
+    {
+        "code": "181U",
+        "name": "Summer Yellow Body - Infinity Blanc Roof",
+        "color_icon_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw501ea74b/images/deposit/exterior/181U.webp"
+    },
+    {
+        "code": "181Y",
+        "name": "Sky Blue - Infinity Blanc Roof",
+        "color_icon_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwd21e2648/images/deposit/exterior/181Y.webp"
+    },
+    {
+        "code": "1821",
+        "name": "Rose Pink Body - Infinity Blanc Roof",
+        "color_icon_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw27ac3178/images/deposit/exterior/1821.webp"
+    },
+    {
+        "code": "CE1W",
+        "name": "Urban Mint",
+        "color_icon_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw7b58dad2/images/deposit/exterior/CE1W.webp"
+    },
+
+    // Fill known names for repeat occurrences
+    {
+        "code": "CE18",
+        "name": "Infinity Blanc",
+        "color_icon_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw301d5100/images/deposit/exterior/CE18.webp"
+    },
+    {
+        "code": "CE1M",
+        "name": "Crimson Red",
+        "color_icon_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw2082ad33/images/deposit/exterior/CE1M.webp"
+    },
+    {
+        "code": "CE1U",
+        "name": "",
+        "color_icon_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwc9b013f0/images/deposit/exterior/CE1U.webp"
+    },
+    {
+        "code": "CE1W",
+        "name": "Urban Mint",
+        "color_icon_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw7b58dad2/images/deposit/exterior/CE1W.webp"
+    },
+
+    {
+        "code": "CE11",
+        "name": "",
+        "color_icon_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwf37040d4/images/deposit/exterior/CE11.webp"
+    },
+    {
+        "code": "CE17",
+        "name": "",
+        "color_icon_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw28c4ad7c/images/deposit/exterior/CE17.webp"
+    },
+    {
+        "code": "CE1M",
+        "name": "Crimson Red",
+        "color_icon_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw2082ad33/images/deposit/exterior/CE1M.webp"
+    },
+    {
+        "code": "CE1U",
+        "name": "",
+        "color_icon_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwc9b013f0/images/deposit/exterior/CE1U.webp"
+    },
+
+    {
+        "code": "CE11",
+        "name": "",
+        "color_icon_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwf37040d4/images/deposit/exterior/CE11.webp"
+    },
+    {
+        "code": "CE17",
+        "name": "",
+        "color_icon_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw28c4ad7c/images/deposit/exterior/CE17.webp"
+    },
+    {
+        "code": "CE1M",
+        "name": "Crimson Red",
+        "color_icon_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw2082ad33/images/deposit/exterior/CE1M.webp"
+    },
+    {
+        "code": "CE1U",
+        "name": "",
+        "color_icon_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwc9b013f0/images/deposit/exterior/CE1U.webp"
+    }
+    ,
+    {
+        "code": "1117",
+        "name": "",
+        "color_icon_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwee4df7b2/images/deposit/exterior/1117.webp"
+    },
+    {
+        "code": "181M",
+        "name": "",
+        "color_icon_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwd44dfddd/images/deposit/exterior/181M.webp"
+    },
+    {
+        "code": "181U",
+        "name": "Summer Yellow Body - Infinity Blanc Roof",
+        "color_icon_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw501ea74b/images/deposit/exterior/181U.webp"
+    },
+    {
+        "code": "182I",
+        "name": "",
+        "color_icon_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw45a6f569/images/deposit/exterior/182I.webp"
+    },
+    {
+        "code": "182K",
+        "name": "",
+        "color_icon_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw4aaf29c5/images/deposit/exterior/182K.webp"
+    },
+    {
+        "code": "1P2K",
+        "name": "",
+        "color_icon_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwe33018bd/images/deposit/exterior/1P2K.webp"
+    },
+    {
+        "code": "1U11",
+        "name": "",
+        "color_icon_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw9f8344b4/images/deposit/exterior/1U11.webp"
+    },
+    {
+        "code": "1U2I",
+        "name": "",
+        "color_icon_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw3ffea806/images/deposit/exterior/1U2I.webp"
+    },
+    {
+        "code": "CE11",
+        "name": "",
+        "color_icon_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwf37040d4/images/deposit/exterior/CE11.webp"
+    },
+    {
+        "code": "CE17",
+        "name": "",
+        "color_icon_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw28c4ad7c/images/deposit/exterior/CE17.webp"
+    },
+    {
+        "code": "CE1M",
+        "name": "Crimson Red",
+        "color_icon_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw2082ad33/images/deposit/exterior/CE1M.webp"
+    },
+    {
+        "code": "CE1U",
+        "name": "",
+        "color_icon_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwc9b013f0/images/deposit/exterior/CE1U.webp"
+    },
+    {
+        "code": "CE2I",
+        "name": "",
+        "color_icon_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw0833b90f/images/deposit/exterior/CE2I.webp"
+    },
+    {
+        "code": "CE2K",
+        "name": "",
+        "color_icon_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwc356da37/images/deposit/exterior/CE2K.webp"
+    },
+
+    {
+        "code": "CE11",
+        "name": "",
+        "color_icon_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwf37040d4/images/deposit/exterior/CE11.webp"
+    },
+    {
+        "code": "CE17",
+        "name": "",
+        "color_icon_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw28c4ad7c/images/deposit/exterior/CE17.webp"
+    },
+    {
+        "code": "CE1M",
+        "name": "Crimson Red",
+        "color_icon_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw2082ad33/images/deposit/exterior/CE1M.webp"
+    },
+    {
+        "code": "CE1U",
+        "name": "",
+        "color_icon_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwc9b013f0/images/deposit/exterior/CE1U.webp"
+    }
+    ,
+
+    {
+        "code": "111U",
+        "name": "",
+        "color_icon_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwe1117c5e/images/deposit/exterior/111U.webp"
+    },
+    {
+        "code": "181Y",
+        "name": "Sky Blue - Infinity Blanc Roof",
+        "color_icon_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwd21e2648/images/deposit/exterior/181Y.webp"
+    },
+    {
+        "code": "CE18",
+        "name": "Infinity Blanc",
+        "color_icon_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw301d5100/images/deposit/exterior/CE18.webp"
+    },
+    {
+        "code": "CE1M",
+        "name": "Crimson Red",
+        "color_icon_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw2082ad33/images/deposit/exterior/CE1M.webp"
+    },
+    {
+        "code": "CE1V",
+        "name": "Zenith Grey",
+        "color_icon_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwb6055fb1/images/deposit/exterior/CE1V.webp"
+    },
+    {
+        "code": "CE1W",
+        "name": "Urban Mint",
+        "color_icon_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw7b58dad2/images/deposit/exterior/CE1W.webp"
+    }
+    ,
+
+    {
+        "code": "CE11",
+        "name": "",
+        "color_icon_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwf37040d4/images/deposit/exterior/CE11.webp"
+    },
+    {
+        "code": "CE18",
+        "name": "Infinity Blanc",
+        "color_icon_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw301d5100/images/deposit/exterior/CE18.webp"
+    },
+    {
+        "code": "CE1M",
+        "name": "Crimson Red",
+        "color_icon_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw2082ad33/images/deposit/exterior/CE1M.webp"
+    },
+    {
+        "code": "CE1V",
+        "name": "Zenith Grey",
+        "color_icon_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwb6055fb1/images/deposit/exterior/CE1V.webp"
+    },
+    {
+        "code": "CE1W",
+        "name": "Urban Mint",
+        "color_icon_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw7b58dad2/images/deposit/exterior/CE1W.webp"
+    }
+    ,
+    {
+        "code": "CE11",
+        "name": "",
+        "color_icon_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwf37040d4/images/deposit/exterior/CE11.webp"
+    },
+    {
+        "code": "CE18",
+        "name": "Infinity Blanc",
+        "color_icon_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw301d5100/images/deposit/exterior/CE18.webp"
+    },
+    {
+        "code": "CE1M",
+        "name": "Crimson Red",
+        "color_icon_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw2082ad33/images/deposit/exterior/CE1M.webp"
+    },
+    {
+        "code": "CE1V",
+        "name": "Zenith Grey",
+        "color_icon_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwb6055fb1/images/deposit/exterior/CE1V.webp"
+    },
+    {
+        "code": "CE1W",
+        "name": "Urban Mint",
+        "color_icon_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw7b58dad2/images/deposit/exterior/CE1W.webp"
+    }
+    ,
+    {
+        "code": "171V",
+        "name": "",
+        "color_icon_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwec479253/images/deposit/exterior/171V.webp"
+    },
+    {
+        "code": "1V18",
+        "name": "",
+        "color_icon_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dweeb8f089/images/deposit/exterior/1V18.webp"
+    },
+    {
+        "code": "2911",
+        "name": "",
+        "color_icon_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwb5ed246f/images/deposit/exterior/2911.webp"
+    },
+    {
+        "code": "2927",
+        "name": "",
+        "color_icon_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwe1cc46f0/images/deposit/exterior/2927.webp"
+    },
+    {
+        "code": "CE11",
+        "name": "",
+        "color_icon_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwf37040d4/images/deposit/exterior/CE11.webp"
+    },
+    {
+        "code": "CE18",
+        "name": "Infinity Blanc",
+        "color_icon_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw301d5100/images/deposit/exterior/CE18.webp"
+    },
+    {
+        "code": "CE1M",
+        "name": "Crimson Red",
+        "color_icon_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw2082ad33/images/deposit/exterior/CE1M.webp"
+    },
+    {
+        "code": "CE22",
+        "name": "",
+        "color_icon_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw67b9e4f6/images/deposit/exterior/CE22.webp"
+    }
+    ,
+    {
+        "code": "CE11",
+        "name": "",
+        "color_icon_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwf37040d4/images/deposit/exterior/CE11.webp"
+    },
+    {
+        "code": "CE17",
+        "name": "",
+        "color_icon_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw28c4ad7c/images/deposit/exterior/CE17.webp"
+    },
+    {
+        "code": "CE18",
+        "name": "Infinity Blanc",
+        "color_icon_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw301d5100/images/deposit/exterior/CE18.webp"
+    },
+    {
+        "code": "CE1M",
+        "name": "Crimson Red",
+        "color_icon_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw2082ad33/images/deposit/exterior/CE1M.webp"
+    },
+    {
+        "code": "CE1V",
+        "name": "Zenith Grey",
+        "color_icon_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwb6055fb1/images/deposit/exterior/CE1V.webp"
+    },
+    {
+        "code": "CE1W",
+        "name": "Urban Mint",
+        "color_icon_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw7b58dad2/images/deposit/exterior/CE1W.webp"
+    },
+    {
+        "code": "CE22",
+        "name": "",
+        "color_icon_url": "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw67b9e4f6/images/deposit/exterior/CE22.webp"
+    }
+]
 // ===========================
 // DỮ LIỆU NỘI THẤT (Interior colors)
 // ===========================
@@ -574,6 +1037,39 @@ Object.keys(vinfast_colors_data).forEach(model => {
 // Tương thích ngược
 const mau_ngoai_that = colors;
 
+// ===========================
+// DANH SÁCH MÀU HỢP NHẤT (Ngoại + Nội)
+// Mục tiêu: tạo một mảng dedupe chứa tất cả màu ngoại thất (từ vinfast_colors_data)
+// và màu nội thất (từ interior_colors) với cấu trúc chuẩn:
+// { code: 'CE1M' | 'CI11', name: 'Trắng', color_icon_url: 'https://...' }
+// ===========================
+const colors_all = [];
+
+// Thêm các màu ngoại đã được chuẩn hoá vào danh sách chung
+colors.forEach(c => {
+    colors_all.push({
+        code: c.ma_mau,
+        name: c.ten_mau,
+        color_icon_url: c.icon
+    });
+});
+
+// Thêm các màu nội thất nếu chưa có (dedupe theo code)
+interior_colors.forEach(ic => {
+    if (!colors_all.find(x => x.code === ic.code)) {
+        colors_all.push({
+            code: ic.code,
+            name: ic.name || ic.code,
+            color_icon_url: ic.color_icon_url || ic.car_image_url
+        });
+    }
+});
+
+// Helper truy xuất cho danh sách màu hợp nhất
+function getAllColors() {
+    return colors_all;
+}
+
 // Helper function to get colors for a product
 function getColorsForProduct(productCode) {
     const mappedCode = product_mapping[productCode] || productCode.toUpperCase();
@@ -632,7 +1128,7 @@ const danh_sach_xe = [
         dong_xe: "vf_3",
         ten_hien_thi: "VF 3",
         phien_ban: "VF 3 Base",
-        gia_niem_yet: 240000000,
+        gia_niem_yet: 10000000,
         loai_dong_co: "dien",
         mau_ngoai_that: getColorsForProduct('vf3'),
         mau_noi_that: getInteriorColorsByNames(['black'])
@@ -918,24 +1414,8 @@ const thong_tin_ky_thuat_xe = [
 // PHÍ & LỆ PHÍ ĐĂNG KÝ
 // ===========================
 
-// Phí lưu hành đường bộ (1 năm)
-const phi_duong_bo = [
-    { loai: "ca_nhan", gia_tri: 1560000 },
-    { loai: "cong_ty", gia_tri: 2160000 }
-]
 
-// Phí cấp biển số
-const phi_cap_bien_so = [
-    { khu_vuc: "ho_chi_minh", ten_khu_vuc: "TP. Hồ Chí Minh", gia_tri: 20000000 },
-    { khu_vuc: "ha_noi", ten_khu_vuc: "Hà Nội", gia_tri: 20000000 },
-    { khu_vuc: "da_nang", ten_khu_vuc: "Đà Nẵng", gia_tri: 1000000 },
-    { khu_vuc: "can_tho", ten_khu_vuc: "Cần Thơ", gia_tri: 1000000 },
-    { khu_vuc: "hai_phong", ten_khu_vuc: "Hải Phòng", gia_tri: 1000000 },
-    { khu_vuc: "tinh_khac", ten_khu_vuc: "Tỉnh thành khác", gia_tri: 1000000 }
-]
 
-// Phí kiểm định
-const phi_kiem_dinh = 140000
 
 // Chi phí dịch vụ đăng ký
 const chi_phi_dich_vu_dang_ky = 3900000
@@ -943,73 +1423,34 @@ const chi_phi_dich_vu_dang_ky = 3900000
 // Lãi suất vay hàng năm (8.5%)
 const lai_suat_vay_hang_nam = 0.085
 
-// Lệ phí trước bạ (xe xăng 10%, xe điện 0%)
-const le_phi_truoc_ba = [
-    { loai: "xe_xang_dau", ten_loai: "Xe xăng/dầu", ty_le: 0.10 },
-    { loai: "xe_dien", ten_loai: "Xe điện", ty_le: 0 }
-]
+// Per-model percentage promotions (e.g. 4% on specific models)
+// Configure entries using legacy dong_xe codes (same keys as in danh_sach_xe)
+// Example: { dong_xe: 'vf_7', ty_le: 0.04 }
+const per_model_promotions = [
+    // Add per-model promotions here, for example:
+    { dong_xe: 'vf_7', ty_le: 0.04 },
+    { dong_xe: 'vf_8', ty_le: 0.04 }
+];
+
+// Bank interest presets and example preferential rates
+// rate values are annual rates (decimal), e.g. 0.085 = 8.5%
+const bank_interest_presets = [
+    { id: 'default', name: 'Mặc định (hệ thống) 8.5%', rate: 0.085 },
+    { id: 'bank_a', name: 'Ngân hàng A - Chuẩn 8.5%', rate: 0.085 },
+    { id: 'bank_b', name: 'Ngân hàng B - Ưu đãi 6.9%', rate: 0.069 },
+    { id: 'bank_c', name: 'Ngân hàng C - Ưu đãi 7.5%', rate: 0.075 }
+];
+
+
 
 // ===========================
 // ƯU ĐÃI & HỖ TRỢ
 // ===========================
 
-// Hỗ trợ đổi xe xăng sang xe điện
-const ho_tro_doi_xe = [
-    { dong_xe: "vf_3", gia_tri: 5000000 },
-    { dong_xe: "vf_5", gia_tri: 10000000 },
-    { dong_xe: "vf_6", gia_tri: 15000000 },
-    { dong_xe: "vf_7", gia_tri: 50000000 },
-    { dong_xe: "vf_8", gia_tri: 70000000 },
-    { dong_xe: "vf_9", gia_tri: 100000000 },
-    { dong_xe: "herio", gia_tri: 9500000 },
-    { dong_xe: "limo", gia_tri: 15000000 },
-    { dong_xe: "minio", gia_tri: 0 },
-    { dong_xe: "nerio", gia_tri: 0 },
-    { dong_xe: "ec", gia_tri: 0 },
-    { dong_xe: "ec_nang_cao", gia_tri: 0 }
-]
 
-// Chương trình Sài Gòn Xanh
-const chuong_trinh_sai_gon_xanh = [
-    { dong_xe: "vf_3", gia_tri: 6000000 },
-    { dong_xe: "vf_5", gia_tri: 10000000 },
-    { dong_xe: "vf_6", gia_tri: 15000000 },
-    { dong_xe: "vf_7", gia_tri: 35000000 },
-    { dong_xe: "vf_8", gia_tri: 50000000 },
-    { dong_xe: "vf_9", gia_tri: 70000000 },
-    { dong_xe: "herio", gia_tri: 5000000 },
-    { dong_xe: "limo", gia_tri: 7500000 },
-    { dong_xe: "minio", gia_tri: 0 },
-    { dong_xe: "nerio", gia_tri: 0 },
-    { dong_xe: "ec", gia_tri: 0 },
-    { dong_xe: "ec_nang_cao", gia_tri: 0 }
-]
 
-// Ưu đãi VinClub
-const uu_dai_vin_club = [
-    { hang: "gold", ten_hang: "Gold", ty_le: 0.005 },
-    { hang: "platinum", ten_hang: "Platinum", ty_le: 0.01 },
-    { hang: "diamond", ten_hang: "Diamond", ty_le: 0.015 }
-]
 
 // ===========================
-// ĐẶT CỌC
-// ===========================
-
-const gia_tri_dat_coc = [
-    { dong_xe: "vf_3", gia_tri: 15000000 },
-    { dong_xe: "vf_5", gia_tri: 20000000 },
-    { dong_xe: "vf_6", gia_tri: 30000000 },
-    { dong_xe: "vf_7", gia_tri: 50000000 },
-    { dong_xe: "vf_8", gia_tri: 50000000 },
-    { dong_xe: "vf_9", gia_tri: 50000000 },
-    { dong_xe: "minio", gia_tri: 15000000 },
-    { dong_xe: "herio", gia_tri: 20000000 },
-    { dong_xe: "nerio", gia_tri: 30000000 },
-    { dong_xe: "limo", gia_tri: 15000000 },
-    { dong_xe: "ec", gia_tri: 15000000 },
-    { dong_xe: "ec_nang_cao", gia_tri: 15000000 }
-]
 
 // ===========================
 // BẢO HIỂM VẬT CHẤT 2 NĂM
@@ -1042,3 +1483,233 @@ const cot_phu_vin24 = danh_sach_xe.map(xe => ({
 }))
 
 
+
+
+
+/**
+ * Dữ liệu giá xe VinFast (đơn vị: VNĐ, giá chưa bao gồm pin hoặc kèm pin tùy dòng xe)
+ *
+ * Cấu trúc dữ liệu:
+ * - model: Tên dòng xe (e.g., "VF 3", "VF 8")
+ * - trim: Phiên bản xe (e.g., "Base", "Plus", "Eco")
+ * - exterior_color: Màu ngoại thất
+ * - interior_color: Màu nội thất
+ * - price_vnd: Giá xe (đã chuyển sang dạng số nguyên không dấu phân cách)
+ */
+const carPriceData = [
+  { model: "VF 3", trim: "Base", exterior_color: "CE18", interior_color: "black", price_vnd: 299000000, car_image_url: "vinfast_images/vf3/Infinity Blanc.png" },
+  { model: "VF 3", trim: "Base", exterior_color: "CE1M", interior_color: "black", price_vnd: 299000000, car_image_url: "vinfast_images/vf3/Crimson Red.png" },
+  { model: "VF 3", trim: "Base", exterior_color: "CE1V", interior_color: "black", price_vnd: 299000000, car_image_url: "vinfast_images/vf3/Zenith Grey.png" },
+  { model: "VF 3", trim: "Base", exterior_color: "181U", interior_color: "black", price_vnd: 307000000, car_image_url: "vinfast_images/vf3/Summer Yellow Body - Infinity Blanc Roof.png" },
+  { model: "VF 3", trim: "Base", exterior_color: "181Y", interior_color: "black", price_vnd: 307000000, car_image_url: "vinfast_images/vf3/Sky Blue - Infinity Blanc Roof.png" },
+  { model: "VF 3", trim: "Base", exterior_color: "1821", interior_color: "black", price_vnd: 307000000, car_image_url: "vinfast_images/vf3/Rose Pink Body - Infinity Blanc Roof.png" },
+  { model: "VF 3", trim: "Base", exterior_color: "CE1W", interior_color: "black", price_vnd: 307000000, car_image_url: "vinfast_images/vf3/Urban Mint.png" },
+  { model: "VF 5", trim: "Plus", exterior_color: "CE18", interior_color: "black", price_vnd: 529000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw15a07f69/images/VF5/GA12V/CE18.webp" },
+  { model: "VF 5", trim: "Plus", exterior_color: "CE1M", interior_color: "black", price_vnd: 529000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw3ceb9d0f/images/VF5/GA12V/CE1M.webp" },
+  { model: "VF 5", trim: "Plus", exterior_color: "CE1V", interior_color: "black", price_vnd: 529000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw571c8451/images/VF5/GA12V/CE1V.webp" },
+  { model: "VF 5", trim: "Plus", exterior_color: "181U", interior_color: "black", price_vnd: 537000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwf62f0986/images/VF5/GA12V/111U.webp" },
+  { model: "VF 5", trim: "Plus", exterior_color: "181Y", interior_color: "black", price_vnd: 537000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw6a8286c7/images/VF5/GA12V/181Y.webp" },
+  { model: "VF 5", trim: "Plus", exterior_color: "1821", interior_color: "black", price_vnd: 537000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwfa8dfe57/images/VF5/GA12V/CE1W.webp" },
+  { model: "VF 6", trim: "Eco", exterior_color: "CE18", interior_color: "black", price_vnd: 689000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw66b28186/images/VF6/JB12V/CE18.webp" },
+  { model: "VF 6", trim: "Eco", exterior_color: "CE1M", interior_color: "black", price_vnd: 689000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwb1100c8f/images/VF6/JB12V/CE1M.webp" },
+  { model: "VF 6", trim: "Eco", exterior_color: "CE1V", interior_color: "black", price_vnd: 689000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw1a6f13c2/images/VF6/JB12V/CE1V.webp" },
+  { model: "VF 6", trim: "Eco", exterior_color: "CE1U", interior_color: "black", price_vnd: 689000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwf17afb72/images/VF6/JB12V/CE1W.webp" },
+  { model: "VF 6", trim: "Eco", exterior_color: "181U", interior_color: "black", price_vnd: 697000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw93093fe2/images/VF6/JB12V/CE11.webp" },
+  { model: "VF 6", trim: "Plus", exterior_color: "CE18", interior_color: "black", price_vnd: 749000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw66b28186/images/VF6/JB12V/CE18.webp" },
+  { model: "VF 6", trim: "Plus", exterior_color: "CE1M", interior_color: "black", price_vnd: 749000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwb1100c8f/images/VF6/JB12V/CE1M.webp" },
+  { model: "VF 6", trim: "Plus", exterior_color: "CE1V", interior_color: "black", price_vnd: 749000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw1a6f13c2/images/VF6/JB12V/CE1V.webp" },
+  { model: "VF 6", trim: "Plus", exterior_color: "CE1U", interior_color: "black", price_vnd: 749000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwf17afb72/images/VF6/JB12V/CE1W.webp" },
+  { model: "VF 6", trim: "Plus", exterior_color: "181U", interior_color: "black", price_vnd: 749000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw93093fe2/images/VF6/JB12V/CE11.webp" },
+  { model: "VF 6", trim: "Plus", exterior_color: "CE18", interior_color: "brown", price_vnd: 749000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw66b28186/images/VF6/JB12V/CE18.webp" },
+  { model: "VF 6", trim: "Plus", exterior_color: "CE1M", interior_color: "brown", price_vnd: 749000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwb1100c8f/images/VF6/JB12V/CE1M.webp" },
+  { model: "VF 6", trim: "Plus", exterior_color: "CE1V", interior_color: "brown", price_vnd: 749000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw1a6f13c2/images/VF6/JB12V/CE1V.webp" },
+  { model: "VF 6", trim: "Plus", exterior_color: "CE1U", interior_color: "brown", price_vnd: 749000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwf17afb72/images/VF6/JB12V/CE1W.webp" },
+  { model: "VF 6", trim: "Plus", exterior_color: "181U", interior_color: "brown", price_vnd: 757000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw93093fe2/images/VF6/JB12V/CE11.webp" },
+  { model: "VF 6", trim: "Plus", exterior_color: "CE1U", interior_color: "beige", price_vnd: 749000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwf17afb72/images/VF6/JB12V/CE1W.webp" },
+  { model: "VF 6", trim: "Plus", exterior_color: "CE1M", interior_color: "beige", price_vnd: 749000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwb1100c8f/images/VF6/JB12V/CE1M.webp" },
+  { model: "VF 7", trim: "Eco", exterior_color: "CE18", interior_color: "black", price_vnd: 799000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw4880850d/images/VF7/GC12V/CE18.webp" },
+  { model: "VF 7", trim: "Eco", exterior_color: "CE1M", interior_color: "black", price_vnd: 799000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwe99d5f22/images/VF7/GC12V/CE1M.webp" },
+  { model: "VF 7", trim: "Eco", exterior_color: "CE1V", interior_color: "black", price_vnd: 799000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw4486ff28/images/VF7/GC12V/CE1V.webp" },
+  { model: "VF 7", trim: "Eco", exterior_color: "CE1U", interior_color: "black", price_vnd: 799000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwebf3fab6/images/VF7/GC12V/CE1W.webp" },
+  { model: "VF 7", trim: "Eco", exterior_color: "181U", interior_color: "black", price_vnd: 799000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw06ef2b07/images/VF7/GC12V/CE11.webp" },
+  { model: "VF 7", trim: "Plus-1 Cầu", exterior_color: "CE18", interior_color: "black", price_vnd: 949000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw4880850d/images/VF7/GC12V/CE18.webp" },
+  { model: "VF 7", trim: "Plus-1 Cầu", exterior_color: "CE1M", interior_color: "black", price_vnd: 949000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwe99d5f22/images/VF7/GC12V/CE1M.webp" },
+  { model: "VF 7", trim: "Plus-1 Cầu", exterior_color: "CE1V", interior_color: "black", price_vnd: 949000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw4486ff28/images/VF7/GC12V/CE1V.webp" },
+  { model: "VF 7", trim: "Plus-1 Cầu", exterior_color: "CE1U", interior_color: "black", price_vnd: 949000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwebf3fab6/images/VF7/GC12V/CE1W.webp" },
+  { model: "VF 7", trim: "Plus-1 Cầu", exterior_color: "181U", interior_color: "black", price_vnd: 961000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw06ef2b07/images/VF7/GC12V/CE11.webp" },
+  { model: "VF 7", trim: "Plus-2 Cầu", exterior_color: "CE18", interior_color: "black", price_vnd: 999000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw4880850d/images/VF7/GC12V/CE18.webp" },
+  { model: "VF 7", trim: "Plus-2 Cầu", exterior_color: "CE1M", interior_color: "black", price_vnd: 999000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwe99d5f22/images/VF7/GC12V/CE1M.webp" },
+  { model: "VF 7", trim: "Plus-2 Cầu", exterior_color: "CE1V", interior_color: "black", price_vnd: 999000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw4486ff28/images/VF7/GC12V/CE1V.webp" },
+  { model: "VF 7", trim: "Plus-2 Cầu", exterior_color: "CE1U", interior_color: "black", price_vnd: 999000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwebf3fab6/images/VF7/GC12V/CE1W.webp" },
+  { model: "VF 7", trim: "Plus-2 Cầu", exterior_color: "181U", interior_color: "black", price_vnd: 1021000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw06ef2b07/images/VF7/GC12V/CE11.webp" },
+  { model: "VF 7", trim: "Plus-1 Cầu", exterior_color: "CE18", interior_color: "brown", price_vnd: 949000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw4880850d/images/VF7/GC12V/CE18.webp" },
+  { model: "VF 7", trim: "Plus-1 Cầu", exterior_color: "CE1V", interior_color: "brown", price_vnd: 949000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw4486ff28/images/VF7/GC12V/CE1V.webp" },
+  { model: "VF 7", trim: "Plus-1 Cầu", exterior_color: "CE1U", interior_color: "brown", price_vnd: 949000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwebf3fab6/images/VF7/GC12V/CE1W.webp" },
+  { model: "VF 7", trim: "Plus-1 Cầu", exterior_color: "181U", interior_color: "brown", price_vnd: 961000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw06ef2b07/images/VF7/GC12V/CE11.webp" },
+  { model: "VF 7", trim: "Plus-2 Cầu", exterior_color: "CE18", interior_color: "brown", price_vnd: 999000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw4880850d/images/VF7/GC12V/CE18.webp" },
+  { model: "VF 7", trim: "Plus-2 Cầu", exterior_color: "CE1V", interior_color: "brown", price_vnd: 999000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw4486ff28/images/VF7/GC12V/CE1V.webp" },
+  { model: "VF 7", trim: "Plus-2 Cầu", exterior_color: "CE1U", interior_color: "brown", price_vnd: 999000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwebf3fab6/images/VF7/GC12V/CE1W.webp" },
+  { model: "VF 7", trim: "Plus-2 Cầu", exterior_color: "181U", interior_color: "brown", price_vnd: 1021000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw06ef2b07/images/VF7/GC12V/CE11.webp" },
+  { model: "VF 8", trim: "Eco", exterior_color: "CE18", interior_color: "black", price_vnd: 1019000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwafc3ac80/images/VF8/ND31V/CE18.webp" },
+  { model: "VF 8", trim: "Eco", exterior_color: "CE1M", interior_color: "black", price_vnd: 1019000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw65f5fd6d/images/VF8/ND31V/CE1M.webp" },
+  { model: "VF 8", trim: "Eco", exterior_color: "CE1V", interior_color: "black", price_vnd: 1019000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw19321e63/images/VF8/ND31V/CE11.webp" },
+  { model: "VF 8", trim: "Eco", exterior_color: "CE1U", interior_color: "black", price_vnd: 1019000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw19321e63/images/VF8/ND31V/CE11.webp" },
+  { model: "VF 8", trim: "Eco", exterior_color: "1117", interior_color: "black", price_vnd: 1019000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw19321e63/images/VF8/ND31V/CE11.webp" },
+  { model: "VF 8", trim: "Eco", exterior_color: "181M", interior_color: "black", price_vnd: 1031000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwa349f493/images/VF8/ND31V/171V.webp" },
+  { model: "VF 8", trim: "Eco", exterior_color: "182I", interior_color: "black", price_vnd: 1031000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwf71b68ce/images/VF8/ND31V/1V18.webp" },
+  { model: "VF 8", trim: "Eco", exterior_color: "182K", interior_color: "black", price_vnd: 1031000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw5ab1cf86/images/VF8/ND31V/2911.webp" },
+  { model: "VF 8", trim: "Eco", exterior_color: "1P2K", interior_color: "black", price_vnd: 1031000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw19366c63/images/VF8/ND31V/2927.webp" },
+  { model: "VF 8", trim: "Plus", exterior_color: "CE18", interior_color: "black", price_vnd: 1199000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwafc3ac80/images/VF8/ND31V/CE18.webp" },
+  { model: "VF 8", trim: "Plus", exterior_color: "CE1M", interior_color: "black", price_vnd: 1199000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw65f5fd6d/images/VF8/ND31V/CE1M.webp" },
+  { model: "VF 8", trim: "Plus", exterior_color: "CE1V", interior_color: "black", price_vnd: 1199000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw19321e63/images/VF8/ND31V/CE11.webp" },
+  { model: "VF 8", trim: "Plus", exterior_color: "CE1U", interior_color: "black", price_vnd: 1199000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw19321e63/images/VF8/ND31V/CE11.webp" },
+  { model: "VF 8", trim: "Plus", exterior_color: "1117", interior_color: "black", price_vnd: 1199000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw19321e63/images/VF8/ND31V/CE11.webp" },
+  { model: "VF 8", trim: "Plus", exterior_color: "181M", interior_color: "black", price_vnd: 1211000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwa349f493/images/VF8/ND31V/171V.webp" },
+  { model: "VF 8", trim: "Plus", exterior_color: "182I", interior_color: "black", price_vnd: 1211000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwf71b68ce/images/VF8/ND31V/1V18.webp" },
+  { model: "VF 8", trim: "Plus", exterior_color: "182K", interior_color: "black", price_vnd: 1211000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw5ab1cf86/images/VF8/ND31V/2911.webp" },
+  { model: "VF 8", trim: "Plus", exterior_color: "1P2K", interior_color: "black", price_vnd: 1211000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw19366c63/images/VF8/ND31V/2927.webp" },
+  { model: "VF 8", trim: "Plus", exterior_color: "CE18", interior_color: "brown", price_vnd: 1199000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwafc3ac80/images/VF8/ND31V/CE18.webp" },
+  { model: "VF 8", trim: "Plus", exterior_color: "CE1M", interior_color: "brown", price_vnd: 1199000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw65f5fd6d/images/VF8/ND31V/CE1M.webp" },
+  { model: "VF 8", trim: "Plus", exterior_color: "CE1V", interior_color: "brown", price_vnd: 1199000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw19321e63/images/VF8/ND31V/CE11.webp" },
+  { model: "VF 8", trim: "Plus", exterior_color: "CE1U", interior_color: "brown", price_vnd: 1199000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw19321e63/images/VF8/ND31V/CE11.webp" },
+  { model: "VF 8", trim: "Plus", exterior_color: "1117", interior_color: "brown", price_vnd: 1199000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw19321e63/images/VF8/ND31V/CE11.webp" },
+  { model: "VF 8", trim: "Plus", exterior_color: "181M", interior_color: "brown", price_vnd: 1211000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwa349f493/images/VF8/ND31V/171V.webp" },
+  { model: "VF 8", trim: "Plus", exterior_color: "182I", interior_color: "brown", price_vnd: 1211000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwf71b68ce/images/VF8/ND31V/1V18.webp" },
+  { model: "VF 8", trim: "Plus", exterior_color: "182K", interior_color: "brown", price_vnd: 1211000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw5ab1cf86/images/VF8/ND31V/2911.webp" },
+  { model: "VF 8", trim: "Plus", exterior_color: "1P2K", interior_color: "brown", price_vnd: 1211000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw19366c63/images/VF8/ND31V/2927.webp" },
+  { model: "VF 9", trim: "Eco", exterior_color: "CE1M", interior_color: "black", price_vnd: 1499000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw1cc6342e/images/VF9/NE3NV/CE1M.webp" },
+  { model: "VF 9", trim: "Eco", exterior_color: "CE1V", interior_color: "black", price_vnd: 1499000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw24a20061/images/VF9/NE3NV/CE1V.webp" },
+  { model: "VF 9", trim: "Eco", exterior_color: "CE1U", interior_color: "black", price_vnd: 1499000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw9386fa1c/images/VF9/NE3NV/CE17.webp" },
+  { model: "VF 9", trim: "Eco", exterior_color: "181U", interior_color: "black", price_vnd: 1499000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw9f28c7cd/images/VF9/NE3NV/CE11.webp" },
+  { model: "VF 9", trim: "Eco", exterior_color: "1117", interior_color: "black", price_vnd: 1511000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw9f28c7cd/images/VF9/NE3NV/CE11.webp" },
+  { model: "VF 9", trim: "Eco", exterior_color: "1U11", interior_color: "black", price_vnd: 1511000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dweca0851a/images/VF9/NE3NV/CE22.webp" },
+  { model: "VF 9", trim: "Plus", exterior_color: "CE18", interior_color: "black", price_vnd: 1699000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwd1845889/images/VF9/NE3NV/CE18.webp" },
+  { model: "VF 9", trim: "Plus", exterior_color: "CE1M", interior_color: "black", price_vnd: 1699000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw1cc6342e/images/VF9/NE3NV/CE1M.webp" },
+  { model: "VF 9", trim: "Plus", exterior_color: "CE1V", interior_color: "black", price_vnd: 1699000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw24a20061/images/VF9/NE3NV/CE1V.webp" },
+  { model: "VF 9", trim: "Plus", exterior_color: "CE1U", interior_color: "black", price_vnd: 1699000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw9386fa1c/images/VF9/NE3NV/CE17.webp" },
+  { model: "VF 9", trim: "Plus", exterior_color: "181U", interior_color: "black", price_vnd: 1699000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw9f28c7cd/images/VF9/NE3NV/CE11.webp" },
+  { model: "VF 9", trim: "Plus", exterior_color: "1117", interior_color: "black", price_vnd: 1711000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw9f28c7cd/images/VF9/NE3NV/CE11.webp" },
+  { model: "VF 9", trim: "Plus", exterior_color: "1U11", interior_color: "black", price_vnd: 1711000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dweca0851a/images/VF9/NE3NV/CE22.webp" },
+  { model: "VF 9", trim: "Plus", exterior_color: "CE18", interior_color: "brown", price_vnd: 1699000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwd1845889/images/VF9/NE3NV/CE18.webp" },
+  { model: "VF 9", trim: "Plus", exterior_color: "CE1M", interior_color: "brown", price_vnd: 1699000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw1cc6342e/images/VF9/NE3NV/CE1M.webp" },
+  { model: "VF 9", trim: "Plus", exterior_color: "CE1V", interior_color: "brown", price_vnd: 1699000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw24a20061/images/VF9/NE3NV/CE1V.webp" },
+  { model: "VF 9", trim: "Plus", exterior_color: "CE1U", interior_color: "brown", price_vnd: 1699000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw9386fa1c/images/VF9/NE3NV/CE17.webp" },
+  { model: "VF 9", trim: "Plus", exterior_color: "181U", interior_color: "brown", price_vnd: 1699000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw9f28c7cd/images/VF9/NE3NV/CE11.webp" },
+  { model: "VF 9", trim: "Plus", exterior_color: "1117", interior_color: "brown", price_vnd: 1711000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw9f28c7cd/images/VF9/NE3NV/CE11.webp" },
+  { model: "VF 9", trim: "Plus", exterior_color: "1U11", interior_color: "brown", price_vnd: 1711000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dweca0851a/images/VF9/NE3NV/CE22.webp" },
+  { model: "VF 9", trim: "Plus-6 Chỗ", exterior_color: "CE18", interior_color: "black", price_vnd: 1731000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwd1845889/images/VF9/NE3NV/CE18.webp" },
+  { model: "VF 9", trim: "Plus-6 Chỗ", exterior_color: "CE1M", interior_color: "black", price_vnd: 1731000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw1cc6342e/images/VF9/NE3NV/CE1M.webp" },
+  { model: "VF 9", trim: "Plus-6 Chỗ", exterior_color: "CE1V", interior_color: "black", price_vnd: 1731000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw24a20061/images/VF9/NE3NV/CE1V.webp" },
+  { model: "VF 9", trim: "Plus-6 Chỗ", exterior_color: "CE1U", interior_color: "black", price_vnd: 1731000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw9386fa1c/images/VF9/NE3NV/CE17.webp" },
+  { model: "VF 9", trim: "Plus-6 Chỗ", exterior_color: "181U", interior_color: "black", price_vnd: 1731000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw9f28c7cd/images/VF9/NE3NV/CE11.webp" },
+  { model: "VF 9", trim: "Plus-6 Chỗ", exterior_color: "1117", interior_color: "black", price_vnd: 1743000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw9f28c7cd/images/VF9/NE3NV/CE11.webp" },
+  { model: "VF 9", trim: "Plus-6 Chỗ", exterior_color: "1U11", interior_color: "black", price_vnd: 1743000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dweca0851a/images/VF9/NE3NV/CE22.webp" },
+  { model: "VF 9", trim: "Plus-6 Chỗ", exterior_color: "CE18", interior_color: "brown", price_vnd: 1731000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwd1845889/images/VF9/NE3NV/CE18.webp" },
+  { model: "VF 9", trim: "Plus-6 Chỗ", exterior_color: "CE1M", interior_color: "brown", price_vnd: 1731000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw1cc6342e/images/VF9/NE3NV/CE1M.webp" },
+  { model: "VF 9", trim: "Plus-6 Chỗ", exterior_color: "CE1V", interior_color: "brown", price_vnd: 1731000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw24a20061/images/VF9/NE3NV/CE1V.webp" },
+  { model: "VF 9", trim: "Plus-6 Chỗ", exterior_color: "CE1U", interior_color: "brown", price_vnd: 1731000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw9386fa1c/images/VF9/NE3NV/CE17.webp" },
+  { model: "VF 9", trim: "Plus-6 Chỗ", exterior_color: "181U", interior_color: "brown", price_vnd: 1731000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw9f28c7cd/images/VF9/NE3NV/CE11.webp" },
+  { model: "VF 9", trim: "Plus-6 Chỗ", exterior_color: "1117", interior_color: "brown", price_vnd: 1743000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw9f28c7cd/images/VF9/NE3NV/CE11.webp" },
+  { model: "VF 9", trim: "Plus-6 Chỗ", exterior_color: "1U11", interior_color: "brown", price_vnd: 1743000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dweca0851a/images/VF9/NE3NV/CE22.webp" },
+  { model: "VF 9", trim: "Plus-6 Chỗ", exterior_color: "1117", interior_color: "beige", price_vnd: 1743000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw9f28c7cd/images/VF9/NE3NV/CE11.webp" },
+  { model: "MINIO", trim: "Green", exterior_color: "CE1U", interior_color: "gray", price_vnd: 269000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwaeea1413/images/MinioGreen/TH12V/CE1U.webp" },
+  { model: "MINIO", trim: "Green", exterior_color: "CE1M", interior_color: "gray", price_vnd: 269000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw9691ed87/images/MinioGreen/TH12V/CE1M.webp" },
+  { model: "MINIO", trim: "Green", exterior_color: "1U11", interior_color: "gray", price_vnd: 269000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw4070a884/images/MinioGreen/TH12V/1U11.webp" },
+  { model: "MINIO", trim: "Green", exterior_color: "1U2I", interior_color: "gray", price_vnd: 272000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwab6f48f3/images/MinioGreen/TH12V/1U2I.webp" },
+  { model: "MINIO", trim: "Green", exterior_color: "CE2I", interior_color: "gray", price_vnd: 272000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwd9828d8e/images/MinioGreen/TH12V/CE2I.webp" },
+  { model: "MINIO", trim: "Green", exterior_color: "CE2K", interior_color: "gray", price_vnd: 272000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwdb061a35/images/MinioGreen/TH12V/CE2K.webp" },
+  { model: "MINIO", trim: "Green", exterior_color: "1821", interior_color: "gray", price_vnd: 272000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwf543b132/images/MinioGreen/TH12V/182K.webp" },
+  { model: "MINIO", trim: "Green", exterior_color: "111U", interior_color: "gray", price_vnd: 277000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw6a02a423/images/MinioGreen/TH12V/1117.webp" },
+  { model: "MINIO", trim: "Green", exterior_color: "171V", interior_color: "gray", price_vnd: 277000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwa4154af5/images/MinioGreen/TH12V/181M.webp" },
+  { model: "MINIO", trim: "Green", exterior_color: "CE1W", interior_color: "gray", price_vnd: 280000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw8509640a/images/MinioGreen/TH12V/181U.webp" },
+  { model: "MINIO", trim: "Green", exterior_color: "1V18", interior_color: "gray", price_vnd: 280000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw43f70966/images/MinioGreen/TH12V/182I.webp" },
+  { model: "MINIO", trim: "Green", exterior_color: "2911", interior_color: "gray", price_vnd: 280000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwf543b132/images/MinioGreen/TH12V/182K.webp" },
+  { model: "MINIO", trim: "Green", exterior_color: "2927", interior_color: "gray", price_vnd: 280000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw6b4005ab/images/MinioGreen/TH12V/1P2K.webp" },
+  { model: "HERIO", trim: "Green", exterior_color: "CE22", interior_color: "black", price_vnd: 499000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwec051223/images/HerioGreen/GA1QV/CE11.webp" },
+  { model: "HERIO", trim: "Green", exterior_color: "CE1U", interior_color: "black", price_vnd: 499000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwb821ed3f/images/HerioGreen/GA1QV/CE17.webp" },
+  { model: "HERIO", trim: "Green", exterior_color: "CE1M", interior_color: "black", price_vnd: 499000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw5c4d321f/images/HerioGreen/GA1QV/CE1M.webp" },
+  { model: "HERIO", trim: "Green", exterior_color: "1U11", interior_color: "black", price_vnd: 499000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw4133c4e7/images/HerioGreen/GA1QV/CE1U.webp" },
+  { model: "HERIO", trim: "Green", exterior_color: "CE18", interior_color: "black", price_vnd: 499000000, car_image_url: undefined },
+  { model: "Nerio", trim: "Green", exterior_color: "CE22", interior_color: "black", price_vnd: 668000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw69d29b94/images/NerioGreen/GK1DV/CE11.webp" },
+  { model: "Nerio", trim: "Green", exterior_color: "CE1U", interior_color: "black", price_vnd: 668000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw2309112d/images/NerioGreen/GK1DV/CE17.webp" },
+  { model: "Nerio", trim: "Green", exterior_color: "CE1M", interior_color: "black", price_vnd: 668000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwd7020583/images/NerioGreen/GK1DV/CE1M.webp" },
+  { model: "Nerio", trim: "Green", exterior_color: "1U11", interior_color: "black", price_vnd: 668000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwc51cb34b/images/NerioGreen/GK1DV/CE1U.webp" },
+  { model: "Limo", trim: "Green", exterior_color: "1U11", interior_color: "black", price_vnd: 749000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw253b7a82/images/LimoGreen/SL1VV/CE11.webp" },
+  { model: "Limo", trim: "Green", exterior_color: "CE1M", interior_color: "black", price_vnd: 749000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw2c17d02e/images/LimoGreen/SL1VV/CE1M.webp" },
+  { model: "Limo", trim: "Green", exterior_color: "CE22", interior_color: "black", price_vnd: 749000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwe5430911/images/LimoGreen/SL1VV/CE17.webp" },
+  { model: "Limo", trim: "Green", exterior_color: "CE1U", interior_color: "black", price_vnd: 749000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw11f0d527/images/LimoGreen/SL1VV/CE1U.webp" },
+  { model: "Limo", trim: "Green", exterior_color: "CE18", interior_color: "black", price_vnd: 749000000, car_image_url: undefined },
+  { model: "Limo", trim: "Green", exterior_color: "181U", interior_color: "black", price_vnd: 749000000, car_image_url: undefined },
+  { model: "EC", trim: "Van", exterior_color: "181U", interior_color: "black", price_vnd: 285000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw5c48778b/images/ECVAN/TG10V/CE18.webp" },
+  { model: "EC", trim: "Van", exterior_color: "CE1M", interior_color: "black", price_vnd: 285000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwf77a99e9/images/ECVAN/TG10V/CE1M.webp" },
+  { model: "EC", trim: "Van", exterior_color: "CE22", interior_color: "black", price_vnd: 285000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw98cd8878/images/ECVAN/TG10V/CE1U.webp" },
+  { model: "EC", trim: "Van", exterior_color: "CE18", interior_color: "black", price_vnd: 285000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw1df7d0ef/images/ECVAN/TG10V/CE1W.webp" },
+  { model: "EC Nâng Cao", trim: "Van", exterior_color: "181U", interior_color: "black", price_vnd: 305000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw5c48778b/images/ECVAN/TG10V/CE18.webp" },
+  { model: "EC Nâng Cao", trim: "Van", exterior_color: "CE1M", interior_color: "black", price_vnd: 305000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwf77a99e9/images/ECVAN/TG10V/CE1M.webp" },
+  { model: "EC Nâng Cao", trim: "Van", exterior_color: "CE22", interior_color: "black", price_vnd: 305000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw98cd8878/images/ECVAN/TG10V/CE1U.webp" },
+  { model: "EC Nâng Cao", trim: "Van", exterior_color: "CE18", interior_color: "black", price_vnd: 305000000, car_image_url: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw1df7d0ef/images/ECVAN/TG10V/CE1W.webp" }
+];
+
+const uniqueExteriorColors = [
+    { name: "Trắng" },
+    { name: "Đỏ" },
+    { name: "Xám" },
+    { name: "Xanh Lá Nhạt" },
+    { name: "Xanh Nóc Trắng" },
+    { name: "Vàng Nóc Trắng" },
+    { name: "Hồng Nóc Trắng" },
+    { name: "Đen" },
+    { name: "Nâu" },
+    { name: "Be" },
+    { name: "Xanh Lá Đậm" },
+    { name: "Đỏ nóc Đồng" },
+    { name: "Đen Nóc Đồng" },
+    { name: "Trắng Nóc Xám" },
+    { name: "Xám Nóc Bạc" },
+    { name: "Bạc" },
+    { name: "Đen Nóc Vàng" },
+    { name: "Đỏ Nóc Trắng" },
+    { name: "Bạc Nóc Đen" },
+    { name: "Xanh Lá Cây" },
+    { name: "Hồng Tím" },
+    { name: "Hồng Nóc Xanh" },
+    { name: "Xanh Lá Cây Nóc Trắng" },
+    { name: "Xanh Lá Cây Nóc Vàng" },
+    { name: "Vàng" }
+];
+
+
+const uniqueNgoaiThatColors = [
+    { code: "CE18", name: "Trắng", icon: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw301d5100/images/deposit/exterior/CE18.webp" },
+    { code: "CE1M", name: "Đỏ", icon: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw2082ad33/images/deposit/exterior/CE1M.webp" },
+    { code: "CE1V", name: "Xám", icon: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwb6055fb1/images/deposit/exterior/CE1V.webp" },
+    { code: "181U", name: "Xanh Lá Nhạt", icon: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw501ea74b/images/deposit/exterior/181U.webp" },
+    { code: "181Y", name: "Xanh Nóc Trắng", icon: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwd21e2648/images/deposit/exterior/181Y.webp" },
+    { code: "1821", name: "Vàng Nóc Trắng", icon: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw27ac3178/images/deposit/exterior/1821.webp" },
+    { code: "CE1W", name: "Hồng Nóc Trắng", icon: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw7b58dad2/images/deposit/exterior/CE1W.webp" },
+    { code: "CE1U", name: "Đen", icon: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwc9b013f0/images/deposit/exterior/CE1U.webp" },
+    { code: "CE11", name: "Nâu", icon: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwf37040d4/images/deposit/exterior/CE11.webp" },
+    { code: "CE17", name: "Be", icon: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw28c4ad7c/images/deposit/exterior/CE17.webp" },
+    { code: "1117", name: "Xanh Lá Đậm", icon: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwee4df7b2/images/deposit/exterior/1117.webp" },
+    { code: "181M", name: "Đỏ nóc Đồng", icon: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwd44dfddd/images/deposit/exterior/181M.webp" },
+    { code: "182I", name: "Đen Nóc Đồng", icon: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw45a6f569/images/deposit/exterior/182I.webp" },
+    { code: "182K", name: "Trắng Nóc Xám", icon: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw4aaf29c5/images/deposit/exterior/182K.webp" },
+    { code: "1P2K", name: "Xám Nóc Bạc", icon: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwe33018bd/images/deposit/exterior/1P2K.webp" },
+    { code: "1U11", name: "Bạc", icon: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw9f8344b4/images/deposit/exterior/1U11.webp" },
+    { code: "1U2I", name: "Đen Nóc Vàng", icon: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw3ffea806/images/deposit/exterior/1U2I.webp" },
+    { code: "CE2I", name: "Đỏ Nóc Trắng", icon: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw0833b90f/images/deposit/exterior/CE2I.webp" },
+    { code: "CE2K", name: "Bạc Nóc Đen", icon: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwc356da37/images/deposit/exterior/CE2K.webp" },
+    { code: "111U", name: "Xanh Lá Cây", icon: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwe1117c5e/images/deposit/exterior/111U.webp" },
+    { code: "171V", name: "Hồng Tím", icon: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwec479253/images/deposit/exterior/171V.webp" },
+    { code: "1V18", name: "Hồng Nóc Xanh", icon: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dweeb8f089/images/deposit/exterior/1V18.webp" },
+    { code: "2911", name: "Xanh Lá Cây Nóc Trắng", icon: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwb5ed246f/images/deposit/exterior/2911.webp" },
+    { code: "2927", name: "Xanh Lá Cây Nóc Vàng", icon: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwe1cc46f0/images/deposit/exterior/2927.webp" },
+    { code: "CE22", name: "Vàng", icon: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw67b9e4f6/images/deposit/exterior/CE22.webp" }
+];
+
+const uniqueNoiThatColors = [
+    { code: 'black', name: "Đen", icon: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw9a153245/images/deposit/interior/CI11.webp" },
+    { code: 'brown', name: "Nâu", icon: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw65203801/images/deposit/interior/CI12.webp" },//https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw8df6787c/images/deposit/interior/CI18.webp
+    { code: 'beige', name: "Be", icon: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dwf0048a4b/images/deposit/interior/CI13.webp" },
+    { code: 'gray', name: "Xám", icon: "https://shop.vinfastauto.com/on/demandware.static/-/Sites-app_vinfast_vn-Library/default/dw33eb76b4/images/deposit/interior/CI1M.webp" }
+];

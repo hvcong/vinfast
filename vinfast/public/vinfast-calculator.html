@@ -1,238 +1,242 @@
 <!DOCTYPE html>
 <html lang="vi">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Công cụ tính giá xe VinFast</title>
 
-    <!-- Swiper CSS -->
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Công cụ tính giá xe VinFast</title>
+   <!-- Swiper CSS -->
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
     />
 
-    <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
+  <!-- Swiper CSS removed (image modal disabled) -->
 
-      body {
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-          "Helvetica Neue", Arial, sans-serif;
-        background: #f5f5f5;
-        padding: 16px;
-        min-height: 100vh;
-        color: #333;
-      }
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-      .container {
-        max-width: 600px;
-        margin: 0 auto;
-      }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+        "Helvetica Neue", Arial, sans-serif;
+      background: #f5f5f5;
+      padding: 16px;
+      min-height: 100vh;
+      color: #333;
+    }
 
-      /* View Toggle Button */
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* View Toggle Button */
+    .view-toggle {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1000;
+      background: white;
+      border: 2px solid #3182ce;
+      border-radius: 8px;
+      padding: 8px 16px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #3182ce;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s;
+    }
+
+    @media (max-width: 1023px) {
       .view-toggle {
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        z-index: 1000;
-        background: white;
-        border: 2px solid #3182ce;
-        border-radius: 8px;
-        padding: 8px 16px;
-        font-size: 14px;
-        font-weight: 600;
-        color: #3182ce;
-        cursor: pointer;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        transition: all 0.3s;
+        display: none;
+      }
+    }
+
+    .view-toggle:hover {
+      background: #3182ce;
+      color: white;
+    }
+
+    /* Desktop Layout */
+    @media (min-width: 1024px) {
+      .container {
+        max-width: 1400px;
+        padding: 0 20px;
       }
 
-      @media (max-width: 1023px) {
-        .view-toggle {
-          display: none;
-        }
+      body.mobile-view .container {
+        max-width: 600px;
       }
 
-      .view-toggle:hover {
-        background: #3182ce;
-        color: white;
-      }
 
-      /* Desktop Layout */
-      @media (min-width: 1024px) {
-        .container {
-          max-width: 1400px;
-          padding: 0 20px;
-        }
+    }
 
-        body.mobile-view .container {
-          max-width: 600px;
-        }
+    .content-grid {
+      display: grid;
+      gap: 20px;
+    }
 
-        
-      }
-     
-      .content-grid {
-        display: grid;
-        gap: 20px;
-      }
-
-      /* Mobile Layout - Single column, keep original order */
-      @media (max-width: 1023px) {
-        .top-content,
-        .bot-content {
-          flex-direction: column;
-        }
-
-        .top-content > *,
-        .bot-content > * {
-          width: 100%;
-        }
-      }
-
-      /* Mobile view on desktop */
-      body.mobile-view .top-content,
-      body.mobile-view .bot-content {
-        flex-direction: column;
-      }
-
-      body.mobile-view .top-content > *,
-      body.mobile-view .bot-content > * {
-        width: 100%;
-      }
+    /* Mobile Layout - Single column, keep original order */
+    @media (max-width: 1023px) {
 
       .top-content,
       .bot-content {
-        display: flex;
-        gap: 20px;
-        width: 100%;
-      }
-
-      .top-content > *,
-      .bot-content > * {
-        flex: 1;
-        width: 50%;
-      }
-
-      /* Header */
-      .header {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        margin-bottom: 20px;
-      }
-
-      .logo {
-        display: flex;
         flex-direction: column;
-        align-items: center;
       }
 
-      .logo-icon {
-        width: 100px;
-        height: 100px;
-        border-radius: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        overflow: hidden;
-      }
-
-      .logo-icon img {
+      .top-content>*,
+      .bot-content>* {
         width: 100%;
-        height: 100%;
-        object-fit: contain;
       }
+    }
 
-      .logo-text {
-        font-size: 10px;
-        font-weight: 600;
-        color: #333;
-        margin-top: 2px;
-      }
+    /* Mobile view on desktop */
+    body.mobile-view .top-content,
+    body.mobile-view .bot-content {
+      flex-direction: column;
+    }
 
-      .header-title {
-        flex: 1;
-        font-size: 24px;
-        font-weight: 700;
-        color: #1a1a1a;
-        margin-left: 20px;
-      }
+    body.mobile-view .top-content>*,
+    body.mobile-view .bot-content>* {
+      width: 100%;
+    }
 
-      .header-actions {
-        display: flex;
-        gap: 8px;
-        margin-bottom: 20px;
-      }
+    .top-content,
+    .bot-content {
+      display: flex;
+      gap: 20px;
+      width: 100%;
+    }
 
-      .btn {
-        flex: 1;
-        padding: 12px 16px;
-        border: none;
-        border-radius: 8px;
-        font-size: 14px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.3s;
-      }
+    .top-content>*,
+    .bot-content>* {
+      flex: 1;
+      width: 50%;
+    }
 
-      .btn-secondary {
-        background: #4a5568;
-        color: white;
-      }
+    /* Header */
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
 
-      .btn-secondary:hover {
-        background: #2d3748;
-      }
+    .logo {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
 
-      .btn-primary {
-        background: #3182ce;
-        color: white;
-      }
+    .logo-icon {
+      width: 100px;
+      height: 100px;
+      border-radius: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
 
-      .btn-primary:hover {
-        background: #2c5aa0;
-      }
+    .logo-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
 
-      /* Main Card */
-      .main-card {
-        background: white;
-        border-radius: 12px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        padding: 20px;
-        margin-bottom: 20px;
-      }
+    .logo-text {
+      font-size: 10px;
+      font-weight: 600;
+      color: #333;
+      margin-top: 2px;
+    }
 
-      .car-image-container {
-        width: 100%;
-        aspect-ratio: 1.8;
-        border-radius: 8px;
-        overflow: hidden;
-        margin-bottom: 20px;
-        background: #fff;
-        position: relative;
-      }
+    .header-title {
+      flex: 1;
+      font-size: 24px;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin-left: 20px;
+    }
 
+    .header-actions {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+
+    .btn {
+      flex: 1;
+      padding: 12px 16px;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .btn-secondary {
+      background: #4a5568;
+      color: white;
+    }
+
+    .btn-secondary:hover {
+      background: #2d3748;
+    }
+
+    .btn-primary {
+      background: #3182ce;
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: #2c5aa0;
+    }
+
+    /* Main Card */
+    .main-card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .car-image-container {
+      width: 100%;
+      aspect-ratio: 1.8;
+      border-radius: 8px;
+      overflow: hidden;
+      margin-bottom: 20px;
+      background: #fff;
+      position: relative;
+    }
+
+    .car-image {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center;
+      transition: all 0.25s ease-in-out;
+      border-radius: 8px;
+    }
+
+    @media (max-width: 1023px) {
       .car-image {
-        width: 100%;
-        height: 100%;
         object-fit: contain;
-        object-position: center;
-        transition: all 0.25s ease-in-out;
-        border-radius: 8px;
+        object-position: center center;
       }
+    }
 
-      @media (max-width: 1023px) {
-        .car-image {
-          object-fit: contain;
-          object-position: center center;
-        }
-      }
-
-      .car-image.fade-out {
+    /* Image display and Swiper styles removed (image UI disabled) */
+  .car-image.fade-out {
         opacity: 0;
       }
 
@@ -375,656 +379,631 @@
         height: 100%;
         object-fit: contain;
       }
+    /* Image modal image rules removed */
 
-      .image-modal-close {
-        position: absolute;
-        top: 20px;
-        right: 30px;
-        font-size: 40px;
-        color: white;
-        cursor: pointer;
-        font-weight: 300;
-        z-index: 10000;
-        transition: transform 0.2s ease;
-      }
+    .image-modal-close {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      font-size: 40px;
+      color: white;
+      cursor: pointer;
+      font-weight: 300;
+      z-index: 10000;
+      transition: transform 0.2s ease;
+    }
 
-      .image-modal-close:hover {
-        transform: scale(1.1);
-      }
+    .image-modal-close:hover {
+      transform: scale(1.1);
+    }
 
-      .image-modal-label {
-        position: fixed;
-        bottom: 50px;
-        left: 50%;
-        transform: translateX(-50%);
-        background: rgba(255, 255, 255, 0.95);
-        color: #333;
-        padding: 12px 24px;
-        border-radius: 8px;
-        font-size: 18px;
-        font-weight: 600;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-        z-index: 10001;
-      }
+    .image-modal-label {
+      position: fixed;
+      bottom: 50px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(255, 255, 255, 0.95);
+      color: #333;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 18px;
+      font-weight: 600;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      z-index: 10001;
+    }
 
-      @keyframes fadeIn {
-        from {
-          opacity: 0;
-        }
-        to {
-          opacity: 1;
-        }
-      }
-
-      @keyframes zoomIn {
-        from {
-          transform: scale(0.8);
-          opacity: 0;
-        }
-        to {
-          transform: scale(1);
-          opacity: 1;
-        }
-      }
-
-      .car-brand-text {
-        position: absolute;
-        bottom: 10px;
-        left: 10px;
-        font-size: 12px;
-        font-weight: 600;
-        color: #333;
-        background: rgba(255, 255, 255, 0.9);
-        padding: 4px 8px;
-        border-radius: 4px;
-      }
-
-      .config-section {
-        margin-bottom: 24px;
-      }
-
-      .config-title {
-        font-size: 14px;
-        font-weight: 600;
-        color: #4a5568;
-        margin-bottom: 12px;
-      }
-
-      .dropdown-group {
-        display: flex;
-        gap: 12px;
-      }
-
-      .dropdown-wrapper {
-        flex: 1;
-        position: relative;
-      }
-
-      .dropdown {
-        width: 100%;
-        padding: 12px 16px;
-        background: #4a5568;
-        color: white;
-        border: none;
-        border-radius: 8px;
-        font-size: 14px;
-        font-weight: 500;
-        cursor: pointer;
-        -webkit-appearance: none;
-        appearance: none;
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='white' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
-        background-repeat: no-repeat;
-        background-position: right 16px center;
-        padding-right: 40px;
-      }
-
-      .dropdown option {
-        background: white;
-        color: #333;
-      }
-
-      /* Color Picker */
-      .color-picker {
-        display: flex;
-        gap: 12px;
-        flex-wrap: wrap;
-        padding: 8px 0;
-      }
-
-      .color-option {
-        width: 60px;
-        height: 60px;
-        border-radius: 12px;
-        border: 3px solid transparent;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        overflow: hidden;
-        position: relative;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-      }
-
-      .color-option img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-      }
-
-      .color-option:hover {
-        transform: scale(1.1);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
-      }
-
-      .color-option.selected {
-        border-color: #3182ce;
-        box-shadow: 0 0 0 1px #3182ce, 0 2px 8px rgba(49, 130, 206, 0.3);
-        transform: scale(1.03);
-      }
-
-      .color-option-label {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        background: rgba(0, 0, 0, 0.7);
-        color: white;
-        font-size: 10px;
-        padding: 4px;
-        text-align: center;
+    @keyframes fadeIn {
+      from {
         opacity: 0;
-        transition: opacity 0.3s;
       }
 
-      .color-option:hover .color-option-label {
+      to {
         opacity: 1;
       }
+    }
 
-      /* Hidden select for form compatibility */
-      .color-select-hidden {
+    @keyframes zoomIn {
+      from {
+        transform: scale(0.8);
+        opacity: 0;
+      }
+
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    .car-brand-text {
+      position: absolute;
+      bottom: 10px;
+      left: 10px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #333;
+      background: rgba(255, 255, 255, 0.9);
+      padding: 4px 8px;
+      border-radius: 4px;
+    }
+
+    .config-section {
+      margin-bottom: 24px;
+    }
+
+    .config-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #4a5568;
+      margin-bottom: 12px;
+    }
+
+    .dropdown-group {
+      display: flex;
+      gap: 12px;
+    }
+
+    .dropdown-wrapper {
+      flex: 1;
+      position: relative;
+    }
+
+    .dropdown {
+      width: 100%;
+      padding: 12px 16px;
+      background: #4a5568;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      -webkit-appearance: none;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='white' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 16px center;
+      padding-right: 40px;
+    }
+
+    .dropdown option {
+      background: white;
+      color: #333;
+    }
+
+    /* Color Picker */
+    .color-picker {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      padding: 8px 0;
+    }
+
+    .color-option {
+      width: 60px;
+      height: 60px;
+      border-radius: 12px;
+      border: 3px solid transparent;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      overflow: hidden;
+      position: relative;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    .color-option img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .color-option:hover {
+      transform: scale(1.1);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    }
+
+    .color-option.selected {
+      border-color: #3182ce;
+      box-shadow: 0 0 0 1px #3182ce, 0 2px 8px rgba(49, 130, 206, 0.3);
+      transform: scale(1.03);
+    }
+
+    .color-option-label {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(0, 0, 0, 0.7);
+      color: white;
+      font-size: 10px;
+      padding: 4px;
+      text-align: center;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .color-option:hover .color-option-label {
+      opacity: 1;
+    }
+
+    /* Hidden select for form compatibility */
+    .color-select-hidden {
+      display: none;
+    }
+
+    /* Radio Buttons */
+    .radio-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .radio-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .radio-item input[type="radio"] {
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+      accent-color: #3182ce;
+    }
+
+    .radio-item label {
+      font-size: 14px;
+      color: #333;
+      cursor: pointer;
+    }
+
+    /* Version Radio Buttons - Enhanced style */
+    .version-radio-item {
+      display: flex;
+      align-items: center;
+      padding: 12px 16px;
+      border: 2px solid #e2e8f0;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s;
+      background: white;
+    }
+
+    .version-radio-item:hover {
+      border-color: #3182ce;
+      background: #f7fafc;
+    }
+
+    .version-radio-item.selected {
+      border-color: #3182ce;
+      background: #ebf8ff;
+    }
+
+    .version-radio-item input[type="radio"] {
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+      accent-color: #3182ce;
+      margin-right: 12px;
+    }
+
+    .version-radio-content {
+      flex: 1;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .version-radio-label {
+      font-size: 14px;
+      font-weight: 500;
+      color: #333;
+      cursor: pointer;
+    }
+
+    .version-radio-price {
+      font-size: 14px;
+      font-weight: 600;
+      color: #3182ce;
+    }
+
+    .version-radio-item.selected .version-radio-label {
+      font-weight: 600;
+      color: #3182ce;
+    }
+
+    /* Loan Section */
+    .loan-card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+    }
+
+    .loan-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin-bottom: 20px;
+    }
+
+    .loan-option {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 0;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .loan-option:last-child {
+      border-bottom: none;
+    }
+
+    .loan-label {
+      font-size: 14px;
+      font-weight: 500;
+      color: #333;
+    }
+
+    /* Toggle Switch */
+    .toggle-switch {
+      position: relative;
+      width: 48px;
+      height: 24px;
+    }
+
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .toggle-slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #cbd5e0;
+      transition: 0.3s;
+      border-radius: 24px;
+    }
+
+    .toggle-slider:before {
+      position: absolute;
+      content: "";
+      height: 18px;
+      width: 18px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: 0.3s;
+      border-radius: 50%;
+    }
+
+    .toggle-switch input:checked+.toggle-slider {
+      background-color: #3182ce;
+    }
+
+    .toggle-switch input:checked+.toggle-slider:before {
+      transform: translateX(24px);
+    }
+
+    /* Slider */
+    .slider-container {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .slider-wrapper {
+      flex: 1;
+    }
+
+    .slider {
+      width: 100%;
+      height: 6px;
+      border-radius: 3px;
+      background: #e2e8f0;
+      outline: none;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    .slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #3182ce;
+      cursor: pointer;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .slider::-moz-range-thumb {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #3182ce;
+      cursor: pointer;
+      border: none;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .slider-value {
+      font-size: 14px;
+      font-weight: 600;
+      color: #3182ce;
+      min-width: 120px;
+      text-align: right;
+    }
+
+    /* Customer Info & Cost Estimation */
+    .customer-info-card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .card-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid #e2e8f0;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 14px;
+      font-weight: 500;
+      color: #4a5568;
+      margin-bottom: 8px;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1px solid #cbd5e0;
+      border-radius: 8px;
+      font-size: 14px;
+      background: white;
+      transition: all 0.3s;
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: #3182ce;
+      box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.1);
+    }
+
+    .date-input-wrapper {
+      position: relative;
+    }
+
+    .date-icon {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      pointer-events: none;
+      color: #718096;
+    }
+
+    /* Cost Breakdown */
+    .cost-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid #e2e8f0;
+      font-size: 14px;
+    }
+
+    .cost-row:last-child {
+      border-bottom: none;
+    }
+
+    .cost-label {
+      color: #4a5568;
+      font-weight: 500;
+    }
+
+    .cost-value {
+      color: #1a1a1a;
+      font-weight: 600;
+    }
+
+    .cost-total {
+      font-size: 20px;
+      font-weight: 700;
+      color: #3182ce;
+      padding-top: 16px;
+      margin-top: 16px;
+      border-top: 2px solid #e2e8f0;
+    }
+
+    .checkbox-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .checkbox-group input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+      accent-color: #3182ce;
+    }
+
+    .checkbox-group label {
+      font-size: 14px;
+      color: #333;
+      cursor: pointer;
+      flex: 1;
+    }
+
+    .discount-value {
+      color: #e53e3e;
+      font-weight: 600;
+    }
+
+    /* Loan Details */
+    .loan-details {
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 2px solid #e2e8f0;
+    }
+
+    .loan-detail-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px 0;
+      font-size: 14px;
+    }
+
+    .loan-detail-label {
+      color: #4a5568;
+      font-weight: 500;
+    }
+
+    .loan-detail-value {
+      color: #1a1a1a;
+      font-weight: 600;
+    }
+
+    .monthly-payment {
+      font-size: 20px;
+      font-weight: 700;
+      color: #3182ce;
+      padding-top: 16px;
+      margin-top: 16px;
+      border-top: 2px solid #e2e8f0;
+    }
+
+    /* Hide on mobile */
+    @media (max-width: 1023px) {
+      /* No longer need desktop-only hiding */
+    }
+
+    /* Show on desktop */
+    @media (min-width: 1024px) {
+      .mobile-only {
         display: none;
       }
 
-      /* Radio Buttons */
-      .radio-group {
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-      }
-
-      .radio-item {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-      }
-
-      .radio-item input[type="radio"] {
-        width: 18px;
-        height: 18px;
-        cursor: pointer;
-        accent-color: #3182ce;
-      }
-
-      .radio-item label {
-        font-size: 14px;
-        color: #333;
-        cursor: pointer;
-      }
-
-      /* Version Radio Buttons - Enhanced style */
-      .version-radio-item {
-        display: flex;
-        align-items: center;
-        padding: 12px 16px;
-        border: 2px solid #e2e8f0;
-        border-radius: 8px;
-        cursor: pointer;
-        transition: all 0.3s;
-        background: white;
-      }
-
-      .version-radio-item:hover {
-        border-color: #3182ce;
-        background: #f7fafc;
-      }
-
-      .version-radio-item.selected {
-        border-color: #3182ce;
-        background: #ebf8ff;
-      }
-
-      .version-radio-item input[type="radio"] {
-        width: 18px;
-        height: 18px;
-        cursor: pointer;
-        accent-color: #3182ce;
-        margin-right: 12px;
-      }
-
-      .version-radio-content {
-        flex: 1;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
-
-      .version-radio-label {
-        font-size: 14px;
-        font-weight: 500;
-        color: #333;
-        cursor: pointer;
-      }
-
-      .version-radio-price {
-        font-size: 14px;
-        font-weight: 600;
-        color: #3182ce;
-      }
-
-      .version-radio-item.selected .version-radio-label {
-        font-weight: 600;
-        color: #3182ce;
-      }
-
-      /* Loan Section */
-      .loan-card {
-        background: white;
-        border-radius: 12px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        padding: 20px;
-      }
-
-      .loan-title {
-        font-size: 16px;
-        font-weight: 700;
-        color: #1a1a1a;
-        margin-bottom: 20px;
-      }
-
-      .loan-option {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 16px 0;
-        border-bottom: 1px solid #e2e8f0;
-      }
-
-      .loan-option:last-child {
-        border-bottom: none;
-      }
-
-      .loan-label {
-        font-size: 14px;
-        font-weight: 500;
-        color: #333;
-      }
-
-      /* Toggle Switch */
-      .toggle-switch {
-        position: relative;
-        width: 48px;
-        height: 24px;
-      }
-
-      .toggle-switch input {
-        opacity: 0;
-        width: 0;
-        height: 0;
-      }
-
-      .toggle-slider {
-        position: absolute;
-        cursor: pointer;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-color: #cbd5e0;
-        transition: 0.3s;
-        border-radius: 24px;
-      }
-
-      .toggle-slider:before {
-        position: absolute;
-        content: "";
-        height: 18px;
-        width: 18px;
-        left: 3px;
-        bottom: 3px;
-        background-color: white;
-        transition: 0.3s;
-        border-radius: 50%;
-      }
-
-      .toggle-switch input:checked + .toggle-slider {
-        background-color: #3182ce;
-      }
-
-      .toggle-switch input:checked + .toggle-slider:before {
-        transform: translateX(24px);
-      }
-
-      /* Slider */
-      .slider-container {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-      }
-
-      .slider-wrapper {
-        flex: 1;
-      }
-
-      .slider {
-        width: 100%;
-        height: 6px;
-        border-radius: 3px;
-        background: #e2e8f0;
-        outline: none;
-        -webkit-appearance: none;
-        appearance: none;
-      }
-
-      .slider::-webkit-slider-thumb {
-        -webkit-appearance: none;
-        appearance: none;
-        width: 20px;
-        height: 20px;
-        border-radius: 50%;
-        background: #3182ce;
-        cursor: pointer;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-      }
-
-      .slider::-moz-range-thumb {
-        width: 20px;
-        height: 20px;
-        border-radius: 50%;
-        background: #3182ce;
-        cursor: pointer;
-        border: none;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-      }
-
-      .slider-value {
-        font-size: 14px;
-        font-weight: 600;
-        color: #3182ce;
-        min-width: 120px;
-        text-align: right;
-      }
-
-      /* Customer Info & Cost Estimation */
-      .customer-info-card {
-        background: white;
-        border-radius: 12px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        padding: 20px;
-        margin-bottom: 20px;
-      }
-
-      .card-title {
-        font-size: 16px;
-        font-weight: 700;
-        color: #1a1a1a;
-        margin-bottom: 20px;
-        padding-bottom: 12px;
-        border-bottom: 2px solid #e2e8f0;
-      }
-
-      .form-group {
-        margin-bottom: 16px;
-      }
-
-      .form-label {
+      body:not(.mobile-view) .desktop-only {
         display: block;
-        font-size: 14px;
-        font-weight: 500;
-        color: #4a5568;
-        margin-bottom: 8px;
       }
+    }
+  </style>
+</head>
 
-      .form-input {
-        width: 100%;
-        padding: 12px 16px;
-        border: 1px solid #cbd5e0;
-        border-radius: 8px;
-        font-size: 14px;
-        background: white;
-        transition: all 0.3s;
-      }
+<body>
+  <!-- View Toggle Button -->
+  <button class="view-toggle" id="viewToggle">🖥️ Desktop View</button>
 
-      .form-input:focus {
-        outline: none;
-        border-color: #3182ce;
-        box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.1);
-      }
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <div class="logo">
+        <div class="logo-icon">
+          <img src="images/logo.jpg" alt="VinFast Logo" />
+        </div>
+      </div>
+      <div class="header-title">Công cụ tính giá xe VinFast</div>
+    </div>
 
-      .date-input-wrapper {
-        position: relative;
-      }
+    <!-- Content Grid (Desktop) / Single Column (Mobile) -->
+    <div class="content-grid">
+      <!-- Left Column - Customer Info & Cost Estimation -->
+      <div class="top-content">
+        <!-- Customer Info Card -->
+        <div class="customer-info-card">
+          <div class="card-title">Thông tin khách hàng & Giao dịch</div>
 
-      .date-icon {
-        position: absolute;
-        right: 12px;
-        top: 50%;
-        transform: translateY(-50%);
-        pointer-events: none;
-        color: #718096;
-      }
+          <div class="form-group">
+            <label class="form-label">Họ tên khách hàng</label>
+            <input type="text" class="form-input" id="customerName" placeholder="Nhập họ tên" />
+          </div>
 
-      /* Cost Breakdown */
-      .cost-row {
-        display: flex;
-        justify-content: space-between;
-        padding: 12px 0;
-        border-bottom: 1px solid #e2e8f0;
-        font-size: 14px;
-      }
+          <div class="form-group">
+            <label class="form-label">Số điện thoại</label>
+            <input type="tel" class="form-input" id="customerPhone" placeholder="Nhập số điện thoại" />
+          </div>
 
-      .cost-row:last-child {
-        border-bottom: none;
-      }
+          <div class="form-group">
+            <label class="form-label">Email</label>
+            <input type="email" class="form-input" id="customerEmail" placeholder="Nhập email" />
+          </div>
 
-      .cost-label {
-        color: #4a5568;
-        font-weight: 500;
-      }
+          <div class="form-group">
+            <label class="form-label">Địa chỉ</label>
+            <input type="text" class="form-input" id="customerAddress" placeholder="Nhập địa chỉ" />
+          </div>
 
-      .cost-value {
-        color: #1a1a1a;
-        font-weight: 600;
-      }
+          <div class="form-group">
+            <label class="form-label">Loại khách hàng</label>
+            <select class="form-input" id="customerType" style="cursor: pointer">
+              <option value="ca_nhan">Cá nhân</option>
+              <option value="cong_ty">Công ty</option>
+            </select>
+          </div>
 
-      .cost-total {
-        font-size: 20px;
-        font-weight: 700;
-        color: #3182ce;
-        padding-top: 16px;
-        margin-top: 16px;
-        border-top: 2px solid #e2e8f0;
-      }
+          <div class="form-group">
+            <label class="form-label">Số tiền cọc</label>
+            <input type="number" class="form-input" id="depositAmount" value="0" min="0" readonly />
+          </div>
 
-      .checkbox-group {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        margin-bottom: 12px;
-      }
+          <div class="form-group">
+            <label class="form-label">Ngày nhận cọc</label>
+            <div class="date-input-wrapper">
+              <input type="date" class="form-input" id="depositDate" />
+              <span class="date-icon">📅</span>
+            </div>
+          </div>
 
-      .checkbox-group input[type="checkbox"] {
-        width: 18px;
-        height: 18px;
-        cursor: pointer;
-        accent-color: #3182ce;
-      }
-
-      .checkbox-group label {
-        font-size: 14px;
-        color: #333;
-        cursor: pointer;
-        flex: 1;
-      }
-
-      .discount-value {
-        color: #e53e3e;
-        font-weight: 600;
-      }
-
-      /* Loan Details */
-      .loan-details {
-        margin-top: 20px;
-        padding-top: 20px;
-        border-top: 2px solid #e2e8f0;
-      }
-
-      .loan-detail-row {
-        display: flex;
-        justify-content: space-between;
-        padding: 12px 0;
-        font-size: 14px;
-      }
-
-      .loan-detail-label {
-        color: #4a5568;
-        font-weight: 500;
-      }
-
-      .loan-detail-value {
-        color: #1a1a1a;
-        font-weight: 600;
-      }
-
-      .monthly-payment {
-        font-size: 20px;
-        font-weight: 700;
-        color: #3182ce;
-        padding-top: 16px;
-        margin-top: 16px;
-        border-top: 2px solid #e2e8f0;
-      }
-
-      /* Hide on mobile */
-      @media (max-width: 1023px) {
-        /* No longer need desktop-only hiding */
-      }
-
-      /* Show on desktop */
-      @media (min-width: 1024px) {
-        .mobile-only {
-          display: none;
-        }
-
-        body:not(.mobile-view) .desktop-only {
-          display: block;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <!-- View Toggle Button -->
-    <button class="view-toggle" id="viewToggle">🖥️ Desktop View</button>
-
-    <div class="container">
-      <!-- Header -->
-      <div class="header">
-        <div class="logo">
-          <div class="logo-icon">
-            <img src="images/logo.jpg" alt="VinFast Logo" />
+          <div class="form-group">
+            <label class="form-label">Ngày hẹn giao xe</label>
+            <div class="date-input-wrapper">
+              <input type="date" class="form-input" id="deliveryDate" />
+              <span class="date-icon">📅</span>
+            </div>
           </div>
         </div>
-        <div class="header-title">Công cụ tính giá xe VinFast</div>
-      </div>
 
-      <!-- Content Grid (Desktop) / Single Column (Mobile) -->
-      <div class="content-grid">
-        <!-- Left Column - Customer Info & Cost Estimation -->
-        <div class="top-content">
-          <!-- Customer Info Card -->
-          <div class="customer-info-card">
-            <div class="card-title">Thông tin khách hàng & Giao dịch</div>
-
-            <div class="form-group">
-              <label class="form-label">Họ tên khách hàng</label>
-              <input
-                type="text"
-                class="form-input"
-                id="customerName"
-                placeholder="Nhập họ tên"
-              />
-            </div>
-
-            <div class="form-group">
-              <label class="form-label">Số điện thoại</label>
-              <input
-                type="tel"
-                class="form-input"
-                id="customerPhone"
-                placeholder="Nhập số điện thoại"
-              />
-            </div>
-
-            <div class="form-group">
-              <label class="form-label">Email</label>
-              <input
-                type="email"
-                class="form-input"
-                id="customerEmail"
-                placeholder="Nhập email"
-              />
-            </div>
-
-            <div class="form-group">
-              <label class="form-label">Địa chỉ</label>
-              <input
-                type="text"
-                class="form-input"
-                id="customerAddress"
-                placeholder="Nhập địa chỉ"
-              />
-            </div>
-
-            <div class="form-group">
-              <label class="form-label">Loại khách hàng</label>
-              <select
-                class="form-input"
-                id="customerType"
-                style="cursor: pointer"
-              >
-                <option value="ca_nhan">Cá nhân</option>
-                <option value="cong_ty">Công ty</option>
-              </select>
-            </div>
-
-            <div class="form-group">
-              <label class="form-label">Số tiền cọc</label>
-              <input
-                type="number"
-                class="form-input"
-                id="depositAmount"
-                value="0"
-                min="0"
-              />
-            </div>
-
-            <div class="form-group">
-              <label class="form-label">Ngày nhận cọc</label>
-              <div class="date-input-wrapper">
-                <input type="date" class="form-input" id="depositDate" />
-                <span class="date-icon">📅</span>
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label class="form-label">Ngày hẹn giao xe</label>
-              <div class="date-input-wrapper">
-                <input type="date" class="form-input" id="deliveryDate" />
-                <span class="date-icon">📅</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Main Configuration Card -->
-          <div class="main-card">
-            <!-- Car Image -->
+        <!-- Main Configuration Card -->
+        <div class="main-card">
+          <!-- Product images removed: image UI disabled -->
+             <!-- Car Image -->
             <div
               class="car-image-container"
               style="position: relative; overflow: hidden"
@@ -1071,64 +1050,59 @@
                 </div>
               </div>
             </div>
-            <!-- Configuration Sections -->
-            <div class="config-section">
-              <div class="config-title">1. Chọn mẫu xe</div>
-              <div class="dropdown-wrapper">
-                <select class="dropdown" id="carModel">
-                  <!-- Options will be populated dynamically from database -->
-                </select>
-              </div>
+          <!-- Configuration Sections -->
+          <div class="config-section">
+            <div class="config-title">1. Chọn mẫu xe</div>
+            <div class="dropdown-wrapper">
+              <select class="dropdown" id="carModel">
+                <!-- Options will be populated dynamically from database -->
+              </select>
+            </div>
+          </div>
+
+          <div class="config-section">
+            <div class="config-title">2. Chọn phiên bản</div>
+            <div class="radio-group" id="carVersionRadioGroup">
+              <!-- Radio options will be populated dynamically based on selected car model -->
+            </div>
+            <!-- Hidden select for backward compatibility -->
+            <select style="display: none;" id="carVersion"></select>
+          </div>
+
+          <div class="config-section">
+            <div style="margin-bottom: 20px">
+              <div class="config-title">3. Ngoại thất</div>
+
+              <select class="color-select-hidden" id="exteriorColor">
+                <!-- Hidden select for form compatibility -->
+              </select>
+
+              <div class="color-picker" id="exteriorColorPicker"></div>
+
             </div>
 
-            <div class="config-section">
-              <div class="config-title">2. Chọn phiên bản</div>
-              <div class="radio-group" id="carVersionRadioGroup">
-                <!-- Radio options will be populated dynamically based on selected car model -->
-              </div>
-              <!-- Hidden select for backward compatibility -->
-              <select style="display: none;" id="carVersion"></select>
+            <div style="margin-bottom: 20px">
+              <div class="config-title">4. Nội thất</div>
+
+              <select class="color-select-hidden" id="interiorColor">
+                <!-- Hidden select for form compatibility -->
+              </select>
+
+              <div class="color-picker" id="interiorColorPicker"></div>
             </div>
+          </div>
 
-            <div class="config-section">
-              <div class="config-title">3. Tuỳ chọn ngoại thất</div>
-
-              <div style="margin-bottom: 20px">
-                <label class="form-label">Ngoại thất</label>
-                <div class="color-picker" id="exteriorColorPicker">
-                  <!-- Color options will be populated dynamically -->
-                </div>
-                <select class="color-select-hidden" id="exteriorColor">
-                  <!-- Hidden select for form compatibility -->
-                </select>
-              </div>
-
-              <div style="margin-bottom: 20px">
-                <label class="form-label">Nội thất</label>
-                <div class="color-picker" id="interiorColorPicker">
-                  <!-- Interior color options will be populated dynamically -->
-                </div>
-                <select class="color-select-hidden" id="interiorColor">
-                  <!-- Hidden select for form compatibility -->
-                </select>
-              </div>
+          <div class="config-section">
+            <div class="config-title">5. Chọn nơi đăng ký biển số</div>
+            <div class="dropdown-wrapper">
+              <select class="dropdown" id="registrationLocation">
+                <option value="hcm">TP. Hồ Chí Minh</option>
+                <option value="other">Tỉnh thành khác</option>
+              </select>
             </div>
+          </div>
 
-            <div class="config-section">
-              <div class="config-title">4. Chọn nơi đăng ký biển số</div>
-              <div class="dropdown-wrapper">
-                <select class="dropdown" id="registrationLocation">
-                  <option value="hcm">TP. Hồ Chí Minh</option>
-                  <option value="hanoi">Hà Nội</option>
-                  <option value="danang">Đà Nẵng</option>
-                  <option value="cantho">Cần Thơ</option>
-                  <option value="haiphong">Hải Phòng</option>
-                  <option value="other">Tỉnh thành khác</option>
-                </select>
-              </div>
-            </div>
-
-            <!-- <div class="config-section">
+          <!-- <div class="config-section">
         <div class="config-title">4. Loại khách hàng</div>
         <div class="dropdown-wrapper">
           <select class="dropdown" id="customerTypeMobile">
@@ -1137,1512 +1111,1502 @@
           </select>
         </div>
       </div> -->
-          </div>
         </div>
+      </div>
 
-        <!-- Right Column - Car Configuration & Loan Details -->
-        <div class="bot-content">
-          <!-- Cost Estimation Card -->
-          <div class="customer-info-card">
-            <div class="card-title" id="costEstimationTitle">
-              Dự toán chi phí cho VF 7 Tiêu chuẩn
+      <!-- Right Column - Car Configuration & Loan Details -->
+      <div class="bot-content">
+        <!-- Cost Estimation Card -->
+        <div class="customer-info-card">
+          <div class="card-title" id="costEstimationTitle">
+            Dự toán chi phí cho VF 7 Tiêu chuẩn
+          </div>
+
+          <div class="cost-row">
+            <span class="cost-label">Giá xe (gồm VAT)</span>
+            <span class="cost-value" id="carPriceWithVAT">0</span>
+          </div>
+
+          <div class="cost-row">
+            <span class="cost-label">Tổng giá trị xe</span>
+            <span class="cost-value" id="totalCarValue">0</span>
+          </div>
+
+          <div style="margin: 16px 0">
+            <div class="form-label">Chọn ưu đãi áp dụng</div>
+            <div class="checkbox-group">
+              <input type="checkbox" id="discount1" data-discount="37960000" />
+              <label for="discount1">Ưu đãi Lái xe Xanh (VN3)</label>
+              <span class="discount-value">-37.960.000 ₫</span>
+            </div>
+            <div class="checkbox-group">
+              <input type="checkbox" id="discount2" data-discount="50000000" />
+              <label for="discount2">Ưu đãi tháng 10</label>
+              <span class="discount-value">-50.000.000 ₫</span>
             </div>
 
-            <div class="cost-row">
-              <span class="cost-label">Giá xe (gồm VAT)</span>
-              <span class="cost-value" id="carPriceWithVAT">850.000.000 ₫</span>
-            </div>
 
-            <div class="cost-row">
-              <span class="cost-label">Tổng giá trị xe</span>
-              <span class="cost-value" id="totalCarValue">850.000.000 ₫</span>
-            </div>
 
-            <div style="margin: 16px 0">
-              <div class="form-label">Chọn ưu đãi áp dụng</div>
-              <div class="checkbox-group">
-                <input
-                  type="checkbox"
-                  id="discount1"
-                  data-discount="37960000"
-                />
-                <label for="discount1">Ưu đãi Lái xe Xanh (VN3)</label>
-                <span class="discount-value">-37.960.000 ₫</span>
-              </div>
-              <div class="checkbox-group">
-                <input
-                  type="checkbox"
-                  id="discount2"
-                  data-discount="50000000"
-                />
-                <label for="discount2">Ưu đãi tháng 10</label>
-                <span class="discount-value">-50.000.000 ₫</span>
-              </div>
-
-              <!-- VinClub Voucher -->
-              <div style="margin-top: 12px">
-                <label class="form-label">Voucher VinClub</label>
-                <div
-                  style="
+            <!-- VinClub Voucher -->
+            <div style="margin-top: 12px">
+              <label class="form-label">Voucher VinClub</label>
+              <div style="
                     display: flex;
                     gap: 16px;
                     justify-content: space-between;
-                  "
-                >
-                  <select
-                    class="form-input"
-                    id="vinClubVoucher"
-                    style="cursor: pointer; width: fit-content"
-                  >
-                    <option value="none">Không áp dụng</option>
-                    <option value="gold">Gold (0.5%)</option>
-                    <option value="platinum">Platinum (1%)</option>
-                    <option value="diamond">Diamond (1.5%)</option>
-                  </select>
-                  <div class="discount-value" id="vinClubDiscountValue">0</div>
-                </div>
+                  ">
+                <select class="form-input" id="vinClubVoucher" style="cursor: pointer; width: fit-content">
+                  <option value="none">Không áp dụng</option>
+                  <option value="gold">Gold (0.5%)</option>
+                  <option value="platinum">Platinum (1%)</option>
+                  <option value="diamond">Diamond (1.5%)</option>
+                </select>
+                <div class="discount-value" id="vinClubDiscountValue">0</div>
               </div>
             </div>
 
-            <div class="cost-row">
-              <span class="cost-label">Giá sau ưu đãi</span>
-              <span class="cost-value" id="priceAfterDiscount"
-                >850.000.000 ₫</span
-              >
-            </div>
-
-            <div style="margin-top: 20px">
-              <div
-                class="form-label"
-                style="font-weight: 600; margin-bottom: 12px"
-              >
-                Chi phí lăn bánh dự tính
-              </div>
-
-              <div class="cost-row">
-                <span class="cost-label">Phí biển số (TP. Hồ Chí Minh)</span>
-                <span class="cost-value" id="plateFee">20.000.000 ₫</span>
-              </div>
-              <div class="cost-row">
-                <span class="cost-label">Phí lưu hành đường bộ (1 năm)</span>
-                <span class="cost-value" id="roadFee">1.560.000 ₫</span>
-              </div>
-              <div class="cost-row">
-                <span class="cost-label">Bảo hiểm TNDS (1 năm)</span>
-                <span class="cost-value" id="liabilityInsurance"
-                  >480.700 ₫</span
-                >
-              </div>
-              <div class="cost-row">
-                <span class="cost-label">Phí đăng kiểm</span>
-                <span class="cost-value" id="inspectionFee">90.000 ₫</span>
-              </div>
-              <div class="cost-row">
-                <span class="cost-label">Bảo hiểm thân vỏ (1.5%)</span>
-                <span class="cost-value" id="bodyInsurance">12.750.000 ₫</span>
-              </div>
-              <div class="cost-row">
-                <span class="cost-label">Chi phí dịch vụ đăng ký</span>
-                <span class="cost-value" id="registrationFee">3.900.000 ₫</span>
-              </div>
-              <div class="cost-row">
-                <span class="cost-label">Tổng chi phí lăn bánh</span>
-                <span class="cost-value" id="totalOnRoadCost"
-                  >38.780.700 ₫</span
-                >
-              </div>
-            </div>
-
-            <div class="cost-row cost-total">
-              <span>TỔNG CHI PHÍ</span>
-              <span id="totalCost">888.780.700 ₫</span>
+            <!-- Per-model promotion display -->
+            <div style="margin-top: 12px">
+              <label class="form-label">Ưu đãi theo dòng xe</label>
+              <div class="discount-value" id="perModelPromoValue">0</div>
             </div>
           </div>
 
-          <!-- Loan Options Card -->
-          <div class="loan-card">
-            <div class="loan-title">Tùy chọn & Chi tiết trả góp</div>
+          <div class="cost-row">
+            <span class="cost-label">Giá sau ưu đãi</span>
+            <span class="cost-value" id="priceAfterDiscount">850.000.000 ₫</span>
+          </div>
 
-            <div class="loan-option">
-              <span class="loan-label">Vay mua xe trả góp</span>
-              <label class="toggle-switch">
-                <input type="checkbox" id="loanToggle" checked />
-                <span class="toggle-slider"></span>
-              </label>
+          <div style="margin-top: 20px">
+
+            <!-- Xăng -> Điện checkbox (uses ho_tro_doi_xe from database.js) -->
+
+            <div class="cost-row">
+              <div class="checkbox-group">
+                <input type="checkbox" id="convertCheckbox" />
+                <label for="convertCheckbox">Xăng → Điện (áp dụng chi phí đổi)</label>
+              </div>
+              <span class="cost-value" id="convertSupportFee">0 ₫</span>
             </div>
 
-            <div class="loan-option" id="loanRatioOption">
-              <span class="loan-label">Tỷ lệ vay</span>
-              <div class="slider-container">
-                <div class="slider-wrapper">
-                  <input
-                    type="range"
-                    min="0"
-                    max="100"
-                    value="70"
-                    class="slider"
-                    id="loanRatio"
-                  />
-                </div>
-                <span class="slider-value" id="loanRatioValue"
-                  >70% giá trị xe</span
-                >
-              </div>
+            <div class="form-label" style="font-weight: 600; margin-bottom: 12px;margin-top: 12px">
+              Chi phí lăn bánh dự tính
             </div>
 
-            <div class="loan-option" id="loanTermOption">
-              <span class="loan-label">Thời hạn vay</span>
-              <div class="dropdown-wrapper" style="max-width: 200px">
-                <select class="dropdown" id="loanTerm">
-                  <option value="12">12 tháng</option>
-                  <option value="24">24 tháng</option>
-                  <option value="36">36 tháng</option>
-                  <option value="48">48 tháng</option>
-                  <option value="60" selected>60 tháng (5 năm)</option>
-                  <option value="72">72 tháng</option>
-                </select>
-              </div>
+            <div class="cost-row">
+              <span class="cost-label">Phí biển số (TP. Hồ Chí Minh)</span>
+              <span class="cost-value" id="plateFee">20.000.000 ₫</span>
+            </div>
+            <div class="cost-row">
+              <span class="cost-label">Phí lưu hành đường bộ (1 năm)</span>
+              <span class="cost-value" id="roadFee">1.560.000 ₫</span>
+            </div>
+            <div class="cost-row">
+              <span class="cost-label">Bảo hiểm TNDS (1 năm)</span>
+              <span class="cost-value" id="liabilityInsurance">480.700 ₫</span>
+            </div>
+            <div class="cost-row">
+              <span class="cost-label">Phí đăng kiểm</span>
+              <span class="cost-value" id="inspectionFee">90.000 ₫</span>
+            </div>
+            <div class="cost-row">
+              <span class="cost-label">Bảo hiểm thân vỏ</span>
+              <span class="cost-value" id="bodyInsurance">0</span>
+            </div>
+            <div class="cost-row">
+              <span class="cost-label">Chi phí dịch vụ đăng ký</span>
+              <span class="cost-value" id="registrationFee">3.900.000 ₫</span>
             </div>
 
-            <!-- Loan Details (Desktop) -->
-            <div class="loan-details desktop-only">
-              <div
-                class="form-label"
-                style="font-weight: 600; margin-bottom: 12px"
-              >
-                Chi tiết trả góp dự tính
-              </div>
+            <div class="cost-row">
+              <span class="cost-label">Tổng chi phí lăn bánh</span>
+              <span class="cost-value" id="totalOnRoadCost">38.780.700 ₫</span>
+            </div>
+          </div>
 
-              <div class="loan-detail-row">
-                <span class="loan-detail-label">Số tiền trả trước</span>
-                <span class="loan-detail-value" id="downPayment"
-                  >266.634.210 ₫</span
-                >
+          <div class="cost-row cost-total">
+            <span>TỔNG CHI PHÍ</span>
+            <span id="totalCost">888.780.700 ₫</span>
+          </div>
+        </div>
+
+        <!-- Loan Options Card -->
+        <div class="loan-card">
+          <div class="loan-title">Tùy chọn & Chi tiết trả góp</div>
+
+          <div class="loan-option">
+            <span class="loan-label">Vay mua xe trả góp</span>
+            <label class="toggle-switch">
+              <input type="checkbox" id="loanToggle" checked />
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+
+          <div class="loan-option" id="loanRatioOption">
+            <span class="loan-label">Tỷ lệ vay</span>
+            <div class="slider-container">
+              <div class="slider-wrapper">
+                <input type="range" min="0" max="100" value="70" class="slider" id="loanRatio" />
               </div>
-              <div class="loan-detail-row">
-                <span class="loan-detail-label">Số tiền vay</span>
-                <span class="loan-detail-value" id="loanAmount"
-                  >622.146.490 ₫</span
-                >
-              </div>
-              <div class="loan-detail-row">
-                <span class="loan-detail-label">Tổng lãi phải trả</span>
-                <span class="loan-detail-value" id="totalInterest"
-                  >170.979.967 ₫</span
-                >
-              </div>
-              <div class="loan-detail-row monthly-payment">
-                <span>Gốc & lãi hàng tháng</span>
-                <span id="monthlyPayment">13.218.774 ₫</span>
-              </div>
+              <input type="number" id="loanRatioNumber" min="0" max="100" value="70" style="width:72px; padding:8px; border-radius:8px; border:1px solid #cbd5e0" />
+              <span class="slider-value" id="loanRatioValue">70% giá trị xe</span>
+            </div>
+          </div>
+
+          <div class="loan-option" id="loanTermOption">
+            <span class="loan-label">Thời hạn vay</span>
+            <div class="dropdown-wrapper" style="max-width: 200px">
+              <select class="dropdown" id="loanTerm">
+                <option value="12">12 tháng</option>
+                <option value="24">24 tháng</option>
+                <option value="36">36 tháng</option>
+                <option value="48">48 tháng</option>
+                <option value="60" selected>60 tháng (5 năm)</option>
+                <option value="72">72 tháng</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="loan-option">
+            <span class="loan-label">Lãi suất ngân hàng</span>
+            <div style="width:120px;">
+              <input type="number" id="customInterestRate" placeholder="Lãi suất (%)" min="0" step="0.01" style="width:100%; padding:8px; border-radius:8px; border:1px solid #cbd5e0" />
+            </div>
+          </div>
+
+          <!-- Loan Details (Desktop) -->
+          <div class="loan-details desktop-only">
+            <div class="form-label" style="font-weight: 600; margin-bottom: 12px">
+              Chi tiết trả góp dự tính
+            </div>
+
+            <div class="loan-detail-row">
+              <span class="loan-detail-label">Số tiền trả trước</span>
+              <span class="loan-detail-value" id="downPayment">266.634.210 ₫</span>
+            </div>
+            <div class="loan-detail-row">
+              <span class="loan-detail-label">Số tiền vay</span>
+              <span class="loan-detail-value" id="loanAmount">622.146.490 ₫</span>
+            </div>
+            <div class="loan-detail-row">
+              <span class="loan-detail-label">Tổng lãi phải trả</span>
+              <span class="loan-detail-value" id="totalInterest">170.979.967 ₫</span>
+            </div>
+            <div class="loan-detail-row monthly-payment">
+              <span>Gốc & lãi hàng tháng</span>
+              <span id="monthlyPayment">13.218.774 ₫</span>
             </div>
           </div>
         </div>
       </div>
-
-      <!-- Footer Action Buttons -->
-      <div class="header-actions" style="margin-top: 20px">
-        <button class="btn btn-secondary" id="printBtnFooter">
-          In Báo Giá 1
-        </button>
-        <button class="btn btn-secondary" id="printBtn2Footer">
-          In Báo Giá 2
-        </button>
-        <button class="btn btn-primary" id="emailBtnFooter">
-          Gửi Email Báo Giá
-        </button>
-      </div>
     </div>
 
-    <script>
-      // View Toggle
-      const viewToggle = document.getElementById("viewToggle");
-      const isDesktop = window.innerWidth >= 1024;
+    <!-- Footer Action Buttons -->
+    <div class="header-actions" style="margin-top: 20px">
+      <button class="btn btn-secondary" id="printBtnFooter">
+        In Báo Giá 1
+      </button>
+      <button class="btn btn-secondary" id="printBtn2Footer">
+        In Báo Giá 2
+      </button>
+      <button class="btn btn-primary" id="emailBtnFooter">
+        Gửi Email Báo Giá
+      </button>
+    </div>
+  </div>
 
-      // Set initial view based on screen size
-      if (isDesktop && !localStorage.getItem("mobileView")) {
-        document.body.classList.remove("mobile-view");
-        viewToggle.textContent = "📱 Mobile View";
+
+
+  <!-- Image modal removed (image UI disabled) -->
+
+  <!-- Import vinfast_images_metadata.js FIRST - Required by database.js -->
+  <script src="vinfast_images_metadata.js"></script>
+
+  <!-- Import database.js SECOND - Depends on vinfast_images_metadata -->
+  <script src="database.js"></script>
+
+  <script>
+    // View Toggle
+    const viewToggle = document.getElementById("viewToggle");
+    const isDesktop = window.innerWidth >= 1024;
+
+    // Set initial view based on screen size
+    if (isDesktop && !localStorage.getItem("mobileView")) {
+      document.body.classList.remove("mobile-view");
+      viewToggle.textContent = "📱 Mobile View";
+    } else {
+      document.body.classList.add("mobile-view");
+      viewToggle.textContent = "🖥️ Desktop View";
+    }
+
+    viewToggle.addEventListener("click", function () {
+      document.body.classList.toggle("mobile-view");
+      if (document.body.classList.contains("mobile-view")) {
+        this.textContent = "🖥️ Desktop View";
+        localStorage.setItem("mobileView", "true");
       } else {
-        document.body.classList.add("mobile-view");
-        viewToggle.textContent = "🖥️ Desktop View";
+        this.textContent = "📱 Mobile View";
+        localStorage.removeItem("mobileView");
+      }
+      calculateAll();
+    });
+
+    // Helper function to get data from database.js
+    function getDataByKey(array, key, value) {
+      const item = array.find((item) => item[key] === value);
+      return item || null;
+    }
+
+    // Get all data by key (for multiple matches)
+    function getAllDataByKey(array, key, value) {
+      return array.filter((item) => item[key] === value);
+    }
+
+
+    // Build derived versions from carPriceData (source of truth).
+    // This groups entries by model+trim and deduplicates colors.
+    function buildDerivedVersionsFromCarPriceData() {
+      if (typeof carPriceData === 'undefined' || !Array.isArray(carPriceData)) return [];
+
+      const groups = {}; // key = `${model}||${trim}`
+      carPriceData.forEach((entry) => {
+        // Expect canonical keys: model, trim, exterior_color, interior_color, price_vnd
+        const model = String(entry.model || '').trim();
+        const trim = String(entry.trim || '').trim();
+        if (!model) return;
+        const key = model + '||' + trim;
+        if (!groups[key]) {
+          groups[key] = {
+            model: model,
+            trim: trim,
+            min_price_vnd: Infinity,
+            exterior_colors: new Set(),
+            interior_colors: new Set()
+          };
+        }
+
+        const g = groups[key];
+        // Use price_vnd only
+        const price = Number(entry.price_vnd || 0) || 0;
+        if (price > 0 && price < g.min_price_vnd) g.min_price_vnd = price;
+
+        // Use canonical color keys only
+        const ext = entry.exterior_color;
+        if (ext) g.exterior_colors.add(String(ext).trim());
+
+        const interior = entry.interior_color;
+        if (interior) g.interior_colors.add(String(interior).trim());
+
+        // image_interior removed: image UI disabled and related data not used
+      });
+      return Object.keys(groups).map((k) => {
+        const v = groups[k];
+        return {
+          model: v.model,
+          trim: v.trim,
+          price_vnd: v.min_price_vnd === Infinity ? 0 : v.min_price_vnd,
+          exterior_colors: Array.from(v.exterior_colors),
+          interior_colors: Array.from(v.interior_colors),
+          // image_interior intentionally omitted
+        };
+      });
+    }
+
+    // Derived versions built from carPriceData (source of truth)
+    // Initialize empty and build after database is confirmed loaded to avoid race conditions
+    let derivedVersions = [];
+
+    // Get unique car models from derivedVersions (built from carPriceData)
+    function getCarModels() {
+      const uniqueModels = {};
+      derivedVersions.forEach((xe) => {
+        if (!uniqueModels[xe.model]) {
+          uniqueModels[xe.model] = xe.model;
+        }
+      });
+      return uniqueModels;
+    }
+
+    // Populate car models dropdown from derivedVersions
+    function populateCarModels() {
+      const carModelSelect = document.getElementById("carModel");
+      if (!carModelSelect) return null;
+      carModelSelect.innerHTML = "";
+
+      const models = getCarModels();
+      let firstModel = null;
+
+      Object.keys(models).forEach((modelKey, index) => {
+        const option = document.createElement("option");
+        option.value = modelKey;
+        option.textContent = models[modelKey];
+
+        if (index === 0) {
+          option.selected = true;
+          firstModel = modelKey;
+        }
+
+        carModelSelect.appendChild(option);
+      });
+
+      return firstModel;
+    }
+
+    // Map location to database key
+    const locationMap = {
+      hcm: "ho_chi_minh",
+      hanoi: "ha_noi",
+      danang: "da_nang",
+      cantho: "can_tho",
+      haiphong: "hai_phong",
+      other: "tinh_khac",
+    };
+
+    // Populate car versions based on selected model (from derivedVersions)
+    function populateCarVersions(carModel, keepCurrentColor = false) {
+      const versionSelect = document.getElementById("carVersion");
+      if (!versionSelect) return;
+      versionSelect.style.display = "";
+      versionSelect.className = "dropdown";
+      versionSelect.innerHTML = "";
+
+      const versions = derivedVersions.filter(v => v.model === carModel);
+
+        if (versions.length > 0) {
+        versions.forEach((version, index) => {
+          const option = document.createElement("option");
+          // Use trim as the option value/label; fall back to model if trim is empty
+          option.value = (version.trim && String(version.trim).trim() !== "") ? String(version.trim).trim() : "";
+          option.textContent = (version.trim && String(version.trim).trim() !== "") ? String(version.trim).trim() : version.model;
+          option.dataset.price = version.price_vnd || version.min_price_vnd || 0;
+          // Always store the real model name for derived data matching
+          option.dataset.modelName = version.model || '';
+          // Prefer legacy dong_xe code for dataset.carModel so lookups into
+          // thong_tin_ky_thuat_xe and other legacy tables work correctly.
+          try {
+            let dongCode = null;
+            if (typeof danh_sach_xe !== 'undefined' && Array.isArray(danh_sach_xe)) {
+              const modelName = (version.model || '').toString().trim().toLowerCase();
+              const found = danh_sach_xe.find(x => (x.ten_hien_thi || '').toString().trim().toLowerCase() === modelName);
+              if (found && found.dong_xe) dongCode = found.dong_xe;
+              if (!dongCode && modelName) {
+                const norm = modelName.replace(/\s+/g, '_').replace(/[^a-z0-9_]/g, '');
+                const found2 = danh_sach_xe.find(x => x.dong_xe === norm || x.dong_xe === norm.replace(/__+/g, '_'));
+                if (found2 && found2.dong_xe) dongCode = found2.dong_xe;
+              }
+            }
+            option.dataset.carModel = dongCode || version.model || '';
+          } catch (e) {
+            option.dataset.carModel = version.model || '';
+          }
+          if (index === 0) option.selected = true;
+          versionSelect.appendChild(option);
+        });
+
+        // Populate colors
+        populateColorOptions(keepCurrentColor);
+      } else {
+        const option = document.createElement("option");
+        option.value = "standard";
+        option.textContent = "Tiêu chuẩn";
+        option.dataset.price = "0";
+        option.dataset.carModel = carModel || "";
+        option.selected = true;
+        versionSelect.appendChild(option);
+      }
+    }
+
+    // Populate bank interest preset dropdown from database.js
+    function populateBankInterestPresets() {
+      const sel = document.getElementById('bankInterestPreset');
+      if (!sel || typeof bank_interest_presets === 'undefined' || !Array.isArray(bank_interest_presets)) return;
+      sel.innerHTML = '';
+      bank_interest_presets.forEach(p => {
+        const opt = document.createElement('option');
+        opt.value = p.id;
+        opt.textContent = `${p.name}`;
+        opt.dataset.rate = p.rate;
+        sel.appendChild(opt);
+      });
+      // select default if present
+      const defaultOpt = Array.from(sel.options).find(o => o.value === 'default');
+      if (defaultOpt) defaultOpt.selected = true;
+    }
+
+    // Update car image based on selected exterior color with animation
+
+    // Populate color options (exterior + interior) for selected model/version
+    function populateColorOptions(keepCurrentColor = false) {
+      const versionSelect = document.getElementById("carVersion");
+      const selectedVersion = versionSelect ? versionSelect.value : null;
+      // Find matching derived version by model + trim
+      const currentModel = getCurrentCarModel();
+      const selectedCar = derivedVersions.find(xe => xe.model === currentModel && xe.trim === selectedVersion);
+      if (!selectedCar) {
+        // clear selects
+        const exteriorColorPicker = document.getElementById("exteriorColorPicker");
+        if (exteriorColorPicker) {
+          exteriorColorPicker.innerHTML = '';
+        }
+        const interiorColorSelect = document.getElementById("interiorColor");
+        if (interiorColorSelect) {
+          interiorColorSelect.innerHTML = '<option value="">Không có thông tin màu nội thất</option>';
+          interiorColorSelect.dispatchEvent(new Event('change'));
+        }
+        if (interiorColorPicker) {
+          interiorColorPicker.innerHTML = '';
+        }
+        const interiorColorPicker = document.getElementById("interiorColorPicker");
+        if (interiorColorPicker) {
+          interiorColorPicker.innerHTML = '';
+        }
+        return;
       }
 
-      viewToggle.addEventListener("click", function () {
-        document.body.classList.toggle("mobile-view");
-        if (document.body.classList.contains("mobile-view")) {
-          this.textContent = "🖥️ Desktop View";
-          localStorage.setItem("mobileView", "true");
+      const exteriorColorSelect = document.getElementById("exteriorColor");
+      const exteriorColorPicker = document.getElementById("exteriorColorPicker");
+      const interiorColorSelect = document.getElementById("interiorColor");
+      const interiorColorPicker = document.getElementById("interiorColorPicker");
+      const currentExteriorColor = keepCurrentColor && exteriorColorSelect ? exteriorColorSelect.value : null;
+      const currentInteriorColor = keepCurrentColor && interiorColorSelect ? interiorColorSelect.value : null;
+
+      if (exteriorColorSelect && exteriorColorPicker) {
+        exteriorColorSelect.innerHTML = "";
+        exteriorColorPicker.innerHTML = "";
+        const firstExt = selectedCar.exterior_colors[0];
+        const selectedExt = currentExteriorColor && selectedCar.exterior_colors.includes(currentExteriorColor) ? currentExteriorColor : (typeof firstExt === 'string' ? firstExt : firstExt && firstExt.ma_mau || firstExt);
+
+        // Filter uniqueNgoaiThatColors to only available colors
+        const availableColors = uniqueNgoaiThatColors.filter(color => selectedCar.exterior_colors.includes(color.code));
+
+        availableColors.forEach((color) => {
+          // Populate hidden select
+          const opt = document.createElement('option');
+          opt.value = color.code;
+          opt.textContent = color.name;
+          if (opt.value === selectedExt) opt.selected = true;
+          exteriorColorSelect.appendChild(opt);
+
+          // Populate color picker
+          const colorDiv = document.createElement('div');
+          colorDiv.className = 'color-option';
+          if (opt.value === selectedExt) colorDiv.classList.add('selected');
+          colorDiv.setAttribute('data-code', color.code);
+          colorDiv.innerHTML = `<img src="${color.icon}" alt="${color.name}" />`;
+          colorDiv.addEventListener('click', function() {
+            // Remove selected from others
+            exteriorColorPicker.querySelectorAll('.color-option').forEach(div => div.classList.remove('selected'));
+            // Add selected to this
+            this.classList.add('selected');
+            // Update hidden select
+            exteriorColorSelect.value = color.code;
+            // Update image
+            updateCarImage();
+            // Trigger change
+            exteriorColorSelect.dispatchEvent(new Event('change'));
+          });
+          exteriorColorPicker.appendChild(colorDiv);
+        });
+        exteriorColorSelect.dispatchEvent(new Event('change'));
+      }
+
+      if (interiorColorSelect && interiorColorPicker) {
+        interiorColorSelect.innerHTML = "";
+        interiorColorPicker.innerHTML = "";
+        const firstInt = selectedCar.interior_colors[0];
+        const selectedInt = currentInteriorColor && selectedCar.interior_colors.includes(currentInteriorColor) ? currentInteriorColor : (typeof firstInt === 'string' ? firstInt : firstInt && firstInt.ten_mau_noi || firstInt);
+
+        // Map interior colors directly to uniqueNoiThatColors by code
+        const availableInteriorColors = selectedCar.interior_colors.map(code => {
+          return uniqueNoiThatColors.find(c => c.code === code);
+        }).filter(c => c);
+
+        availableInteriorColors.forEach((color) => {
+          // Populate hidden select
+          const opt = document.createElement('option');
+          opt.value = color.code;
+          opt.textContent = color.name;
+          if (opt.value === selectedInt) opt.selected = true;
+          interiorColorSelect.appendChild(opt);
+
+          // Populate color picker
+          const colorDiv = document.createElement('div');
+          colorDiv.className = 'color-option';
+          if (opt.value === selectedInt) colorDiv.classList.add('selected');
+          colorDiv.setAttribute('data-code', color.code);
+          colorDiv.innerHTML = `<img src="${color.icon}" alt="${color.name}" />`;
+          colorDiv.addEventListener('click', function() {
+            // Remove selected from others
+            interiorColorPicker.querySelectorAll('.color-option').forEach(div => div.classList.remove('selected'));
+            // Add selected to this
+            this.classList.add('selected');
+            // Update hidden select
+            interiorColorSelect.value = color.code;
+            // Trigger change
+            interiorColorSelect.dispatchEvent(new Event('change'));
+          });
+          interiorColorPicker.appendChild(colorDiv);
+        });
+        interiorColorSelect.dispatchEvent(new Event('change'));
+      }
+    }
+
+    // Update car image based on selected exterior color with animation
+    function updateCarImage() {
+      const modelSelect = document.getElementById('carModel');
+      const versionSelect = document.getElementById('carVersion');
+      const exteriorSelect = document.getElementById('exteriorColor');
+
+      const model = modelSelect ? modelSelect.value : '';
+      const version = versionSelect ? versionSelect.value : '';
+      const exterior = exteriorSelect ? exteriorSelect.value : '';
+
+      const exteriorImg = document.getElementById("carImageExterior");
+
+      // If no color is selected yet, don't update images
+      if (!exterior) {
+        console.warn("No exterior color selected yet, skipping image update");
+        return;
+      }
+
+      // Remove any existing animation classes first
+      exteriorImg.classList.remove("fade-out", "fade-in");
+
+      // Force reflow to restart animation
+      void exteriorImg.offsetWidth;
+
+      // Add fade-out effect
+      exteriorImg.classList.add("fade-out");
+
+      // Wait for fade-out animation to complete completely, then change image
+      setTimeout(() => {
+        if (typeof carPriceData === 'undefined' || !Array.isArray(carPriceData)) return;
+
+        // Find exact match
+        const exact = carPriceData.find(e => {
+          const m = String(e.model || '').trim();
+          const t = String(e.trim || '').trim();
+          const ext = String(e.exterior_color || '').trim();
+          return m === model && t === version && ext === exterior;
+        });
+
+        if (exact && exact.car_image_url) {
+          exteriorImg.src = exact.car_image_url;
         } else {
-          this.textContent = "📱 Mobile View";
-          localStorage.removeItem("mobileView");
+          // Fallback: find any image for this model/version combination
+          const fallback = carPriceData.find(e => {
+            const m = String(e.model || '').trim();
+            const t = String(e.trim || '').trim();
+            return m === model && t === version && e.car_image_url;
+          });
+          if (fallback && fallback.car_image_url) {
+            exteriorImg.src = fallback.car_image_url;
+          }
+        }
+
+        // Wait a bit for image to load, then fade-in
+        setTimeout(() => {
+          exteriorImg.classList.remove("fade-out");
+          exteriorImg.classList.add("fade-in");
+
+          // Clean up animation class after animation completes
+          setTimeout(() => {
+            exteriorImg.classList.remove("fade-in");
+          }, 300); // Match animation duration
+        }, 50);
+      }, 250); // Wait for fade-out to complete (match transition duration)
+    }
+
+    // Get car price from selected model/version/colors. Prefer exact match in carPriceData.
+    function getCarPrice() {
+      const modelSelect = document.getElementById('carModel');
+      const versionSelect = document.getElementById('carVersion');
+      const exteriorSelect = document.getElementById('exteriorColor');
+      const interiorSelect = document.getElementById('interiorColor');
+
+      const model = modelSelect ? modelSelect.value : '';
+      const version = versionSelect ? versionSelect.value : '';
+      const exterior = exteriorSelect ? exteriorSelect.value : '';
+      const interior = interiorSelect ? interiorSelect.value : '';
+
+      if (typeof carPriceData === 'undefined' || !Array.isArray(carPriceData)) {
+        // fallback to dataset price on version option
+        if (versionSelect && versionSelect.options.length > 0) {
+          const sel = versionSelect.options[versionSelect.selectedIndex] || versionSelect.options[0];
+          const p = parseInt(sel.dataset.price);
+          return isNaN(p) ? 0 : p;
+        }
+        return 0;
+      }
+
+      // Try exact match using canonical keys: model, trim, exterior_color, interior_color
+      const exact = carPriceData.find(e => {
+        const m = String(e.model || '').trim();
+        const t = String(e.trim || '').trim();
+        const ext = String(e.exterior_color || '').trim();
+        const inti = String(e.interior_color || '').trim();
+        return m === model && t === version && ext === exterior && inti === interior;
+      });
+      if (exact && typeof exact.price_vnd !== 'undefined') return Number(exact.price_vnd);
+
+      // If no exact match, match by model+trim and return minimal price_vnd among candidates
+      const candidates = carPriceData.filter(e => {
+        const m = String(e.model || '').trim();
+        const t = String(e.trim || '').trim();
+        return m === model && t === version;
+      });
+      if (candidates.length > 0) {
+        const prices = candidates.map(c => Number(c.price_vnd || 0) || 0).filter(p => p > 0);
+        if (prices.length > 0) return Math.min(...prices);
+      }
+
+      // Last resort: dataset price on version option
+      if (versionSelect && versionSelect.options.length > 0) {
+        const sel = versionSelect.options[versionSelect.selectedIndex] || versionSelect.options[0];
+        const p = parseInt(sel.dataset.price);
+        return isNaN(p) ? 0 : p;
+      }
+
+      return 0;
+    }
+
+    // Get current car model key (safe fallback)
+    function getCurrentCarModel() {
+      const versionSelect = document.getElementById("carVersion");
+      const carModelSelect = document.getElementById("carModel");
+      let carModel = '';
+      if (versionSelect && versionSelect.options && versionSelect.options.length > 0) {
+        const sel = versionSelect.options[versionSelect.selectedIndex] || versionSelect.options[0];
+        // Prefer the real model name stored on the option for derivedVersions matching
+        carModel = (sel && sel.dataset && sel.dataset.modelName) || (sel && sel.dataset && sel.dataset.carModel) || '';
+      }
+      if (!carModel && carModelSelect) carModel = carModelSelect.value || '';
+      return carModel;
+    }
+
+    // Return legacy dong_xe code for lookups into legacy tables (thong_tin_ky_thuat_xe, ho_tro_doi_xe, etc.)
+    function getSelectedDongXe() {
+      const versionSelect = document.getElementById("carVersion");
+      const carModelSelect = document.getElementById("carModel");
+      let dong = '';
+      if (versionSelect && versionSelect.options && versionSelect.options.length > 0) {
+        const sel = versionSelect.options[versionSelect.selectedIndex] || versionSelect.options[0];
+        dong = (sel && sel.dataset && sel.dataset.carModel) || '';
+      }
+      // If we don't have dataset.carModel, try to map from carModelSelect.value using danh_sach_xe
+      if (!dong && carModelSelect && typeof danh_sach_xe !== 'undefined' && Array.isArray(danh_sach_xe)) {
+        const modelName = (carModelSelect.value || '').toString().trim().toLowerCase();
+        const found = danh_sach_xe.find(x => (x.ten_hien_thi || '').toString().trim().toLowerCase() === modelName);
+        if (found && found.dong_xe) dong = found.dong_xe;
+        if (!dong && modelName) {
+          const norm = modelName.replace(/\s+/g, '_').replace(/[^a-z0-9_]/g, '');
+          const found2 = danh_sach_xe.find(x => x.dong_xe === norm || x.dong_xe === norm.replace(/__+/g, '_'));
+          if (found2 && found2.dong_xe) dong = found2.dong_xe;
+        }
+      }
+      return dong || '';
+    }
+
+    // Get deposit amount from gia_tri_dat_coc based on dong_xe
+    function getDepositAmount(dongXe) {
+      if (!dongXe || typeof gia_tri_dat_coc === 'undefined' || !Array.isArray(gia_tri_dat_coc)) {
+        return 0;
+      }
+      const depositData = gia_tri_dat_coc.find(item => item.dong_xe === dongXe);
+      return depositData ? depositData.gia_tri : 0;
+    }
+
+    // Update deposit amount field automatically
+    function updateDepositAmount() {
+      const dongXe = getSelectedDongXe();
+      const depositAmount = getDepositAmount(dongXe);
+      const depositInput = document.getElementById("depositAmount");
+      if (depositInput) {
+        depositInput.value = depositAmount;
+      }
+    }
+
+    // Format currency
+    function formatCurrency(amount) {
+      return new Intl.NumberFormat("vi-VN").format(amount) + " ₫";
+    }
+
+    // Calculate all costs
+    function calculateAll() {
+
+      const carModel = document.getElementById("carModel").value;
+      const carVersion = document.getElementById("carVersion").value;
+      const registrationLocation = document.getElementById(
+        "registrationLocation"
+      ).value;
+
+
+      // Get base price from selected version
+      const basePrice = getCarPrice();
+
+      // Calculate discounts - Using data from database.js or data attributes
+      const discount1Element = document.getElementById("discount1");
+      const discount2Element = document.getElementById("discount2");
+      const discount1 = discount1Element.checked
+        ? parseInt(discount1Element.getAttribute("data-discount") || 0)
+        : 0;
+      const discount2 = discount2Element.checked
+        ? parseInt(discount2Element.getAttribute("data-discount") || 0)
+        : 0;
+
+      // Per-model promotion (percentage) if configured in database.js
+      let perModelPromoAmount = 0;
+      try {
+        if (typeof per_model_promotions !== 'undefined' && Array.isArray(per_model_promotions)) {
+          const dong = getSelectedDongXe();
+          const p = per_model_promotions.find(x => x.dong_xe === dong);
+          if (p && p.ty_le) {
+            perModelPromoAmount = Math.round(basePrice * Number(p.ty_le) || 0);
+          }
+        }
+      } catch (e) {
+        perModelPromoAmount = 0;
+      }
+
+      // Calculate VinClub discount based on price AFTER fixed discounts
+      // First apply fixed amount discounts (discount1, discount2, per-model percent)
+      const fixedDiscountTotal = discount1 + discount2 + perModelPromoAmount;
+      const intermediatePrice = Math.max(0, basePrice - fixedDiscountTotal);
+
+      const vinClubSelect = document.getElementById("vinClubVoucher");
+      const vinClubValue = vinClubSelect ? vinClubSelect.value : "none";
+      let vinClubDiscount = 0;
+      if (vinClubValue !== "none") {
+        const vinClubData = getDataByKey(uu_dai_vin_club, "hang", vinClubValue);
+        if (vinClubData) {
+          vinClubDiscount = Math.round(intermediatePrice * vinClubData.ty_le);
+        }
+      }
+
+      // Update VinClub discount display
+      const vinClubDiscountDisplay = document.getElementById("vinClubDiscountValue");
+      if (vinClubDiscountDisplay) {
+        if (vinClubDiscount > 0) {
+          vinClubDiscountDisplay.textContent = `-${formatCurrency(vinClubDiscount)}`;
+        } else {
+          vinClubDiscountDisplay.textContent = "";
+        }
+      }
+
+      // Update per-model promotion display
+      const perModelPromoDisplay = document.getElementById("perModelPromoValue");
+      if (perModelPromoDisplay) {
+        if (perModelPromoAmount > 0) {
+          perModelPromoDisplay.textContent = `-${formatCurrency(perModelPromoAmount)}`;
+        } else {
+          perModelPromoDisplay.textContent = "";
+        }
+      }
+
+      const totalDiscount = fixedDiscountTotal + vinClubDiscount;
+      const priceAfterDiscount = Math.max(0, basePrice - totalDiscount);
+
+
+  // Get car model key for database lookup (legacy dong_xe)
+  const carModelKey = getSelectedDongXe();
+
+      // Get customer type for road fee calculation
+      // Try to get from desktop first, if not available use mobile
+      const customerTypeDesktop = document.getElementById("customerType");
+      const customerTypeMobile =
+        document.getElementById("customerTypeMobile");
+      const customerType = customerTypeDesktop
+        ? customerTypeDesktop.value
+        : customerTypeMobile
+          ? customerTypeMobile.value
+          : "ca_nhan";
+
+      // Xăng -> Điện convert support (if user checks the box)
+      const convertChecked = document.getElementById('convertCheckbox') ? document.getElementById('convertCheckbox').checked : false;
+      // Use selected dong_xe code for lookup
+      let convertSupport = 0;
+      try {
+        if (convertChecked && typeof ho_tro_doi_xe !== 'undefined') {
+          const dongCode = getSelectedDongXe();
+          if (dongCode) {
+            const supportEntry = ho_tro_doi_xe.find(h => h.dong_xe === dongCode);
+            if (supportEntry && supportEntry.gia_tri) convertSupport = Number(supportEntry.gia_tri) || 0;
+          }
+        }
+      } catch (e) {
+        console.warn('Error computing convert support:', e);
+        convertSupport = 0;
+      }
+
+      // Calculate on-road costs using database.js
+      // Phí cấp biển số
+      const locationKey = locationMap[registrationLocation] || "tinh_khac";
+      const plateFeeData = getDataByKey(
+        phi_cap_bien_so,
+        "khu_vuc",
+        locationKey
+      );
+      const plateFee = plateFeeData
+        ? plateFeeData.gia_tri
+        : getDataByKey(phi_cap_bien_so, "khu_vuc", "tinh_khac").gia_tri;
+
+      // Phí đường bộ - based on customer type (cá nhân hoặc công ty)
+      const roadFeeData = getDataByKey(phi_duong_bo, "loai", customerType);
+      const roadFee = roadFeeData
+        ? roadFeeData.gia_tri
+        : getDataByKey(phi_duong_bo, "loai", "ca_nhan").gia_tri;
+
+      // Get thông tin xe for insurance calculation
+      const carInfo = getDataByKey(
+        thong_tin_ky_thuat_xe,
+        "dong_xe",
+        carModelKey
+      );
+
+      // Phí TNDS - based on customer type
+      const liabilityInsurance = carInfo
+        ? customerType === "ca_nhan"
+          ? carInfo.phi_tnds_ca_nhan
+          : carInfo.phi_tnds_kinh_doanh
+        : getDataByKey(thong_tin_ky_thuat_xe, "dong_xe", "vf_7")
+          .phi_tnds_ca_nhan;
+      console.log("Liability Insurance:", liabilityInsurance);
+
+      // Phí kiểm định
+      const inspectionFee = phi_kiem_dinh;
+
+      // Bảo hiểm thân vỏ - based on customer type
+      const bhvcRate = carInfo
+        ? customerType === "ca_nhan"
+          ? carInfo.ty_le_bhvc_ca_nhan
+          : carInfo.ty_le_bhvc_kinh_doanh
+        : 0.01;
+
+      const bodyInsurance = Math.round(priceAfterDiscount * bhvcRate);
+
+      // Chi phí dịch vụ đăng ký - from database.js
+      const registrationFee = chi_phi_dich_vu_dang_ky;
+
+      const totalOnRoadCost =
+        plateFee +
+        roadFee +
+        liabilityInsurance +
+        inspectionFee +
+        bodyInsurance +
+        registrationFee +
+        convertSupport;
+      const totalCost = priceAfterDiscount + totalOnRoadCost;
+
+
+      // Update cost display
+      document.getElementById("carPriceWithVAT").textContent =
+        formatCurrency(basePrice);
+      document.getElementById("totalCarValue").textContent =
+        formatCurrency(basePrice);
+      document.getElementById("priceAfterDiscount").textContent =
+        formatCurrency(priceAfterDiscount);
+      document.getElementById("plateFee").textContent =
+        formatCurrency(plateFee);
+
+      // Update plate fee label with location name
+      const plateFeeLabel = document.querySelector(
+        ".cost-row:has(#plateFee) .cost-label"
+      );
+      if (plateFeeLabel && plateFeeData) {
+        plateFeeLabel.textContent = `Phí biển số (${plateFeeData.ten_khu_vuc})`;
+      }
+
+      document.getElementById("roadFee").textContent =
+        formatCurrency(roadFee);
+      document.getElementById("liabilityInsurance").textContent =
+        formatCurrency(liabilityInsurance);
+      document.getElementById("inspectionFee").textContent =
+        formatCurrency(inspectionFee);
+      document.getElementById("bodyInsurance").textContent =
+        formatCurrency(bodyInsurance);
+      document.getElementById("registrationFee").textContent =
+        formatCurrency(registrationFee);
+      // Update convert support fee display
+      const convertEl = document.getElementById('convertSupportFee');
+      if (convertEl) convertEl.textContent = formatCurrency(convertSupport);
+      document.getElementById("totalOnRoadCost").textContent =
+        formatCurrency(totalOnRoadCost);
+      document.getElementById("totalCost").textContent =
+        formatCurrency(totalCost);
+
+      // Update title with car version
+      document.getElementById(
+        "costEstimationTitle"
+      ).textContent = `Dự toán chi phí cho ${carVersion}`;
+
+      // Calculate loan details if enabled
+      if (document.getElementById("loanToggle").checked) {
+        calculateLoanDetails(totalCost);
+      } else {
+        document.getElementById("downPayment").textContent =
+          formatCurrency(0);
+        document.getElementById("loanAmount").textContent = formatCurrency(0);
+        document.getElementById("totalInterest").textContent =
+          formatCurrency(0);
+        document.getElementById("monthlyPayment").textContent =
+          formatCurrency(0);
+      }
+    }
+
+    // Calculate loan details
+    function calculateLoanDetails(carPrice) {
+      const loanRatio = parseFloat(document.getElementById("loanRatio").value) / 100;
+      const loanTerm = parseInt(document.getElementById("loanTerm").value);
+
+      // Choose interest rate from custom input
+      let annualRate = lai_suat_vay_hang_nam;
+      try {
+        const customRateEl = document.getElementById('customInterestRate');
+        const custom = customRateEl && customRateEl.value ? Number(customRateEl.value) / 100 : null;
+        if (custom && !isNaN(custom) && custom >= 0) {
+          annualRate = custom;
+        }
+      } catch (e) {
+        annualRate = lai_suat_vay_hang_nam;
+      }
+
+      const monthlyRate = annualRate / 12;
+
+      const loanAmount = Math.round(carPrice * loanRatio);
+      const downPayment = carPrice - loanAmount;
+
+      // monthly payment formula (annuity)
+      let monthlyPayment = 0;
+      if (monthlyRate > 0 && loanTerm > 0) {
+        monthlyPayment = (loanAmount * (monthlyRate * Math.pow(1 + monthlyRate, loanTerm))) / (Math.pow(1 + monthlyRate, loanTerm) - 1);
+      } else if (loanTerm > 0) {
+        monthlyPayment = loanAmount / loanTerm;
+      }
+      const totalPayment = monthlyPayment * loanTerm;
+      const totalInterest = totalPayment - loanAmount;
+
+      document.getElementById("downPayment").textContent = formatCurrency(downPayment);
+      document.getElementById("loanAmount").textContent = formatCurrency(loanAmount);
+      document.getElementById("totalInterest").textContent = formatCurrency(Math.round(totalInterest));
+      document.getElementById("monthlyPayment").textContent = formatCurrency(Math.round(monthlyPayment));
+    }
+
+    // Loan ratio slider
+    const loanRatioSlider = document.getElementById("loanRatio");
+    const loanRatioValue = document.getElementById("loanRatioValue");
+  const loanRatioNumber = document.getElementById("loanRatioNumber");
+
+    // sync slider and numeric input
+    function setLoanRatioUI(value) {
+      const v = Math.max(0, Math.min(100, Number(value) || 0));
+      loanRatioSlider.value = v;
+      if (loanRatioNumber) loanRatioNumber.value = v;
+      loanRatioValue.textContent = `${v}% giá trị xe`;
+    }
+
+    loanRatioSlider.addEventListener("input", function () {
+      setLoanRatioUI(this.value);
+      calculateAll();
+    });
+    if (loanRatioNumber) {
+      loanRatioNumber.addEventListener('input', function() {
+        setLoanRatioUI(this.value);
+        calculateAll();
+      });
+    }
+
+    // Loan toggle
+    const loanToggle = document.getElementById("loanToggle");
+    const loanRatioOption = document.getElementById("loanRatioOption");
+    const loanTermOption = document.getElementById("loanTermOption");
+
+    loanToggle.addEventListener("change", function () {
+      if (this.checked) {
+        loanRatioOption.style.display = "flex";
+        loanTermOption.style.display = "flex";
+      } else {
+        loanRatioOption.style.display = "none";
+        loanTermOption.style.display = "none";
+      }
+      calculateAll();
+    });
+
+    // Custom interest change
+    const customInterestEl = document.getElementById('customInterestRate');
+    if (customInterestEl) customInterestEl.addEventListener('input', calculateAll);
+
+    // Car model and version change
+    document
+      .getElementById("carModel")
+      .addEventListener("change", function () {
+        // When changing car model, don't keep current color (reset to default)
+        populateCarVersions(this.value, false);
+        updateDepositAmount();
+        calculateAll();
+      });
+    document
+      .getElementById("carVersion")
+      .addEventListener("change", function () {
+        // When changing version within same model, try to keep current color
+        populateColorOptions(true);
+        updateDepositAmount();
+        calculateAll();
+      });
+    document
+      .getElementById("registrationLocation")
+      .addEventListener("change", calculateAll);
+
+    // Customer type change - sync between desktop and mobile
+    const customerTypeDesktop = document.getElementById("customerType");
+    const customerTypeMobile = document.getElementById("customerTypeMobile");
+
+    if (customerTypeDesktop) {
+      customerTypeDesktop.addEventListener("change", function () {
+        if (customerTypeMobile) {
+          customerTypeMobile.value = this.value;
         }
         calculateAll();
       });
+    }
 
-      // Helper function to get data from database.js
-      function getDataByKey(array, key, value) {
-        const item = array.find((item) => item[key] === value);
-        return item || null;
-      }
+    if (customerTypeMobile) {
+      customerTypeMobile.addEventListener("change", function () {
+        if (customerTypeDesktop) {
+          customerTypeDesktop.value = this.value;
+        }
+        calculateAll();
+      });
+    }
 
-      // Get all data by key (for multiple matches)
-      function getAllDataByKey(array, key, value) {
-        return array.filter((item) => item[key] === value);
-      }
+    // Color changes
+    document
+      .getElementById("exteriorColor")
+      .addEventListener("change", function () {
+        updateCarImage();
+        calculateAll();
+      });
 
-      // Get unique car models from database
-      function getCarModels() {
-        const uniqueModels = {};
-        danh_sach_xe.forEach((xe) => {
-          if (!uniqueModels[xe.dong_xe]) {
-            uniqueModels[xe.dong_xe] = xe.ten_hien_thi;
+    // Interior color dropdown change -> recalc and update interior image if applicable
+    document
+      .getElementById("interiorColor")
+      .addEventListener("change", function () {
+        // interior image may change depending on selection (images disabled)
+        calculateAll();
+      });
+
+    // Discount checkboxes
+    document
+      .getElementById("discount1")
+      .addEventListener("change", calculateAll);
+    document
+      .getElementById("discount2")
+      .addEventListener("change", calculateAll);
+
+    // Convert checkbox change -> recalc
+    const convertCheckboxEl = document.getElementById('convertCheckbox');
+    if (convertCheckboxEl) convertCheckboxEl.addEventListener('change', calculateAll);
+
+    // VinClub voucher dropdown
+    const vinClubVoucherElement = document.getElementById("vinClubVoucher");
+    if (vinClubVoucherElement) {
+      vinClubVoucherElement.addEventListener("change", calculateAll);
+    }
+
+    // Loan term change
+    document
+      .getElementById("loanTerm")
+      .addEventListener("change", calculateAll);
+
+    // Function to collect all invoice data
+    function collectInvoiceData() {
+      // Get car model info
+      const carModelSelect = document.getElementById("carModel");
+      const carModelText =
+        carModelSelect.options[carModelSelect.selectedIndex].text;
+      const carVersionSelect = document.getElementById("carVersion");
+      const carVersionText =
+        carVersionSelect.options[carVersionSelect.selectedIndex].text;
+
+      // Get colors
+      const exteriorColorSelect = document.getElementById("exteriorColor");
+      const exteriorColorText =
+        exteriorColorSelect.options[exteriorColorSelect.selectedIndex].text;
+
+      // Get interior color
+      const interiorColorSelect = document.getElementById("interiorColor");
+      const interiorColorText = interiorColorSelect && interiorColorSelect.options.length > 0
+        ? interiorColorSelect.options[interiorColorSelect.selectedIndex].text
+        : "Không có thông tin";
+
+      // Get registration location
+      const registrationLocationSelect = document.getElementById(
+        "registrationLocation"
+      );
+      const registrationLocationText =
+        registrationLocationSelect.options[
+          registrationLocationSelect.selectedIndex
+        ].text;
+
+      // Get customer info
+      const customerName =
+        document.getElementById("customerName")?.value || "";
+      const customerPhone =
+        document.getElementById("customerPhone")?.value || "";
+      const customerEmail =
+        document.getElementById("customerEmail")?.value || "";
+      const customerAddress =
+        document.getElementById("customerAddress")?.value || "";
+      const customerTypeSelect = document.getElementById("customerType");
+      const customerType = customerTypeSelect
+        ? customerTypeSelect.value
+        : "ca_nhan";
+      const depositAmount = parseFloat(
+        document.getElementById("depositAmount")?.value || 0
+      );
+      const depositDate = document.getElementById("depositDate")?.value || "";
+      const deliveryDate =
+        document.getElementById("deliveryDate")?.value || "";
+
+      // Get car prices
+      const basePrice = getCarPrice();
+      const discount1 = document.getElementById("discount1").checked
+        ? parseFloat(
+          document
+            .getElementById("discount1")
+            .getAttribute("data-discount") || 0
+        )
+        : 0;
+      const discount2 = document.getElementById("discount2").checked
+        ? parseFloat(
+          document
+            .getElementById("discount2")
+            .getAttribute("data-discount") || 0
+        )
+        : 0;
+
+      // Get VinClub discount
+      const vinClubSelect = document.getElementById("vinClubVoucher");
+      const vinClubValue = vinClubSelect ? vinClubSelect.value : "none";
+      let vinClubDiscount = 0;
+      // per-model promotion (percentage) applied before VinClub
+      let perModelPromoAmount = 0;
+      try {
+        if (typeof per_model_promotions !== 'undefined' && Array.isArray(per_model_promotions)) {
+          const dong = getSelectedDongXe();
+          const p = per_model_promotions.find(x => x.dong_xe === dong);
+          if (p && p.ty_le) {
+            perModelPromoAmount = Math.round(basePrice * Number(p.ty_le) || 0);
           }
-        });
-        return uniqueModels;
+        }
+      } catch (e) {
+        perModelPromoAmount = 0;
       }
 
-      // Populate car models dropdown from database
-      function populateCarModels() {
-        const carModelSelect = document.getElementById("carModel");
-        carModelSelect.innerHTML = "";
+      const fixedDiscountTotal = discount1 + discount2 + perModelPromoAmount;
+      const intermediatePrice = Math.max(0, basePrice - fixedDiscountTotal);
 
-        const models = getCarModels();
-        let firstModel = null;
-
-        Object.keys(models).forEach((modelKey, index) => {
-          const option = document.createElement("option");
-          option.value = modelKey;
-          option.textContent = models[modelKey];
-
-          // Select first model as default
-          if (index === 0) {
-            option.selected = true;
-            firstModel = modelKey;
-          }
-
-          carModelSelect.appendChild(option);
-        });
-
-        return firstModel;
-      }
-
-      // Map location to database key
-      const locationMap = {
-        hcm: "ho_chi_minh",
-        hanoi: "ha_noi",
-        danang: "da_nang",
-        cantho: "can_tho",
-        haiphong: "hai_phong",
-        other: "tinh_khac",
-      };
-
-      // Populate car versions based on selected model
-      function populateCarVersions(carModel, keepCurrentColor = false) {
-        const versionRadioGroup = document.getElementById("carVersionRadioGroup");
-        const versionSelect = document.getElementById("carVersion");
-        
-        versionRadioGroup.innerHTML = "";
-        versionSelect.innerHTML = "";
-
-        // Get all versions for this car model from danh_sach_xe
-        const versions = getAllDataByKey(danh_sach_xe, "dong_xe", carModel);
-
-        if (versions.length > 0) {
-          versions.forEach((version, index) => {
-            // Create radio item wrapper
-            const radioItem = document.createElement("div");
-            radioItem.className = "version-radio-item";
-            if (index === 0) radioItem.classList.add("selected");
-
-            // Create radio input
-            const radioInput = document.createElement("input");
-            radioInput.type = "radio";
-            radioInput.id = `version_${version.phien_ban.replace(/\s+/g, '_')}`;
-            radioInput.name = "carVersion";
-            radioInput.value = version.phien_ban;
-            radioInput.dataset.price = version.gia_niem_yet;
-            radioInput.dataset.carModel = version.dong_xe;
-            radioInput.dataset.imageInterior = version.hinh_anh_noi;
-            if (index === 0) radioInput.checked = true;
-
-            // Create content wrapper
-            const contentWrapper = document.createElement("div");
-            contentWrapper.className = "version-radio-content";
-
-            // Create label
-            const label = document.createElement("label");
-            label.className = "version-radio-label";
-            label.htmlFor = radioInput.id;
-            label.textContent = version.phien_ban;
-
-            // Create price display
-            const priceSpan = document.createElement("span");
-            priceSpan.className = "version-radio-price";
-            priceSpan.textContent = formatCurrency(version.gia_niem_yet);
-
-            // Assemble the radio item
-            contentWrapper.appendChild(label);
-            contentWrapper.appendChild(priceSpan);
-            radioItem.appendChild(radioInput);
-            radioItem.appendChild(contentWrapper);
-
-            // Add click handler to the entire item
-            radioItem.addEventListener("click", function() {
-              // Update all radio items
-              versionRadioGroup.querySelectorAll(".version-radio-item").forEach(item => {
-                item.classList.remove("selected");
-              });
-              radioItem.classList.add("selected");
-              radioInput.checked = true;
-
-              // Update hidden select - select the matching option
-              const optionToSelect = Array.from(versionSelect.options).find(
-                opt => opt.value === version.phien_ban
-              );
-              if (optionToSelect) {
-                versionSelect.value = version.phien_ban;
-                optionToSelect.selected = true;
-              }
-              
-              // Trigger change event on the hidden select
-              versionSelect.dispatchEvent(new Event("change", { bubbles: true }));
-            });
-
-            versionRadioGroup.appendChild(radioItem);
-
-            // Also populate hidden select for backward compatibility
-            const option = document.createElement("option");
-            option.value = version.phien_ban;
-            option.textContent = version.phien_ban;
-            option.dataset.price = version.gia_niem_yet;
-            option.dataset.carModel = version.dong_xe;
-            option.dataset.imageInterior = version.hinh_anh_noi;
-            if (index === 0) option.selected = true;
-            versionSelect.appendChild(option);
-          });
-
-          // IMPORTANT: Populate colors FIRST, then update images
-          // This ensures color is selected before trying to display it
-          populateColorOptions(keepCurrentColor);
-          updateCarImages();
-        } else {
-          // Fallback if no data found
-          const option = document.createElement("option");
-          option.value = "standard";
-          option.textContent = "Tiêu chuẩn";
-          option.dataset.price = "0";
-          option.dataset.carModel = carModel;
-          versionSelect.appendChild(option);
+      if (vinClubValue !== "none" && typeof uu_dai_vin_club !== "undefined") {
+        const vinClubData = uu_dai_vin_club.find((item) => item.hang === vinClubValue);
+        if (vinClubData) {
+          vinClubDiscount = Math.round(intermediatePrice * vinClubData.ty_le);
         }
       }
 
-      // Update car images based on selected version and color
-      function updateCarImages() {
-        const versionSelect = document.getElementById("carVersion");
-        const selectedOption =
-          versionSelect.options[versionSelect.selectedIndex];
-        const exteriorColorSelect = document.getElementById("exteriorColor");
-        const selectedExteriorColor = exteriorColorSelect.value;
+      const totalDiscount = fixedDiscountTotal + vinClubDiscount;
+      const priceAfterDiscount = Math.max(0, basePrice - totalDiscount);
 
-        const exteriorImg = document.getElementById("carImageExterior");
-        const interiorImg = document.getElementById("carImageInterior");
-
-        // If no color is selected yet, don't update images
-        if (!selectedExteriorColor) {
-          console.warn("No exterior color selected yet, skipping image update");
-          return;
-        }
-
-        // Remove any existing animation classes first
-        exteriorImg.classList.remove("fade-out", "fade-in");
-        interiorImg.classList.remove("fade-out", "fade-in");
-
-        // Force reflow to restart animation
-        void exteriorImg.offsetWidth;
-        void interiorImg.offsetWidth;
-
-        // Add fade-out effect
-        exteriorImg.classList.add("fade-out");
-        interiorImg.classList.add("fade-out");
-
-        // Wait for fade-out animation to complete completely, then change image
-        setTimeout(() => {
-          // Find the selected car in danh_sach_xe
-          const selectedCar = danh_sach_xe.find(
-            (xe) => xe.phien_ban === versionSelect.value
-          );
-
-          if (selectedCar) {
-            // Update exterior image based on selected exterior color
-            if (selectedExteriorColor) {
-              const exteriorColorData = selectedCar.mau_ngoai_that.find(
-                (mau) => mau.ma_mau === selectedExteriorColor
-              );
-              if (exteriorColorData) {
-                // Use hinh_anh_ngoai for main car image display
-                const imageSource = exteriorColorData.hinh_anh_ngoai;
-                if (imageSource) {
-                  exteriorImg.src = imageSource;
-                } else {
-                  // Fallback to first color if selected color has no image
-                  const fallbackImage = selectedCar.mau_ngoai_that[0]?.hinh_anh_ngoai;
-                  if (fallbackImage) {
-                    exteriorImg.src = fallbackImage;
-                  }
-                }
-              }
-            }
-
-            // Update interior image - always use default from car data
-            if (selectedCar.hinh_anh_noi) {
-              interiorImg.src = selectedCar.hinh_anh_noi;
-            } else if (selectedOption.dataset.imageInterior) {
-              interiorImg.src = selectedOption.dataset.imageInterior;
-            }
+      // Compute convert checkbox data for invoice collection
+      const convertSelected = document.getElementById('convertCheckbox') ? document.getElementById('convertCheckbox').checked : false;
+      let convertSupportFee = 0;
+      if (convertSelected && typeof ho_tro_doi_xe !== 'undefined') {
+        try {
+          const dongCode = getSelectedDongXe();
+          if (dongCode) {
+            const entry = ho_tro_doi_xe.find(h => h.dong_xe === dongCode);
+            if (entry && entry.gia_tri) convertSupportFee = Number(entry.gia_tri) || 0;
           }
-
-          // Wait a bit for image to load, then fade-in
-          setTimeout(() => {
-            exteriorImg.classList.remove("fade-out");
-            exteriorImg.classList.add("fade-in");
-            interiorImg.classList.remove("fade-out");
-            interiorImg.classList.add("fade-in");
-
-            // Clean up animation class after animation completes
-            setTimeout(() => {
-              exteriorImg.classList.remove("fade-in");
-              interiorImg.classList.remove("fade-in");
-            }, 300); // Match animation duration
-          }, 50);
-        }, 250); // Wait for fade-out to complete (match transition duration)
+        } catch (e) {
+          console.warn('collectInvoiceData: error computing convert support', e);
+        }
       }
 
-      // Populate color options based on selected car version
-      function populateColorOptions(keepCurrentColor = false) {
-        const versionSelect = document.getElementById("carVersion");
-        const selectedVersion = versionSelect.value;
+      // Get on-road costs
+      const registrationLocation = document.getElementById(
+        "registrationLocation"
+      ).value;
 
-        // Find the selected car in danh_sach_xe
-        const selectedCar = danh_sach_xe.find(
-          (xe) => xe.phien_ban === selectedVersion
+      const locationKey = locationMap[registrationLocation] || "tinh_khac";
+
+      // Get fees from database
+      const plateFeeData =
+        typeof phi_cap_bien_so !== "undefined"
+          ? phi_cap_bien_so.find((item) => item.khu_vuc === locationKey)
+          : null;
+      const plateFee = plateFeeData ? plateFeeData.gia_tri : 20000000;
+
+      const roadFeeData =
+        typeof phi_duong_bo !== "undefined"
+          ? phi_duong_bo.find((item) => item.loai === customerType)
+          : null;
+      const roadFee = roadFeeData ? roadFeeData.gia_tri : 1560000;
+
+      // Get car model key
+      const carModelKey = getCurrentCarModel();
+      const carInfo =
+        typeof thong_tin_ky_thuat_xe !== "undefined"
+          ? thong_tin_ky_thuat_xe.find((item) => item.dong_xe === carModelKey)
+          : null;
+
+      const liabilityInsurance = carInfo
+        ? customerType === "ca_nhan"
+          ? carInfo.phi_tnds_ca_nhan
+          : carInfo.phi_tnds_kinh_doanh
+        : 480700;
+
+      const inspectionFee =
+        typeof phi_kiem_dinh !== "undefined" ? phi_kiem_dinh : 90000;
+
+      const bhvcRate = carInfo
+        ? customerType === "ca_nhan"
+          ? carInfo.ty_le_bhvc_ca_nhan
+          : carInfo.ty_le_bhvc_kinh_doanh
+        : 0.015;
+      const bodyInsurance = Math.round(priceAfterDiscount * bhvcRate);
+
+      const registrationFee =
+        typeof chi_phi_dich_vu_dang_ky !== "undefined"
+          ? chi_phi_dich_vu_dang_ky
+          : 3900000;
+
+      const totalOnRoadCost =
+        plateFee +
+        roadFee +
+        liabilityInsurance +
+        inspectionFee +
+        bodyInsurance +
+        registrationFee;
+      const grandTotal = priceAfterDiscount + totalOnRoadCost;
+
+      // Get loan info
+      const hasLoan = document.getElementById("loanToggle").checked;
+      let loanData = {};
+      if (hasLoan) {
+        const loanRatio = parseFloat(
+          document.getElementById("loanRatio").value
         );
-
-        if (!selectedCar) return;
-
-        // Populate exterior colors
-        const exteriorColorPicker = document.getElementById(
-          "exteriorColorPicker"
-        );
-        const exteriorColorSelect = document.getElementById("exteriorColor");
-        const currentExteriorColor = keepCurrentColor ? exteriorColorSelect.value : null;
-        
-        exteriorColorPicker.innerHTML = "";
-        exteriorColorSelect.innerHTML = "";
-
-        // Check if current color exists in new car's color list
-        let colorExists = false;
-        if (currentExteriorColor) {
-          colorExists = selectedCar.mau_ngoai_that.some(
-            colorData => colorData.ma_mau === currentExteriorColor
-          );
-        }
-
-        // If color doesn't exist or we're not keeping it, select first color
-        let selectedColorCode = (colorExists && currentExteriorColor) 
-          ? currentExteriorColor 
-          : selectedCar.mau_ngoai_that[0]?.ma_mau;
-
-        selectedCar.mau_ngoai_that.forEach((colorData, index) => {
-          const colorInfo = getDataByKey(colors, "ma_mau", colorData.ma_mau);
-          if (colorInfo) {
-            // Create visual color option
-            const colorOption = document.createElement("div");
-            colorOption.className = "color-option";
-            colorOption.dataset.color = colorData.ma_mau;
-
-            const img = document.createElement("img");
-            // Use icon from colorData (has color_icon_url from database.js)
-            img.src = colorData.icon || colorInfo.icon;
-            img.alt = colorData.ten_mau || colorInfo.ten_mau;
-
-            const label = document.createElement("div");
-            label.className = "color-option-label";
-            label.textContent = colorInfo.ten_mau;
-
-            colorOption.appendChild(img);
-            colorOption.appendChild(label);
-
-            // Mark selected color
-            if (colorInfo.ma_mau === selectedColorCode) {
-              colorOption.classList.add("selected");
-            }
-
-            // Add click event
-            colorOption.addEventListener("click", function () {
-              // Remove selected class from all options
-              exteriorColorPicker
-                .querySelectorAll(".color-option")
-                .forEach((opt) => {
-                  opt.classList.remove("selected");
-                });
-              // Add selected class to clicked option
-              this.classList.add("selected");
-              // Update hidden select
-              exteriorColorSelect.value = this.dataset.color;
-              // Trigger change event
-              exteriorColorSelect.dispatchEvent(new Event("change"));
-            });
-
-            exteriorColorPicker.appendChild(colorOption);
-
-            // Also populate hidden select for form compatibility
-            const option = document.createElement("option");
-            option.value = colorInfo.ma_mau;
-            option.textContent = colorInfo.ten_mau;
-            if (colorInfo.ma_mau === selectedColorCode) {
-              option.selected = true;
-            }
-            exteriorColorSelect.appendChild(option);
-          }
-        });
-
-        // Populate interior colors
-        const currentInteriorColor = keepCurrentColor ? document.getElementById("interiorColor").value : null;
-        populateInteriorColors(selectedCar, currentInteriorColor);
-      }
-
-      // Populate interior color picker for selected car
-      function populateInteriorColors(selectedCar, currentInteriorColor = null) {
-        const interiorColorPicker = document.getElementById("interiorColorPicker");
-        const interiorColorSelect = document.getElementById("interiorColor");
-
-        // Clear existing options
-        interiorColorPicker.innerHTML = "";
-        interiorColorSelect.innerHTML = "";
-
-        // Check if car has interior colors
-        if (!selectedCar.mau_noi_that || selectedCar.mau_noi_that.length === 0) {
-          interiorColorPicker.innerHTML = '<p style="color: #999; font-size: 14px;">Không có thông tin màu nội thất</p>';
-          return;
-        }
-
-        // Check if current color exists in new car's interior color list
-        let colorExists = false;
-        if (currentInteriorColor) {
-          colorExists = selectedCar.mau_noi_that.some(
-            colorData => colorData.ma_mau_noi === currentInteriorColor
-          );
-        }
-
-        // If color doesn't exist or we're not keeping it, select first color
-        let selectedColorCode = (colorExists && currentInteriorColor) 
-          ? currentInteriorColor 
-          : selectedCar.mau_noi_that[0]?.ma_mau_noi;
-
-        selectedCar.mau_noi_that.forEach((colorData, index) => {
-          // Create visual color option
-          const colorOption = document.createElement("div");
-          colorOption.className = "color-option";
-          colorOption.dataset.color = colorData.ma_mau_noi;
-
-          const img = document.createElement("img");
-          img.src = colorData.icon;
-          img.alt = colorData.ten_mau_noi;
-
-          const label = document.createElement("div");
-          label.className = "color-option-label";
-          label.textContent = colorData.ten_mau_noi;
-
-          colorOption.appendChild(img);
-          colorOption.appendChild(label);
-
-          // Mark selected color
-          if (colorData.ma_mau_noi === selectedColorCode) {
-            colorOption.classList.add("selected");
-          }
-
-          // Add click event
-          colorOption.addEventListener("click", function () {
-            // Remove selected class from all options
-            interiorColorPicker
-              .querySelectorAll(".color-option")
-              .forEach((opt) => {
-                opt.classList.remove("selected");
-              });
-            // Add selected class to clicked option
-            this.classList.add("selected");
-            // Update hidden select
-            interiorColorSelect.value = this.dataset.color;
-            // Trigger change event
-            interiorColorSelect.dispatchEvent(new Event("change"));
-          });
-
-          interiorColorPicker.appendChild(colorOption);
-
-          // Also populate hidden select for form compatibility
-          const option = document.createElement("option");
-          option.value = colorData.ma_mau_noi;
-          option.textContent = colorData.ten_mau_noi;
-          if (colorData.ma_mau_noi === selectedColorCode) {
-            option.selected = true;
-          }
-          interiorColorSelect.appendChild(option);
-        });
-      }
-
-      // Get car price from selected version
-      function getCarPrice() {
-        const versionSelect = document.getElementById("carVersion");
-        const selectedOption =
-          versionSelect.options[versionSelect.selectedIndex];
-        return parseInt(selectedOption.dataset.price) || 0;
-      }
-
-      // Get current car model key
-      function getCurrentCarModel() {
-        const versionSelect = document.getElementById("carVersion");
-        const selectedOption =
-          versionSelect.options[versionSelect.selectedIndex];
-        return (
-          selectedOption.dataset.carModel ||
-          document.getElementById("carModel").value
-        );
-      }
-
-      // Format currency
-      function formatCurrency(amount) {
-        return new Intl.NumberFormat("vi-VN").format(amount) + " ₫";
-      }
-
-      // Calculate all costs
-      function calculateAll() {
-        console.log("=== Calculating costs ===");
-
-        const carModel = document.getElementById("carModel").value;
-        const carVersion = document.getElementById("carVersion").value;
-        const registrationLocation = document.getElementById(
-          "registrationLocation"
-        ).value;
-
-        console.log("Car Model:", carModel);
-        console.log("Car Version:", carVersion);
-        console.log("Registration Location:", registrationLocation);
-
-        // Get base price from selected version
-        const basePrice = getCarPrice();
-        console.log("Base Price:", basePrice);
-
-        // Calculate discounts - Using data from database.js or data attributes
-        const discount1Element = document.getElementById("discount1");
-        const discount2Element = document.getElementById("discount2");
-        const discount1 = discount1Element.checked
-          ? parseInt(discount1Element.getAttribute("data-discount") || 0)
-          : 0;
-        const discount2 = discount2Element.checked
-          ? parseInt(discount2Element.getAttribute("data-discount") || 0)
-          : 0;
-
-        // Calculate VinClub discount from database.js
-        const vinClubSelect = document.getElementById("vinClubVoucher");
-        const vinClubValue = vinClubSelect ? vinClubSelect.value : "none";
-        let vinClubDiscount = 0;
-
-        if (vinClubValue !== "none") {
-          const vinClubData = getDataByKey(
-            uu_dai_vin_club,
-            "hang",
-            vinClubValue
-          );
-          if (vinClubData) {
-            vinClubDiscount = Math.round(basePrice * vinClubData.ty_le);
-          }
-        }
-
-        // Update VinClub discount display
-        const vinClubDiscountDisplay = document.getElementById(
-          "vinClubDiscountValue"
-        );
-        if (vinClubDiscountDisplay) {
-          if (vinClubDiscount > 0) {
-            vinClubDiscountDisplay.textContent = `-${formatCurrency(
-              vinClubDiscount
-            )}`;
-          } else {
-            vinClubDiscountDisplay.textContent = "";
-          }
-        }
-
-        const totalDiscount = discount1 + discount2 + vinClubDiscount;
-        const priceAfterDiscount = Math.max(0, basePrice - totalDiscount);
-
-        console.log("Discounts:", {
-          discount1,
-          discount2,
-          vinClubDiscount,
-          totalDiscount,
-          priceAfterDiscount,
-        });
-
-        // Get car model key for database lookup
-        const carModelKey = getCurrentCarModel();
-        console.log("Car Model Key:", carModelKey);
-
-        // Get customer type for road fee calculation
-        // Try to get from desktop first, if not available use mobile
-        const customerTypeDesktop = document.getElementById("customerType");
-        const customerTypeMobile =
-          document.getElementById("customerTypeMobile");
-        const customerType = customerTypeDesktop
-          ? customerTypeDesktop.value
-          : customerTypeMobile
-          ? customerTypeMobile.value
-          : "ca_nhan";
-        console.log("Customer Type:", customerType);
-
-        // Calculate on-road costs using database.js
-        // Phí cấp biển số
-        const locationKey = locationMap[registrationLocation] || "tinh_khac";
-        const plateFeeData = getDataByKey(
-          phi_cap_bien_so,
-          "khu_vuc",
-          locationKey
-        );
-        const plateFee = plateFeeData
-          ? plateFeeData.gia_tri
-          : getDataByKey(phi_cap_bien_so, "khu_vuc", "tinh_khac").gia_tri;
-        console.log("Plate Fee:", { locationKey, plateFee });
-
-        // Phí đường bộ - based on customer type (cá nhân hoặc công ty)
-        const roadFeeData = getDataByKey(phi_duong_bo, "loai", customerType);
-        const roadFee = roadFeeData
-          ? roadFeeData.gia_tri
-          : getDataByKey(phi_duong_bo, "loai", "ca_nhan").gia_tri;
-        console.log("Road Fee:", { customerType, roadFee, roadFeeData });
-
-        // Get thông tin xe for insurance calculation
-        const carInfo = getDataByKey(
-          thong_tin_ky_thuat_xe,
-          "dong_xe",
-          carModelKey
-        );
-        console.log("Car Info:", carInfo);
-
-        // Phí TNDS - based on customer type
-        const liabilityInsurance = carInfo
-          ? customerType === "ca_nhan"
-            ? carInfo.phi_tnds_ca_nhan
-            : carInfo.phi_tnds_kinh_doanh
-          : getDataByKey(thong_tin_ky_thuat_xe, "dong_xe", "vf_7")
-              .phi_tnds_ca_nhan;
-        console.log("Liability Insurance:", liabilityInsurance);
-
-        // Phí kiểm định
-        const inspectionFee = phi_kiem_dinh;
-        console.log("Inspection Fee:", inspectionFee);
-
-        // Bảo hiểm thân vỏ - based on customer type
-        const bhvcRate = carInfo
-          ? customerType === "ca_nhan"
-            ? carInfo.ty_le_bhvc_ca_nhan
-            : carInfo.ty_le_bhvc_kinh_doanh
-          : 0.01;
-        const bodyInsurance = Math.round(priceAfterDiscount * bhvcRate);
-        console.log("Body Insurance:", { bhvcRate, bodyInsurance });
-
-        // Chi phí dịch vụ đăng ký - from database.js
-        const registrationFee = chi_phi_dich_vu_dang_ky;
-
-        const totalOnRoadCost =
-          plateFee +
-          roadFee +
-          liabilityInsurance +
-          inspectionFee +
-          bodyInsurance +
-          registrationFee;
-        const totalCost = priceAfterDiscount + totalOnRoadCost;
-
-        console.log("Total:", { totalOnRoadCost, totalCost });
-        console.log("=== End calculation ===\n");
-
-        // Update cost display
-        document.getElementById("carPriceWithVAT").textContent =
-          formatCurrency(basePrice);
-        document.getElementById("totalCarValue").textContent =
-          formatCurrency(basePrice);
-        document.getElementById("priceAfterDiscount").textContent =
-          formatCurrency(priceAfterDiscount);
-        document.getElementById("plateFee").textContent =
-          formatCurrency(plateFee);
-
-        // Update plate fee label with location name
-        const plateFeeLabel = document.querySelector(
-          ".cost-row:has(#plateFee) .cost-label"
-        );
-        if (plateFeeLabel && plateFeeData) {
-          plateFeeLabel.textContent = `Phí biển số (${plateFeeData.ten_khu_vuc})`;
-        }
-
-        document.getElementById("roadFee").textContent =
-          formatCurrency(roadFee);
-        document.getElementById("liabilityInsurance").textContent =
-          formatCurrency(liabilityInsurance);
-        document.getElementById("inspectionFee").textContent =
-          formatCurrency(inspectionFee);
-        document.getElementById("bodyInsurance").textContent =
-          formatCurrency(bodyInsurance);
-        document.getElementById("registrationFee").textContent =
-          formatCurrency(registrationFee);
-        document.getElementById("totalOnRoadCost").textContent =
-          formatCurrency(totalOnRoadCost);
-        document.getElementById("totalCost").textContent =
-          formatCurrency(totalCost);
-
-        // Update title with car version
-        document.getElementById(
-          "costEstimationTitle"
-        ).textContent = `Dự toán chi phí cho ${carVersion}`;
-
-        // Calculate loan details if enabled
-        if (document.getElementById("loanToggle").checked) {
-          calculateLoanDetails(totalCost);
-        } else {
-          document.getElementById("downPayment").textContent =
-            formatCurrency(0);
-          document.getElementById("loanAmount").textContent = formatCurrency(0);
-          document.getElementById("totalInterest").textContent =
-            formatCurrency(0);
-          document.getElementById("monthlyPayment").textContent =
-            formatCurrency(0);
-        }
-      }
-
-      // Calculate loan details
-      function calculateLoanDetails(carPrice) {
-        const loanRatio =
-          parseFloat(document.getElementById("loanRatio").value) / 100;
         const loanTerm = parseInt(document.getElementById("loanTerm").value);
-        const annualRate = lai_suat_vay_hang_nam; // Lãi suất từ database.js
+        // choose interest rate from custom input
+        let annualRate = typeof lai_suat_vay_hang_nam !== "undefined" ? lai_suat_vay_hang_nam : 0.095;
+        try {
+          const customRateEl = document.getElementById('customInterestRate');
+          const custom = customRateEl && customRateEl.value ? Number(customRateEl.value) / 100 : null;
+          if (custom && !isNaN(custom) && custom >= 0) {
+            annualRate = custom;
+          }
+        } catch (e) {
+          // fallback to default
+        }
         const monthlyRate = annualRate / 12;
 
-        const loanAmount = Math.round(carPrice * loanRatio);
-        const downPayment = carPrice - loanAmount;
+        const loanAmount = Math.round(grandTotal * (loanRatio / 100));
+        const downPayment = grandTotal - loanAmount;
 
-        // Calculate monthly payment using loan formula
         const monthlyPayment =
           (loanAmount * (monthlyRate * Math.pow(1 + monthlyRate, loanTerm))) /
           (Math.pow(1 + monthlyRate, loanTerm) - 1);
         const totalPayment = monthlyPayment * loanTerm;
         const totalInterest = totalPayment - loanAmount;
 
-        document.getElementById("downPayment").textContent =
-          formatCurrency(downPayment);
-        document.getElementById("loanAmount").textContent =
-          formatCurrency(loanAmount);
-        document.getElementById("totalInterest").textContent = formatCurrency(
-          Math.round(totalInterest)
-        );
-        document.getElementById("monthlyPayment").textContent = formatCurrency(
-          Math.round(monthlyPayment)
-        );
+        loanData = {
+          loanRatio: loanRatio,
+          loanTerm: loanTerm,
+          interestRate: annualRate,
+          downPayment: downPayment,
+          loanAmount: loanAmount,
+          totalInterest: Math.round(totalInterest),
+          monthlyPayment: Math.round(monthlyPayment),
+        };
       }
 
-      // Loan ratio slider
-      const loanRatioSlider = document.getElementById("loanRatio");
-      const loanRatioValue = document.getElementById("loanRatioValue");
+      // Generate invoice number
+      const now = new Date();
+      const invoiceNo = `VF-${now.getFullYear()}-${String(
+        now.getMonth() + 1
+      ).padStart(2, "0")}${String(now.getDate()).padStart(2, "0")}-${String(
+        Math.floor(Math.random() * 10000)
+      ).padStart(4, "0")}`;
 
-      loanRatioSlider.addEventListener("input", function () {
-        loanRatioValue.textContent = `${this.value}% giá trị xe`;
-        calculateAll();
-      });
+      // Return complete data object
+      return {
+        invoiceNo: invoiceNo,
+        invoiceDate: now.toISOString(),
+        customerName: customerName,
+        customerPhone: customerPhone,
+        customerEmail: customerEmail,
+        customerAddress: customerAddress,
+        customerType: customerType,
+        depositAmount: depositAmount,
+        depositDate: depositDate,
+        deliveryDate: deliveryDate,
+        carModel: carModelText,
+        carVersion: carVersionText,
+        exteriorColor: exteriorColorText,
+        interiorColor: interiorColorText,
+        registrationLocation: registrationLocationText,
+        carBasePrice: basePrice,
+        carDiscount: totalDiscount,
+        carTotal: priceAfterDiscount,
+        plateFee: plateFee,
+        plateLocation: registrationLocationText,
+        roadFee: roadFee,
+        liabilityInsurance: liabilityInsurance,
+        inspectionFee: inspectionFee,
+        bodyInsurance: bodyInsurance,
+        bodyInsuranceRate: bhvcRate,
+        registrationFee: registrationFee,
+        convertSelected: convertSelected,
+        convertSupportFee: convertSupportFee,
+        totalOnRoadCost: totalOnRoadCost,
+        grandTotal: grandTotal,
+        hasLoan: hasLoan,
+        ...loanData,
+      };
+    }
 
-      // Loan toggle
-      const loanToggle = document.getElementById("loanToggle");
-      const loanRatioOption = document.getElementById("loanRatioOption");
-      const loanTermOption = document.getElementById("loanTermOption");
+    // Print quote buttons - Save data and redirect to invoice page
+    function handlePrintQuote() {
+      const invoiceData = collectInvoiceData();
 
-      loanToggle.addEventListener("change", function () {
-        if (this.checked) {
-          loanRatioOption.style.display = "flex";
-          loanTermOption.style.display = "flex";
+      // Save to localStorage
+      localStorage.setItem("invoiceData", JSON.stringify(invoiceData));
+
+      // Redirect to invoice page
+      window.location.href = "invoice.html";
+    }
+
+    // Only bind to footer buttons
+    document
+      .getElementById("printBtnFooter")
+      .addEventListener("click", handlePrintQuote);
+
+    // Print Quote 2 Button - redirect to invoice2.html
+    function handlePrintQuote2() {
+      const invoiceData = collectInvoiceData();
+
+      // Save to localStorage
+      localStorage.setItem("invoiceData", JSON.stringify(invoiceData));
+
+      // Redirect to invoice2 page
+      window.location.href = "invoice2.html";
+    }
+
+    // Bind button event listeners
+    document
+      .getElementById("printBtn2Footer")
+      .addEventListener("click", handlePrintQuote2);
+
+    // Email quote buttons
+    function sendEmail() {
+      alert("Tính năng gửi email báo giá sẽ được triển khai sớm!");
+    }
+    // Only bind to footer button
+    document
+      .getElementById("emailBtnFooter")
+      .addEventListener("click", sendEmail);
+
+    // ============================================
+    // INITIALIZATION FUNCTION - AUTO LOAD DATA
+    // ============================================
+    function initializeApp() {
+      console.log("🚀 Initializing VinFast Calculator...");
+
+      try {
+        // Set default dates
+        const today = new Date();
+        const depositDate = new Date(today);
+        depositDate.setDate(today.getDate() + 5);
+        const deliveryDate = new Date(today);
+        deliveryDate.setMonth(today.getMonth() + 1);
+
+        const depositEl = document.getElementById("depositDate");
+        const deliveryEl = document.getElementById("deliveryDate");
+        if (depositEl) depositEl.valueAsDate = depositDate;
+        if (deliveryEl) deliveryEl.valueAsDate = deliveryDate;
+
+        // Build derivedVersions from carPriceData if available
+        if (typeof carPriceData !== 'undefined' && Array.isArray(carPriceData)) {
+          try {
+            derivedVersions = buildDerivedVersionsFromCarPriceData();
+            console.log("DEBUG: built derivedVersions from carPriceData, count=", derivedVersions.length);
+          } catch (e) {
+            console.error("ERROR building derivedVersions:", e);
+          }
         } else {
-          loanRatioOption.style.display = "none";
-          loanTermOption.style.display = "none";
+          console.warn('carPriceData not available; no car data loaded');
         }
+
+        // Populate UI selects from derived data (if any)
+        const defaultModel = populateCarModels();
+        console.log('Selected default model:', defaultModel);
+        populateCarVersions(defaultModel || (derivedVersions[0] && derivedVersions[0].model) || '', false);
+
+        // Update deposit amount for initial selection
+        updateDepositAmount();
+
+        // Initial calculation
         calculateAll();
-      });
 
-      // Car model and version change
-      document
-        .getElementById("carModel")
-        .addEventListener("change", function () {
-          // When changing car model, don't keep current color (reset to default)
-          populateCarVersions(this.value, false);
-          calculateAll();
-        });
-      document
-        .getElementById("carVersion")
-        .addEventListener("change", function () {
-          // When changing version within same model, try to keep current color
-          populateColorOptions(true);
-          updateCarImages();
-          calculateAll();
-        });
-      document
-        .getElementById("registrationLocation")
-        .addEventListener("change", calculateAll);
-
-      // Customer type change - sync between desktop and mobile
-      const customerTypeDesktop = document.getElementById("customerType");
-      const customerTypeMobile = document.getElementById("customerTypeMobile");
-
-      if (customerTypeDesktop) {
-        customerTypeDesktop.addEventListener("change", function () {
-          if (customerTypeMobile) {
-            customerTypeMobile.value = this.value;
-          }
-          calculateAll();
-        });
+        console.log("✨ Initialization complete!");
+      } catch (error) {
+        console.error("❌ Error during initialization:", error);
       }
+    }
 
-      if (customerTypeMobile) {
-        customerTypeMobile.addEventListener("change", function () {
-          if (customerTypeDesktop) {
-            customerTypeDesktop.value = this.value;
-          }
-          calculateAll();
-        });
+    // Run initialization when page loads
+    window.addEventListener("DOMContentLoaded", function () {
+      console.log("📄 DOM Content Loaded");
+      // Small delay to ensure database.js is fully loaded
+      setTimeout(initializeApp, 50);
+    });
+
+    // Fallback: Also try on window.load
+    window.addEventListener("load", function () {
+      console.log("🌐 Window Loaded");
+      // Check if already initialized
+      if (document.getElementById("carModel").options.length === 0) {
+        console.log("🔄 Retrying initialization...");
+        setTimeout(initializeApp, 100);
       }
+    });
 
-      // Color changes
-      document
-        .getElementById("exteriorColor")
-        .addEventListener("change", function () {
-          updateCarImages();
-          calculateAll();
-        });
-
-      // Discount checkboxes
-      document
-        .getElementById("discount1")
-        .addEventListener("change", calculateAll);
-      document
-        .getElementById("discount2")
-        .addEventListener("change", calculateAll);
-
-      // VinClub voucher dropdown
-      const vinClubVoucherElement = document.getElementById("vinClubVoucher");
-      if (vinClubVoucherElement) {
-        vinClubVoucherElement.addEventListener("change", calculateAll);
+    // Handle window resize
+    window.addEventListener("resize", function () {
+      if (window.innerWidth >= 1024 && !localStorage.getItem("mobileView")) {
+        document.body.classList.remove("mobile-view");
+        viewToggle.textContent = "📱 Mobile View";
+      } else if (window.innerWidth < 1024) {
+        document.body.classList.add("mobile-view");
+        viewToggle.textContent = "🖥️ Desktop View";
       }
+    });
+  </script>
 
-      // Loan term change
-      document
-        .getElementById("loanTerm")
-        .addEventListener("change", calculateAll);
+  <!-- Swiper JS removed (image modal disabled) -->
 
-      // Function to collect all invoice data
-      function collectInvoiceData() {
-        // Get car model info
-        const carModelSelect = document.getElementById("carModel");
-        const carModelText =
-          carModelSelect.options[carModelSelect.selectedIndex].text;
-        const carVersionSelect = document.getElementById("carVersion");
-        const carVersionText =
-          carVersionSelect.options[carVersionSelect.selectedIndex].text;
+  <!-- Initialize App After Database Loaded -->
+  <script>
+    // Check if database is loaded
+    console.log(
+      "🔍 Checking metadata...",
+      typeof vinfast_images_metadata !== "undefined" ? "✅ Loaded" : "❌ Not loaded"
+    );
+    console.log(
+      "🔍 Checking car price data...",
+      carPriceData
+    );
+  </script>
 
-        // Get colors
-        const exteriorColorSelect = document.getElementById("exteriorColor");
-        const exteriorColorText =
-          exteriorColorSelect.options[exteriorColorSelect.selectedIndex].text;
+  <!-- Image modal script removed (image UI disabled) -->
+</body>
 
-        // Get interior color
-        const interiorColorSelect = document.getElementById("interiorColor");
-        const interiorColorText = interiorColorSelect && interiorColorSelect.options.length > 0
-          ? interiorColorSelect.options[interiorColorSelect.selectedIndex].text
-          : "Không có thông tin";
-
-        // Get registration location
-        const registrationLocationSelect = document.getElementById(
-          "registrationLocation"
-        );
-        const registrationLocationText =
-          registrationLocationSelect.options[
-            registrationLocationSelect.selectedIndex
-          ].text;
-
-        // Get customer info
-        const customerName =
-          document.getElementById("customerName")?.value || "";
-        const customerPhone =
-          document.getElementById("customerPhone")?.value || "";
-        const customerEmail =
-          document.getElementById("customerEmail")?.value || "";
-        const customerAddress =
-          document.getElementById("customerAddress")?.value || "";
-        const customerTypeSelect = document.getElementById("customerType");
-        const customerType = customerTypeSelect
-          ? customerTypeSelect.value
-          : "ca_nhan";
-        const depositAmount = parseFloat(
-          document.getElementById("depositAmount")?.value || 0
-        );
-        const depositDate = document.getElementById("depositDate")?.value || "";
-        const deliveryDate =
-          document.getElementById("deliveryDate")?.value || "";
-
-        // Get car prices
-        const basePrice = getCarPrice();
-        const discount1 = document.getElementById("discount1").checked
-          ? parseFloat(
-              document
-                .getElementById("discount1")
-                .getAttribute("data-discount") || 0
-            )
-          : 0;
-        const discount2 = document.getElementById("discount2").checked
-          ? parseFloat(
-              document
-                .getElementById("discount2")
-                .getAttribute("data-discount") || 0
-            )
-          : 0;
-
-        // Get VinClub discount
-        const vinClubSelect = document.getElementById("vinClubVoucher");
-        const vinClubValue = vinClubSelect ? vinClubSelect.value : "none";
-        let vinClubDiscount = 0;
-        if (vinClubValue !== "none" && typeof uu_dai_vin_club !== "undefined") {
-          const vinClubData = uu_dai_vin_club.find(
-            (item) => item.hang === vinClubValue
-          );
-          if (vinClubData) {
-            vinClubDiscount = Math.round(basePrice * vinClubData.ty_le);
-          }
-        }
-
-        const totalDiscount = discount1 + discount2 + vinClubDiscount;
-        const priceAfterDiscount = Math.max(0, basePrice - totalDiscount);
-
-        // Get on-road costs
-        const registrationLocation = document.getElementById(
-          "registrationLocation"
-        ).value;
-        const locationMap = {
-          hcm: "ho_chi_minh",
-          hanoi: "ha_noi",
-          danang: "da_nang",
-          cantho: "can_tho",
-          haiphong: "hai_phong",
-          other: "tinh_khac",
-        };
-        const locationKey = locationMap[registrationLocation] || "tinh_khac";
-
-        // Get fees from database
-        const plateFeeData =
-          typeof phi_cap_bien_so !== "undefined"
-            ? phi_cap_bien_so.find((item) => item.khu_vuc === locationKey)
-            : null;
-        const plateFee = plateFeeData ? plateFeeData.gia_tri : 20000000;
-
-        const roadFeeData =
-          typeof phi_duong_bo !== "undefined"
-            ? phi_duong_bo.find((item) => item.loai === customerType)
-            : null;
-        const roadFee = roadFeeData ? roadFeeData.gia_tri : 1560000;
-
-        // Get car model key
-        const carModelKey = getCurrentCarModel();
-        const carInfo =
-          typeof thong_tin_ky_thuat_xe !== "undefined"
-            ? thong_tin_ky_thuat_xe.find((item) => item.dong_xe === carModelKey)
-            : null;
-
-        const liabilityInsurance = carInfo
-          ? customerType === "ca_nhan"
-            ? carInfo.phi_tnds_ca_nhan
-            : carInfo.phi_tnds_kinh_doanh
-          : 480700;
-
-        const inspectionFee =
-          typeof phi_kiem_dinh !== "undefined" ? phi_kiem_dinh : 90000;
-
-        const bhvcRate = carInfo
-          ? customerType === "ca_nhan"
-            ? carInfo.ty_le_bhvc_ca_nhan
-            : carInfo.ty_le_bhvc_kinh_doanh
-          : 0.015;
-        const bodyInsurance = Math.round(priceAfterDiscount * bhvcRate);
-
-        const registrationFee =
-          typeof chi_phi_dich_vu_dang_ky !== "undefined"
-            ? chi_phi_dich_vu_dang_ky
-            : 3900000;
-
-        const totalOnRoadCost =
-          plateFee +
-          roadFee +
-          liabilityInsurance +
-          inspectionFee +
-          bodyInsurance +
-          registrationFee;
-        const grandTotal = priceAfterDiscount + totalOnRoadCost;
-
-        // Get loan info
-        const hasLoan = document.getElementById("loanToggle").checked;
-        let loanData = {};
-        if (hasLoan) {
-          const loanRatio = parseFloat(
-            document.getElementById("loanRatio").value
-          );
-          const loanTerm = parseInt(document.getElementById("loanTerm").value);
-          const annualRate =
-            typeof lai_suat_vay_hang_nam !== "undefined"
-              ? lai_suat_vay_hang_nam
-              : 0.095;
-          const monthlyRate = annualRate / 12;
-
-          const loanAmount = Math.round(grandTotal * (loanRatio / 100));
-          const downPayment = grandTotal - loanAmount;
-
-          const monthlyPayment =
-            (loanAmount * (monthlyRate * Math.pow(1 + monthlyRate, loanTerm))) /
-            (Math.pow(1 + monthlyRate, loanTerm) - 1);
-          const totalPayment = monthlyPayment * loanTerm;
-          const totalInterest = totalPayment - loanAmount;
-
-          loanData = {
-            loanRatio: loanRatio,
-            loanTerm: loanTerm,
-            interestRate: annualRate,
-            downPayment: downPayment,
-            loanAmount: loanAmount,
-            totalInterest: Math.round(totalInterest),
-            monthlyPayment: Math.round(monthlyPayment),
-          };
-        }
-
-        // Generate invoice number
-        const now = new Date();
-        const invoiceNo = `VF-${now.getFullYear()}-${String(
-          now.getMonth() + 1
-        ).padStart(2, "0")}${String(now.getDate()).padStart(2, "0")}-${String(
-          Math.floor(Math.random() * 10000)
-        ).padStart(4, "0")}`;
-
-        // Return complete data object
-        return {
-          invoiceNo: invoiceNo,
-          invoiceDate: now.toISOString(),
-          customerName: customerName,
-          customerPhone: customerPhone,
-          customerEmail: customerEmail,
-          customerAddress: customerAddress,
-          customerType: customerType,
-          depositAmount: depositAmount,
-          depositDate: depositDate,
-          deliveryDate: deliveryDate,
-          carModel: carModelText,
-          carVersion: carVersionText,
-          exteriorColor: exteriorColorText,
-          interiorColor: interiorColorText,
-          registrationLocation: registrationLocationText,
-          carBasePrice: basePrice,
-          carDiscount: totalDiscount,
-          carTotal: priceAfterDiscount,
-          plateFee: plateFee,
-          plateLocation: registrationLocationText,
-          roadFee: roadFee,
-          liabilityInsurance: liabilityInsurance,
-          inspectionFee: inspectionFee,
-          bodyInsurance: bodyInsurance,
-          bodyInsuranceRate: bhvcRate,
-          registrationFee: registrationFee,
-          totalOnRoadCost: totalOnRoadCost,
-          grandTotal: grandTotal,
-          hasLoan: hasLoan,
-          ...loanData,
-        };
-      }
-
-      // Print quote buttons - Save data and redirect to invoice page
-      function handlePrintQuote() {
-        const invoiceData = collectInvoiceData();
-
-        // Save to localStorage
-        localStorage.setItem("invoiceData", JSON.stringify(invoiceData));
-
-        // Redirect to invoice page
-        window.location.href = "invoice.html";
-      }
-
-      // Only bind to footer buttons
-      document
-        .getElementById("printBtnFooter")
-        .addEventListener("click", handlePrintQuote);
-
-      // Print Quote 2 Button - redirect to invoice2.html
-      function handlePrintQuote2() {
-        const invoiceData = collectInvoiceData();
-        
-        // Save to localStorage
-        localStorage.setItem("invoiceData", JSON.stringify(invoiceData));
-        
-        // Redirect to invoice2 page
-        window.location.href = "invoice2.html";
-      }
-      
-      // Bind button event listeners
-      document
-        .getElementById("printBtn2Footer")
-        .addEventListener("click", handlePrintQuote2);
-
-      // Email quote buttons
-      function sendEmail() {
-        alert("Tính năng gửi email báo giá sẽ được triển khai sớm!");
-      }
-      // Only bind to footer button
-      document
-        .getElementById("emailBtnFooter")
-        .addEventListener("click", sendEmail);
-
-      // ============================================
-      // INITIALIZATION FUNCTION - AUTO LOAD DATA
-      // ============================================
-      function initializeApp() {
-        console.log("🚀 Initializing VinFast Calculator...");
-
-        try {
-          // Check if database is available
-          if (typeof danh_sach_xe === "undefined") {
-            console.error("❌ Database not loaded! Retrying...");
-            setTimeout(initializeApp, 200);
-            return;
-          }
-
-          // Set default dates
-          const today = new Date();
-          const depositDate = new Date(today);
-          depositDate.setDate(today.getDate() + 5);
-          const deliveryDate = new Date(today);
-          deliveryDate.setMonth(today.getMonth() + 1);
-
-          document.getElementById("depositDate").valueAsDate = depositDate;
-          document.getElementById("deliveryDate").valueAsDate = deliveryDate;
-
-          // Step 1: Populate car models from database
-          console.log("📋 Loading car models from database...");
-          const defaultModel = populateCarModels();
-          console.log("✅ Selected default model:", defaultModel);
-
-          // Step 2: Populate versions, colors, and images for the default model
-          // populateCarVersions already calls populateColorOptions and updateCarImages in correct order
-          console.log("� Loading car versions, colors, and images...");
-          populateCarVersions(defaultModel || "vf_3", false);
-
-          // Step 3: Calculate and display all costs
-          console.log("💰 Calculating costs...");
-          calculateAll();
-
-          console.log("✨ Initialization complete!");
-        } catch (error) {
-          console.error("❌ Error during initialization:", error);
-        }
-      }
-
-      // Run initialization when page loads
-      window.addEventListener("DOMContentLoaded", function () {
-        console.log("📄 DOM Content Loaded");
-        // Small delay to ensure database.js is fully loaded
-        setTimeout(initializeApp, 50);
-      });
-
-      // Fallback: Also try on window.load
-      window.addEventListener("load", function () {
-        console.log("🌐 Window Loaded");
-        // Check if already initialized
-        if (document.getElementById("carModel").options.length === 0) {
-          console.log("🔄 Retrying initialization...");
-          setTimeout(initializeApp, 100);
-        }
-      });
-
-      // Handle window resize
-      window.addEventListener("resize", function () {
-        if (window.innerWidth >= 1024 && !localStorage.getItem("mobileView")) {
-          document.body.classList.remove("mobile-view");
-          viewToggle.textContent = "📱 Mobile View";
-        } else if (window.innerWidth < 1024) {
-          document.body.classList.add("mobile-view");
-          viewToggle.textContent = "🖥️ Desktop View";
-        }
-      });
-    </script>
-
-    <!-- Image Modal -->
-    <div class="image-modal" id="imageModal">
-      <span class="image-modal-close" id="modalClose">&times;</span>
-      <div class="image-modal-content">
-        <!-- Swiper -->
-        <div class="swiper" id="imageSwiper">
-          <div class="swiper-wrapper">
-            <div class="swiper-slide">
-              <img id="modalImageExterior" src="" alt="Ngoại thất" />
-            </div>
-            <div class="swiper-slide">
-              <img id="modalImageInterior" src="" alt="Nội thất" />
-            </div>
-          </div>
-          <!-- Navigation buttons -->
-          <div class="swiper-button-next"></div>
-          <div class="swiper-button-prev"></div>
-          <!-- Pagination -->
-          <div class="swiper-pagination"></div>
-        </div>
-        <div class="image-modal-label" id="modalLabel">Ngoại thất</div>
-      </div>
-    </div>
-
-    <!-- Import vinfast_images_metadata.js FIRST - Required by database.js -->
-    <script src="vinfast_images_metadata.js"></script>
-    
-    <!-- Import database.js SECOND - Depends on vinfast_images_metadata -->
-    <script src="database.js"></script>
-
-    <!-- Swiper JS -->
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-
-    <!-- Initialize App After Database Loaded -->
-    <script>
-      // Check if database is loaded
-      console.log(
-        "🔍 Checking metadata...",
-        typeof vinfast_images_metadata !== "undefined" ? "✅ Loaded" : "❌ Not loaded"
-      );
-      console.log(
-        "🔍 Checking database...",
-        typeof danh_sach_xe !== "undefined" ? "✅ Loaded" : "❌ Not loaded"
-      );
-    </script>
-
-    <!-- Image Modal Script -->
-    <script>
-      // Image Modal functionality with Swiper - must run after DOM is loaded
-      document.addEventListener("DOMContentLoaded", function () {
-        const imageModal = document.getElementById("imageModal");
-        const modalLabel = document.getElementById("modalLabel");
-        const modalClose = document.getElementById("modalClose");
-        const modalImageExterior =
-          document.getElementById("modalImageExterior");
-        const modalImageInterior =
-          document.getElementById("modalImageInterior");
-        const exteriorImg = document.getElementById("carImageExterior");
-        const interiorImg = document.getElementById("carImageInterior");
-
-        if (
-          !imageModal ||
-          !modalLabel ||
-          !modalClose ||
-          !exteriorImg ||
-          !interiorImg
-        ) {
-          console.error("Modal elements not found");
-          return;
-        }
-
-        // Initialize Swiper
-        let modalSwiper = null;
-
-        function initSwiper() {
-          if (modalSwiper) {
-            modalSwiper.destroy(true, true);
-          }
-
-          modalSwiper = new Swiper("#imageSwiper", {
-            loop: false,
-            navigation: {
-              nextEl: ".swiper-button-next",
-              prevEl: ".swiper-button-prev",
-            },
-            pagination: {
-              el: ".swiper-pagination",
-              clickable: true,
-            },
-            keyboard: {
-              enabled: true,
-              onlyInViewport: true,
-            },
-            on: {
-              slideChange: function () {
-                // Update label based on active slide
-                if (this.activeIndex === 0) {
-                  modalLabel.textContent = "Ngoại thất";
-                } else {
-                  modalLabel.textContent = "Nội thất";
-                }
-              },
-            },
-          });
-        }
-
-        // Function to open modal
-        function openModal(startIndex) {
-          // Update images
-          modalImageExterior.src = exteriorImg.src;
-          modalImageInterior.src = interiorImg.src;
-
-          // Show modal
-          imageModal.classList.add("active");
-          document.body.style.overflow = "hidden";
-
-          // Initialize or reset swiper
-          initSwiper();
-
-          // Go to specific slide
-          if (modalSwiper) {
-            modalSwiper.slideTo(startIndex, 0);
-          }
-
-          // Update label
-          modalLabel.textContent = startIndex === 0 ? "Ngoại thất" : "Nội thất";
-        }
-
-        // Function to close modal
-        function closeModal() {
-          imageModal.classList.remove("active");
-          document.body.style.overflow = "";
-          if (modalSwiper) {
-            modalSwiper.slideTo(0, 0);
-          }
-        }
-
-        // Open modal when clicking on exterior image
-        exteriorImg.addEventListener("click", function () {
-          openModal(0); // Start with exterior (index 0)
-        });
-
-        // Open modal when clicking on interior image
-        interiorImg.addEventListener("click", function () {
-          openModal(1); // Start with interior (index 1)
-        });
-
-        // Close modal when clicking the close button
-        modalClose.addEventListener("click", closeModal);
-
-        // Close modal when clicking outside the content
-        imageModal.addEventListener("click", function (e) {
-          if (e.target === imageModal) {
-            closeModal();
-          }
-        });
-
-        // Close modal with ESC key
-        document.addEventListener("keydown", function (e) {
-          if (e.key === "Escape" && imageModal.classList.contains("active")) {
-            closeModal();
-          }
-        });
-      });
-    </script>
-  </body>
 </html>
