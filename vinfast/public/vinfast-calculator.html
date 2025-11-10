@@ -1147,7 +1147,22 @@
 
 
 
-            <!-- VinClub Voucher -->
+           
+
+
+          </div>
+
+          <div class="cost-row">
+            <span class="cost-label">Giá sau ưu đãi</span>
+            <span class="cost-value" id="priceAfterDiscount">0</span>
+          </div>
+
+          <div style="margin-top: 20px">
+
+            <!-- Xăng -> Điện checkbox (uses ho_tro_doi_xe from database.js) -->
+
+
+             <!-- VinClub Voucher -->
             <div style="margin-top: 12px">
               <label class="form-label">Voucher VinClub</label>
               <div style="
@@ -1164,22 +1179,6 @@
                 <div class="discount-value" id="vinClubDiscountValue">0</div>
               </div>
             </div>
-
-            <!-- Per-model promotion display -->
-            <div style="margin-top: 12px">
-              <label class="form-label">Ưu đãi theo dòng xe</label>
-              <div class="discount-value" id="perModelPromoValue">0</div>
-            </div>
-          </div>
-
-          <div class="cost-row">
-            <span class="cost-label">Giá sau ưu đãi</span>
-            <span class="cost-value" id="priceAfterDiscount">850.000.000 ₫</span>
-          </div>
-
-          <div style="margin-top: 20px">
-
-            <!-- Xăng -> Điện checkbox (uses ho_tro_doi_xe from database.js) -->
 
             <div class="cost-row">
               <div class="checkbox-group">
@@ -1854,24 +1853,26 @@
         ? parseInt(discount2Element.getAttribute("data-discount") || 0)
         : 0;
 
-      // Per-model promotion (percentage) if configured in database.js
-      let perModelPromoAmount = 0;
+      // Xăng -> Điện convert support (if user checks the box) - applied as discount
+      const convertChecked = document.getElementById('convertCheckbox') ? document.getElementById('convertCheckbox').checked : false;
+      // Use selected dong_xe code for lookup
+      let convertSupportDiscount = 0;
       try {
-        if (typeof per_model_promotions !== 'undefined' && Array.isArray(per_model_promotions)) {
-          const dong = getSelectedDongXe();
-          const p = per_model_promotions.find(x => x.dong_xe === dong);
-          if (p && p.ty_le) {
-            perModelPromoAmount = Math.round(basePrice * Number(p.ty_le) || 0);
+        if (convertChecked && typeof ho_tro_doi_xe !== 'undefined') {
+          const dongCode = getSelectedDongXe();
+          if (dongCode) {
+            const supportEntry = ho_tro_doi_xe.find(h => h.dong_xe === dongCode);
+            if (supportEntry && supportEntry.gia_tri) convertSupportDiscount = Number(supportEntry.gia_tri) || 0;
           }
         }
       } catch (e) {
-        perModelPromoAmount = 0;
+        console.warn('Error computing convert support:', e);
+        convertSupportDiscount = 0;
       }
 
-      // Calculate VinClub discount based on price AFTER fixed discounts
-      // First apply fixed amount discounts (discount1, discount2, per-model percent)
-      const fixedDiscountTotal = discount1 + discount2 + perModelPromoAmount;
-      const intermediatePrice = Math.max(0, basePrice - fixedDiscountTotal);
+      // Calculate VinClub discount based on price AFTER basic promotions only
+      const promotionDiscountTotal = discount1 + discount2;
+      const priceAfterBasicPromotions = Math.max(0, basePrice - promotionDiscountTotal);
 
       const vinClubSelect = document.getElementById("vinClubVoucher");
       const vinClubValue = vinClubSelect ? vinClubSelect.value : "none";
@@ -1879,36 +1880,16 @@
       if (vinClubValue !== "none") {
         const vinClubData = getDataByKey(uu_dai_vin_club, "hang", vinClubValue);
         if (vinClubData) {
-          vinClubDiscount = Math.round(intermediatePrice * vinClubData.ty_le);
+          vinClubDiscount = Math.round(priceAfterBasicPromotions * vinClubData.ty_le);
         }
       }
 
-      // Update VinClub discount display
-      const vinClubDiscountDisplay = document.getElementById("vinClubDiscountValue");
-      if (vinClubDiscountDisplay) {
-        if (vinClubDiscount > 0) {
-          vinClubDiscountDisplay.textContent = `-${formatCurrency(vinClubDiscount)}`;
-        } else {
-          vinClubDiscountDisplay.textContent = "";
-        }
-      }
-
-      // Update per-model promotion display
-      const perModelPromoDisplay = document.getElementById("perModelPromoValue");
-      if (perModelPromoDisplay) {
-        if (perModelPromoAmount > 0) {
-          perModelPromoDisplay.textContent = `-${formatCurrency(perModelPromoAmount)}`;
-        } else {
-          perModelPromoDisplay.textContent = "";
-        }
-      }
-
-      const totalDiscount = fixedDiscountTotal + vinClubDiscount;
+      // Apply convert support discount separately
+      const totalDiscount = promotionDiscountTotal + vinClubDiscount + convertSupportDiscount;
       const priceAfterDiscount = Math.max(0, basePrice - totalDiscount);
 
-
-  // Get car model key for database lookup (legacy dong_xe)
-  const carModelKey = getSelectedDongXe();
+      // Get car model key for database lookup (legacy dong_xe)
+      const carModelKey = getSelectedDongXe();
 
       // Get customer type for road fee calculation
       // Try to get from desktop first, if not available use mobile
@@ -1920,26 +1901,6 @@
         : customerTypeMobile
           ? customerTypeMobile.value
           : "ca_nhan";
-
-      // Xăng -> Điện convert support (if user checks the box)
-      const convertChecked = document.getElementById('convertCheckbox') ? document.getElementById('convertCheckbox').checked : false;
-      // Use selected dong_xe code for lookup
-      let convertSupport = 0;
-      try {
-        if (convertChecked && typeof ho_tro_doi_xe !== 'undefined') {
-          const dongCode = getSelectedDongXe();
-          if (dongCode) {
-            const supportEntry = ho_tro_doi_xe.find(h => h.dong_xe === dongCode);
-            if (supportEntry && supportEntry.gia_tri) convertSupport = Number(supportEntry.gia_tri) || 0;
-          }
-        }
-      } catch (e) {
-        console.warn('Error computing convert support:', e);
-        convertSupport = 0;
-      }
-
-      // Calculate on-road costs using database.js
-      // Phí cấp biển số
       const locationKey = locationMap[registrationLocation] || "tinh_khac";
       const plateFeeData = getDataByKey(
         phi_cap_bien_so,
@@ -1993,8 +1954,7 @@
         liabilityInsurance +
         inspectionFee +
         bodyInsurance +
-        registrationFee +
-        convertSupport;
+        registrationFee;
       const totalCost = priceAfterDiscount + totalOnRoadCost;
 
 
@@ -2004,7 +1964,7 @@
       document.getElementById("totalCarValue").textContent =
         formatCurrency(basePrice);
       document.getElementById("priceAfterDiscount").textContent =
-        formatCurrency(priceAfterDiscount);
+        formatCurrency(priceAfterBasicPromotions);
       document.getElementById("plateFee").textContent =
         formatCurrency(plateFee);
 
@@ -2026,18 +1986,21 @@
         formatCurrency(bodyInsurance);
       document.getElementById("registrationFee").textContent =
         formatCurrency(registrationFee);
-      // Update convert support fee display
+      // Update convert support fee display (now as discount, but show if applicable)
       const convertEl = document.getElementById('convertSupportFee');
-      if (convertEl) convertEl.textContent = formatCurrency(convertSupport);
+      if (convertEl) convertEl.textContent = formatCurrency(convertSupportDiscount);
+      // Update VinClub discount display
+      const vinClubEl = document.getElementById('vinClubDiscountValue');
+      if (vinClubEl) vinClubEl.textContent = formatCurrency(vinClubDiscount);
       document.getElementById("totalOnRoadCost").textContent =
         formatCurrency(totalOnRoadCost);
       document.getElementById("totalCost").textContent =
         formatCurrency(totalCost);
 
-      // Update title with car version
+      // Update title with car model and version
       document.getElementById(
         "costEstimationTitle"
-      ).textContent = `Dự toán chi phí cho ${carVersion}`;
+      ).textContent = `Dự toán chi phí cho ${carModel} ${carVersion}`;
 
       // Calculate loan details if enabled
       if (document.getElementById("loanToggle").checked) {
@@ -2288,47 +2251,34 @@
       const vinClubSelect = document.getElementById("vinClubVoucher");
       const vinClubValue = vinClubSelect ? vinClubSelect.value : "none";
       let vinClubDiscount = 0;
-      // per-model promotion (percentage) applied before VinClub
-      let perModelPromoAmount = 0;
-      try {
-        if (typeof per_model_promotions !== 'undefined' && Array.isArray(per_model_promotions)) {
-          const dong = getSelectedDongXe();
-          const p = per_model_promotions.find(x => x.dong_xe === dong);
-          if (p && p.ty_le) {
-            perModelPromoAmount = Math.round(basePrice * Number(p.ty_le) || 0);
-          }
-        }
-      } catch (e) {
-        perModelPromoAmount = 0;
-      }
 
-      const fixedDiscountTotal = discount1 + discount2 + perModelPromoAmount;
-      const intermediatePrice = Math.max(0, basePrice - fixedDiscountTotal);
+      const promotionDiscountTotal = discount1 + discount2;
+      const priceAfterBasicPromotions = Math.max(0, basePrice - promotionDiscountTotal);
 
       if (vinClubValue !== "none" && typeof uu_dai_vin_club !== "undefined") {
         const vinClubData = uu_dai_vin_club.find((item) => item.hang === vinClubValue);
         if (vinClubData) {
-          vinClubDiscount = Math.round(intermediatePrice * vinClubData.ty_le);
+          vinClubDiscount = Math.round(priceAfterBasicPromotions * vinClubData.ty_le);
         }
       }
 
-      const totalDiscount = fixedDiscountTotal + vinClubDiscount;
-      const priceAfterDiscount = Math.max(0, basePrice - totalDiscount);
-
-      // Compute convert checkbox data for invoice collection
+      // Compute convert checkbox data for invoice collection - now treated as discount
       const convertSelected = document.getElementById('convertCheckbox') ? document.getElementById('convertCheckbox').checked : false;
-      let convertSupportFee = 0;
+      let convertSupportDiscount = 0;
       if (convertSelected && typeof ho_tro_doi_xe !== 'undefined') {
         try {
           const dongCode = getSelectedDongXe();
           if (dongCode) {
             const entry = ho_tro_doi_xe.find(h => h.dong_xe === dongCode);
-            if (entry && entry.gia_tri) convertSupportFee = Number(entry.gia_tri) || 0;
+            if (entry && entry.gia_tri) convertSupportDiscount = Number(entry.gia_tri) || 0;
           }
         } catch (e) {
           console.warn('collectInvoiceData: error computing convert support', e);
         }
       }
+
+      const totalDiscount = promotionDiscountTotal + vinClubDiscount + convertSupportDiscount;
+      const priceAfterDiscount = Math.max(0, basePrice - totalDiscount);
 
       // Get on-road costs
       const registrationLocation = document.getElementById(
@@ -2408,8 +2358,8 @@
         }
         const monthlyRate = annualRate / 12;
 
-        const loanAmount = Math.round(grandTotal * (loanRatio / 100));
-        const downPayment = grandTotal - loanAmount;
+        const loanAmount = Math.round((priceAfterDiscount + totalOnRoadCost) * (loanRatio / 100));
+        const downPayment = (priceAfterDiscount + totalOnRoadCost) - loanAmount;
 
         const monthlyPayment =
           (loanAmount * (monthlyRate * Math.pow(1 + monthlyRate, loanTerm))) /
@@ -2455,6 +2405,7 @@
         registrationLocation: registrationLocationText,
         carBasePrice: basePrice,
         carDiscount: totalDiscount,
+        carPriceAfterPromotions: priceAfterBasicPromotions,
         carTotal: priceAfterDiscount,
         plateFee: plateFee,
         plateLocation: registrationLocationText,
@@ -2465,7 +2416,7 @@
         bodyInsuranceRate: bhvcRate,
         registrationFee: registrationFee,
         convertSelected: convertSelected,
-        convertSupportFee: convertSupportFee,
+        convertSupportDiscount: convertSupportDiscount,
         totalOnRoadCost: totalOnRoadCost,
         grandTotal: grandTotal,
         hasLoan: hasLoan,
