@@ -346,7 +346,11 @@
       if (data.customerType) {
         const typeText = data.customerType === 'ca_nhan' ? 'Cá nhân' : 'Công ty';
         document.getElementById('customerTypeLabel').textContent = typeText;
-        document.getElementById('businessType').textContent = data.customerType === 'ca_nhan' ? 'Không Kinh Doanh' : 'Kinh Doanh';
+        // Prefer explicit businessType if provided; otherwise derive from customerType for backwards compatibility
+        const businessText = data.businessType
+          ? (data.businessType === 'khong_kinh_doanh' ? 'Không Kinh Doanh' : 'Kinh Doanh')
+          : (data.customerType === 'ca_nhan' ? 'Không Kinh Doanh' : 'Kinh Doanh');
+        document.getElementById('businessType').textContent = businessText;
       }
       
       // Update car info
@@ -423,8 +427,11 @@
       // Update customer type in road fee
       if (data.customerType) {
         document.getElementById('customerTypeRoad').textContent = data.customerType === 'ca_nhan' ? 'Cá nhân' : 'Công ty';
-        // Update BHVC type (same as customer type for business type)
-        document.getElementById('bhvcType').textContent = data.customerType === 'ca_nhan' ? 'Không Kinh Doanh' : 'Kinh Doanh';
+        // BHVC type: prefer explicit businessType if present
+        const bhvcText = data.businessType
+          ? (data.businessType === 'khong_kinh_doanh' ? 'Không Kinh Doanh' : 'Kinh Doanh')
+          : (data.customerType === 'ca_nhan' ? 'Không Kinh Doanh' : 'Kinh Doanh');
+        document.getElementById('bhvcType').textContent = bhvcText;
       }
       
       // Update total on-road cost

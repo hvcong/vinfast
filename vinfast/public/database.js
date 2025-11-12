@@ -1418,7 +1418,7 @@ const thong_tin_ky_thuat_xe = [
 
 
 // Chi phí dịch vụ đăng ký
-const chi_phi_dich_vu_dang_ky = 3900000
+const chi_phi_dich_vu_dang_ky = 4000000
 
 // Lãi suất vay hàng năm (8.5%)
 const lai_suat_vay_hang_nam = 0.085

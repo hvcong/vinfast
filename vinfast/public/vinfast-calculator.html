@@ -979,6 +979,14 @@
           </div>
 
           <div class="form-group">
+            <label class="form-label">Loại sử dụng</label>
+            <select class="form-input" id="businessType" style="cursor: pointer">
+              <option value="khong_kinh_doanh">Không kinh doanh</option>
+              <option value="kinh_doanh">Kinh doanh</option>
+            </select>
+          </div>
+
+          <div class="form-group">
             <label class="form-label">Số tiền cọc</label>
             <input type="number" class="form-input" id="depositAmount" value="0" min="0" readonly />
           </div>
@@ -1102,15 +1110,24 @@
             </div>
           </div>
 
-          <!-- <div class="config-section">
-        <div class="config-title">4. Loại khách hàng</div>
-        <div class="dropdown-wrapper">
-          <select class="dropdown" id="customerTypeMobile">
-            <option value="ca_nhan">Cá nhân</option>
-            <option value="cong_ty">Công ty</option>
-          </select>
-        </div>
-      </div> -->
+          <!-- Mobile-only customer/business selectors (shown on small screens) -->
+          <div class="config-section mobile-only">
+            <div class="config-title">4. Loại khách hàng & Sử dụng</div>
+            <div style="display:flex; gap:12px;">
+              <div class="dropdown-wrapper" style="flex:1;">
+                <select class="dropdown" id="customerTypeMobile">
+                  <option value="ca_nhan">Cá nhân</option>
+                  <option value="cong_ty">Công ty</option>
+                </select>
+              </div>
+              <div class="dropdown-wrapper" style="flex:1;">
+                <select class="dropdown" id="businessTypeMobile">
+                  <option value="khong_kinh_doanh">Không kinh doanh</option>
+                  <option value="kinh_doanh">Kinh doanh</option>
+                </select>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -1127,29 +1144,24 @@
             <span class="cost-value" id="carPriceWithVAT">0</span>
           </div>
 
-          <div class="cost-row">
+          <!-- <div class="cost-row">
             <span class="cost-label">Tổng giá trị xe</span>
             <span class="cost-value" id="totalCarValue">0</span>
-          </div>
+          </div> -->
 
           <div style="margin: 16px 0">
             <div class="form-label">Chọn ưu đãi áp dụng</div>
+            <!-- VN3 discount removed per request -->
             <div class="checkbox-group">
-              <input type="checkbox" id="discount1" data-discount="37960000" />
-              <label for="discount1">Ưu đãi Lái xe Xanh (VN3)</label>
-              <span class="discount-value">-37.960.000 ₫</span>
+              <input type="checkbox" id="discount3" />
+              <label for="discount3">Ưu đãi Lái xe Xanh (VN3)</label>
+              <span class="discount-value" id="discount3Value">-0 ₫</span>
             </div>
             <div class="checkbox-group">
               <input type="checkbox" id="discount2" data-discount="50000000" />
               <label for="discount2">Ưu đãi tháng 10</label>
-              <span class="discount-value">-50.000.000 ₫</span>
+              <span class="discount-value" id="discount2Value">-0 ₫</span>
             </div>
-
-
-
-           
-
-
           </div>
 
           <div class="cost-row">
@@ -1844,14 +1856,29 @@
       const basePrice = getCarPrice();
 
       // Calculate discounts - Using data from database.js or data attributes
-      const discount1Element = document.getElementById("discount1");
-      const discount2Element = document.getElementById("discount2");
-      const discount1 = discount1Element.checked
-        ? parseInt(discount1Element.getAttribute("data-discount") || 0)
-        : 0;
-      const discount2 = discount2Element.checked
-        ? parseInt(discount2Element.getAttribute("data-discount") || 0)
-        : 0;
+  const discount2Element = document.getElementById("discount2");
+  const discount3Element = document.getElementById("discount3");
+
+  const discount2Potential = parseInt(discount2Element?.getAttribute("data-discount") || 0) || 0;
+  const discount2 = discount2Element && discount2Element.checked ? discount2Potential : 0;
+
+      const discount3Potential = Math.round(basePrice * 0.04);
+      const discount3 = discount3Element && discount3Element.checked ? discount3Potential : 0;
+
+      // Update discount displays (show as negative amounts; default "-0 ₫" when unchecked)
+      // discount1 (VN3) removed; only update discount2/3 displays below
+      const discount2ValueEl = document.getElementById("discount2Value");
+      if (discount2ValueEl) {
+        discount2ValueEl.textContent = (discount2Element && discount2Element.checked)
+          ? "-" + formatCurrency(discount2Potential)
+          : "-" + formatCurrency(0);
+      }
+      const discount3ValueEl = document.getElementById("discount3Value");
+      if (discount3ValueEl) {
+        discount3ValueEl.textContent = (discount3Element && discount3Element.checked)
+          ? "-" + formatCurrency(discount3Potential)
+          : "-" + formatCurrency(0);
+      }
 
       // Xăng -> Điện convert support (if user checks the box) - applied as discount
       const convertChecked = document.getElementById('convertCheckbox') ? document.getElementById('convertCheckbox').checked : false;
@@ -1871,7 +1898,7 @@
       }
 
       // Calculate VinClub discount based on price AFTER basic promotions only
-      const promotionDiscountTotal = discount1 + discount2;
+  const promotionDiscountTotal = discount2 + discount3;
       const priceAfterBasicPromotions = Math.max(0, basePrice - promotionDiscountTotal);
 
       const vinClubSelect = document.getElementById("vinClubVoucher");
@@ -1891,16 +1918,25 @@
       // Get car model key for database lookup (legacy dong_xe)
       const carModelKey = getSelectedDongXe();
 
-      // Get customer type for road fee calculation
+      // Get customer type for road fee calculation (owner: cá nhân / công ty)
+      // and business usage type for insurance (kinh_doanh / khong_kinh_doanh)
       // Try to get from desktop first, if not available use mobile
       const customerTypeDesktop = document.getElementById("customerType");
-      const customerTypeMobile =
-        document.getElementById("customerTypeMobile");
+      const customerTypeMobile = document.getElementById("customerTypeMobile");
       const customerType = customerTypeDesktop
         ? customerTypeDesktop.value
         : customerTypeMobile
           ? customerTypeMobile.value
           : "ca_nhan";
+
+      // Business usage (affects insurance rates). Default to non-business if missing.
+      const businessTypeDesktop = document.getElementById("businessType");
+      const businessTypeMobile = document.getElementById("businessTypeMobile");
+      const businessType = businessTypeDesktop
+        ? businessTypeDesktop.value
+        : businessTypeMobile
+          ? businessTypeMobile.value
+          : "khong_kinh_doanh";
       const locationKey = locationMap[registrationLocation] || "tinh_khac";
       const plateFeeData = getDataByKey(
         phi_cap_bien_so,
@@ -1924,9 +1960,9 @@
         carModelKey
       );
 
-      // Phí TNDS - based on customer type
+      // Phí TNDS - based on business usage (kinh doanh / không kinh doanh)
       const liabilityInsurance = carInfo
-        ? customerType === "ca_nhan"
+        ? businessType === "khong_kinh_doanh"
           ? carInfo.phi_tnds_ca_nhan
           : carInfo.phi_tnds_kinh_doanh
         : getDataByKey(thong_tin_ky_thuat_xe, "dong_xe", "vf_7")
@@ -1936,9 +1972,9 @@
       // Phí kiểm định
       const inspectionFee = phi_kiem_dinh;
 
-      // Bảo hiểm thân vỏ - based on customer type
+      // Bảo hiểm thân vỏ - based on business usage
       const bhvcRate = carInfo
-        ? customerType === "ca_nhan"
+        ? businessType === "khong_kinh_doanh"
           ? carInfo.ty_le_bhvc_ca_nhan
           : carInfo.ty_le_bhvc_kinh_doanh
         : 0.01;
@@ -1961,8 +1997,8 @@
       // Update cost display
       document.getElementById("carPriceWithVAT").textContent =
         formatCurrency(basePrice);
-      document.getElementById("totalCarValue").textContent =
-        formatCurrency(basePrice);
+      // document.getElementById("totalCarValue").textContent =
+      //   formatCurrency(basePrice);
       document.getElementById("priceAfterDiscount").textContent =
         formatCurrency(priceAfterBasicPromotions);
       document.getElementById("plateFee").textContent =
@@ -2102,6 +2138,7 @@
     document
       .getElementById("carModel")
       .addEventListener("change", function () {
+
         // When changing car model, don't keep current color (reset to default)
         populateCarVersions(this.value, false);
         updateDepositAmount();
@@ -2141,6 +2178,28 @@
       });
     }
 
+    // Business usage change - sync between desktop and mobile
+    const businessTypeDesktop = document.getElementById("businessType");
+    const businessTypeMobile = document.getElementById("businessTypeMobile");
+
+    if (businessTypeDesktop) {
+      businessTypeDesktop.addEventListener("change", function () {
+        if (businessTypeMobile) {
+          businessTypeMobile.value = this.value;
+        }
+        calculateAll();
+      });
+    }
+
+    if (businessTypeMobile) {
+      businessTypeMobile.addEventListener("change", function () {
+        if (businessTypeDesktop) {
+          businessTypeDesktop.value = this.value;
+        }
+        calculateAll();
+      });
+    }
+
     // Color changes
     document
       .getElementById("exteriorColor")
@@ -2158,11 +2217,12 @@
       });
 
     // Discount checkboxes
-    document
-      .getElementById("discount1")
-      .addEventListener("change", calculateAll);
+    // discount1 (VN3) removed
     document
       .getElementById("discount2")
+      .addEventListener("change", calculateAll);
+    document
+      .getElementById("discount3")
       .addEventListener("change", calculateAll);
 
     // Convert checkbox change -> recalc
@@ -2223,6 +2283,12 @@
       const customerType = customerTypeSelect
         ? customerTypeSelect.value
         : "ca_nhan";
+
+      // Business usage selection (kinh_doanh / khong_kinh_doanh)
+      const businessTypeSelect = document.getElementById("businessType");
+      const businessType = businessTypeSelect
+        ? businessTypeSelect.value
+        : "khong_kinh_doanh";
       const depositAmount = parseFloat(
         document.getElementById("depositAmount")?.value || 0
       );
@@ -2232,13 +2298,6 @@
 
       // Get car prices
       const basePrice = getCarPrice();
-      const discount1 = document.getElementById("discount1").checked
-        ? parseFloat(
-          document
-            .getElementById("discount1")
-            .getAttribute("data-discount") || 0
-        )
-        : 0;
       const discount2 = document.getElementById("discount2").checked
         ? parseFloat(
           document
@@ -2246,13 +2305,16 @@
             .getAttribute("data-discount") || 0
         )
         : 0;
+      const discount3 = document.getElementById("discount3").checked
+        ? Math.round(basePrice * 0.04)
+        : 0;
 
       // Get VinClub discount
       const vinClubSelect = document.getElementById("vinClubVoucher");
       const vinClubValue = vinClubSelect ? vinClubSelect.value : "none";
       let vinClubDiscount = 0;
 
-      const promotionDiscountTotal = discount1 + discount2;
+  const promotionDiscountTotal = discount2 + discount3;
       const priceAfterBasicPromotions = Math.max(0, basePrice - promotionDiscountTotal);
 
       if (vinClubValue !== "none" && typeof uu_dai_vin_club !== "undefined") {
@@ -2308,7 +2370,7 @@
           : null;
 
       const liabilityInsurance = carInfo
-        ? customerType === "ca_nhan"
+        ? businessType === "khong_kinh_doanh"
           ? carInfo.phi_tnds_ca_nhan
           : carInfo.phi_tnds_kinh_doanh
         : 480700;
@@ -2317,7 +2379,7 @@
         typeof phi_kiem_dinh !== "undefined" ? phi_kiem_dinh : 90000;
 
       const bhvcRate = carInfo
-        ? customerType === "ca_nhan"
+        ? businessType === "khong_kinh_doanh"
           ? carInfo.ty_le_bhvc_ca_nhan
           : carInfo.ty_le_bhvc_kinh_doanh
         : 0.015;
@@ -2394,7 +2456,8 @@
         customerPhone: customerPhone,
         customerEmail: customerEmail,
         customerAddress: customerAddress,
-        customerType: customerType,
+  customerType: customerType,
+  businessType: businessType,
         depositAmount: depositAmount,
         depositDate: depositDate,
         deliveryDate: deliveryDate,
@@ -2435,11 +2498,6 @@
       window.location.href = "invoice.html";
     }
 
-    // Only bind to footer buttons
-    document
-      .getElementById("printBtnFooter")
-      .addEventListener("click", handlePrintQuote);
-
     // Print Quote 2 Button - redirect to invoice2.html
     function handlePrintQuote2() {
       const invoiceData = collectInvoiceData();
@@ -2451,11 +2509,6 @@
       window.location.href = "invoice2.html";
     }
 
-    // Bind button event listeners
-    document
-      .getElementById("printBtn2Footer")
-      .addEventListener("click", handlePrintQuote2);
-
     // Email quote buttons
     function sendEmail() {
       alert("Tính năng gửi email báo giá sẽ được triển khai sớm!");
@@ -2464,6 +2517,13 @@
     document
       .getElementById("emailBtnFooter")
       .addEventListener("click", sendEmail);
+
+    // Bind print buttons to their handlers
+    const printBtn = document.getElementById("printBtnFooter");
+    if (printBtn) printBtn.addEventListener("click", handlePrintQuote);
+
+    const printBtn2 = document.getElementById("printBtn2Footer");
+    if (printBtn2) printBtn2.addEventListener("click", handlePrintQuote2);
 
     // ============================================
     // INITIALIZATION FUNCTION - AUTO LOAD DATA

@@ -454,6 +454,10 @@
                 <p id="customerType">Cá nhân</p>
             </div>
             <div class="info-block">
+                <h3>Loại sử dụng</h3>
+                <p id="businessType">Không Kinh Doanh</p>
+            </div>
+            <div class="info-block">
                 <h3>Ngày nhận cọc</h3>
                 <p id="depositDate">10/11/2025</p>
             </div>
@@ -699,6 +703,12 @@
             if (data.customerType) {
                 const typeText = data.customerType === 'ca_nhan' ? 'Cá nhân' : 'Công ty';
                 document.getElementById('customerType').textContent = typeText;
+            }
+            // Set explicit business usage if provided; otherwise derive from customerType for backwards compatibility
+            if (data.businessType) {
+                document.getElementById('businessType').textContent = data.businessType === 'khong_kinh_doanh' ? 'Không Kinh Doanh' : 'Kinh Doanh';
+            } else if (data.customerType) {
+                document.getElementById('businessType').textContent = data.customerType === 'ca_nhan' ? 'Không Kinh Doanh' : 'Kinh Doanh';
             }
             if (data.depositDate) document.getElementById('depositDate').textContent = formatDate(data.depositDate);
             if (data.deliveryDate) document.getElementById('deliveryDate').textContent = formatDate(data.deliveryDate);
