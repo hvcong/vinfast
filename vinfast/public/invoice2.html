@@ -430,16 +430,23 @@
         // Try to derive liability insurance from database if possible (fallback to calculator default 480,700)
         let derivedLiability = null;
         try {
-          if (typeof danh_sach_xe !== 'undefined' && Array.isArray(danh_sach_xe) && typeof thong_tin_ky_thuat_xe !== 'undefined' && Array.isArray(thong_tin_ky_thuat_xe)) {
-            const modelName = (data.carModel || '').toString().trim().toLowerCase();
-            const found = danh_sach_xe.find(x => (x.ten_hien_thi || '').toString().trim().toLowerCase() === modelName);
-            const dong = found && found.dong_xe ? found.dong_xe : null;
-            if (dong) {
-              const info = thong_tin_ky_thuat_xe.find(t => t.dong_xe === dong);
-              if (info) {
-                const business = data.businessType || (data.customerType === 'ca_nhan' ? 'khong_kinh_doanh' : 'kinh_doanh');
-                derivedLiability = business === 'khong_kinh_doanh' ? info.phi_tnds_ca_nhan : info.phi_tnds_kinh_doanh;
-              }
+          if (typeof thong_tin_ky_thuat_xe !== 'undefined' && Array.isArray(thong_tin_ky_thuat_xe)) {
+            // Prefer a direct dong_xe code sent from the calculator
+            const dongFromPayload = data.carDongXe;
+            let info = null;
+            if (dongFromPayload) {
+              info = thong_tin_ky_thuat_xe.find(t => t.dong_xe === dongFromPayload);
+            }
+            // Fallback: try to map using danh_sach_xe and human-readable carModel
+            if (!info && typeof danh_sach_xe !== 'undefined' && Array.isArray(danh_sach_xe) && data.carModel) {
+              const modelName = (data.carModel || '').toString().trim().toLowerCase();
+              const found = danh_sach_xe.find(x => (x.ten_hien_thi || '').toString().trim().toLowerCase() === modelName);
+              const dong = found && found.dong_xe ? found.dong_xe : null;
+              if (dong) info = thong_tin_ky_thuat_xe.find(t => t.dong_xe === dong);
+            }
+            if (info) {
+              const business = data.businessType || (data.customerType === 'ca_nhan' ? 'khong_kinh_doanh' : 'kinh_doanh');
+              derivedLiability = business === 'khong_kinh_doanh' ? info.phi_tnds_ca_nhan : info.phi_tnds_kinh_doanh;
             }
           }
         } catch (e) {
@@ -461,8 +468,20 @@
       if (data.bodyInsurance !== undefined) {
         document.getElementById('bodyInsurance').textContent = formatCurrency(data.bodyInsurance);
       } else if (data.carPriceAfterPromotions !== undefined) {
-        const rate = data.bodyInsuranceRate !== undefined ? Number(data.bodyInsuranceRate) : 0.014;
-        const computedBody = Math.round(Number(data.carPriceAfterPromotions || 0) * rate);
+        // If possible, prefer to derive rate from technical info using carDongXe
+        let rate = data.bodyInsuranceRate !== undefined ? Number(data.bodyInsuranceRate) : null;
+        try {
+          if ((rate === null || isNaN(rate)) && data.carDongXe && typeof thong_tin_ky_thuat_xe !== 'undefined' && Array.isArray(thong_tin_ky_thuat_xe)) {
+            const info = thong_tin_ky_thuat_xe.find(t => t.dong_xe === data.carDongXe);
+            if (info) {
+              rate = (data.businessType === 'khong_kinh_doanh' || data.customerType === 'ca_nhan') ? info.ty_le_bhvc_ca_nhan : info.ty_le_bhvc_kinh_doanh;
+            }
+          }
+        } catch (e) {
+          // ignore and fallback to default
+        }
+        if (rate === null || isNaN(Number(rate))) rate = 0.014;
+        const computedBody = Math.round(Number(data.carPriceAfterPromotions || 0) * Number(rate));
         document.getElementById('bodyInsurance').textContent = formatCurrency(computedBody);
       }
       

@@ -1985,10 +1985,15 @@
         convertSupportDiscount = 0;
       }
 
-      // Calculate VinClub discount based on price AFTER basic promotions only
-      // Note: BHVC-2yr is not treated as a promotion and is applied separately
+      // Calculate promotions and discounts
+      // promotionDiscountTotal only contains the basic promotions (discount2 + discount3)
       const promotionDiscountTotal = discount2 + discount3;
       const priceAfterBasicPromotions = Math.max(0, basePrice - promotionDiscountTotal);
+
+      // Compute the amount customer will pay BEFORE applying VinClub (i.e. after other discounts
+      // like convert support, BHVC-2yr, and premium color). VinClub should be calculated on this
+      // payable amount, then subtracted from it.
+      const amountBeforeVinClub = Math.max(0, priceAfterBasicPromotions - convertSupportDiscount - bhvc2 - premiumColor);
 
       const vinClubSelect = document.getElementById("vinClubVoucher");
       const vinClubValue = vinClubSelect ? vinClubSelect.value : "none";
@@ -1996,15 +2001,15 @@
       if (vinClubValue !== "none") {
         const vinClubData = getDataByKey(uu_dai_vin_club, "hang", vinClubValue);
         if (vinClubData) {
-          vinClubDiscount = Math.round(priceAfterBasicPromotions * vinClubData.ty_le);
+          // Calculate VinClub on amountBeforeVinClub (not on priceAfterBasicPromotions)
+          vinClubDiscount = Math.round(amountBeforeVinClub * vinClubData.ty_le);
         }
       }
 
-      // Compute finalPayable early so it's available for on-road cost calculations
-      // Note: premiumColor behaves like bhvc2 (not part of promotionDiscountTotal)
-      const finalPayable = Math.max(0, priceAfterBasicPromotions - vinClubDiscount - convertSupportDiscount - bhvc2 - premiumColor);
+      // Final payable is the amount after all discounts including VinClub
+      const finalPayable = Math.max(0, amountBeforeVinClub - vinClubDiscount);
 
-      // Apply convert support discount and BHVC-2yr separately (not part of promotionDiscountTotal)
+      // Recompute totals for display (totalDiscount includes vinClub now)
       const totalDiscount = promotionDiscountTotal + vinClubDiscount + convertSupportDiscount + bhvc2 + premiumColor;
       const priceAfterDiscount = Math.max(0, basePrice - totalDiscount);
 
@@ -2066,15 +2071,18 @@
       const inspectionFee = phi_kiem_dinh;
 
       // Bảo hiểm thân vỏ - based on business usage
-      const bhvcRate = carInfo
-        ? businessType === "khong_kinh_doanh"
-          ? carInfo.ty_le_bhvc_ca_nhan
-          : carInfo.ty_le_bhvc_kinh_doanh
-        : 0
-      // const bhvcRate = 0.014
+      // const bhvcRate = carInfo
+      //   ? businessType === "khong_kinh_doanh"
+      //     ? carInfo.ty_le_bhvc_ca_nhan
+      //     : carInfo.ty_le_bhvc_kinh_doanh
+      //   : 0
+  const bhvcRate = 0.014
 
-      // BH thân vỏ should be based on price after basic promotions (carPriceAfterPromotions)
-      const bodyInsurance = Math.round(priceAfterBasicPromotions * bhvcRate);
+  // Body insurance should be based on the final payable plus any BHVC/premium-color discounts
+  // (these discounts represent value that reduces the customer's payable but the insurance base
+  // is the car value before those voluntary discounts are applied). So compute as:
+  // bodyInsurance = round((finalPayable + bhvc2 + premiumColor) * rate)
+  const bodyInsurance = Math.round((finalPayable + bhvc2 + premiumColor) * bhvcRate);
 
       // Chi phí dịch vụ đăng ký - from database.js
       const registrationFee = chi_phi_dich_vu_dang_ky;
@@ -2488,10 +2496,14 @@
       const promotionDiscountTotal = discount2 + discount3;
       const priceAfterBasicPromotions = Math.max(0, basePrice - promotionDiscountTotal);
 
+      // Calculate amount before VinClub: price after basic promotions minus other non-VinClub discounts
+      const amountBeforeVinClub = Math.max(0, priceAfterBasicPromotions - convertSupportDiscount - bhvc2Discount - (typeof premiumColorDiscount !== 'undefined' ? premiumColorDiscount : 0));
+
       if (vinClubValue !== "none" && typeof uu_dai_vin_club !== "undefined") {
         const vinClubData = uu_dai_vin_club.find((item) => item.hang === vinClubValue);
         if (vinClubData) {
-          vinClubDiscount = Math.round(priceAfterBasicPromotions * vinClubData.ty_le);
+          // VinClub should be applied to the amount the customer will pay before VinClub itself
+          vinClubDiscount = Math.round(amountBeforeVinClub * vinClubData.ty_le);
         }
       }
 
@@ -2534,8 +2546,10 @@
           : null;
       const roadFee = roadFeeData ? roadFeeData.gia_tri : 1560000;
 
-      // Get car model key
-      const carModelKey = getCurrentCarModel();
+  // Get car model key (use legacy dong_xe for lookups into legacy tables)
+  // Use getSelectedDongXe() here to match calculateAll() behavior and ensure
+  // lookups into thong_tin_ky_thuat_xe/ho_tro_doi_xe/quy_doi_2_nam_bhvc succeed.
+  const carModelKey = getSelectedDongXe();
       const carInfo =
         typeof thong_tin_ky_thuat_xe !== "undefined"
           ? thong_tin_ky_thuat_xe.find((item) => item.dong_xe === carModelKey)
@@ -2550,15 +2564,21 @@
       const inspectionFee =
         typeof phi_kiem_dinh !== "undefined" ? phi_kiem_dinh : 90000;
 
-      const bhvcRate = carInfo
-        ? businessType === "khong_kinh_doanh"
-          ? carInfo.ty_le_bhvc_ca_nhan
-          : carInfo.ty_le_bhvc_kinh_doanh
-        : 0.015;
+      // const bhvcRate = carInfo
+      //   ? businessType === "khong_kinh_doanh"
+      //     ? carInfo.ty_le_bhvc_ca_nhan
+      //     : carInfo.ty_le_bhvc_kinh_doanh
+      //   : 0.015;
+
+       const bhvcRate = 0.014
       // Compute final payable (used for loan/on-road totals), but BHVC body insurance
       // must be calculated from price after basic promotions (carPriceAfterPromotions)
-      const finalPayable = Math.max(0, priceAfterBasicPromotions - vinClubDiscount - convertSupportDiscount - bhvc2Discount);
-      const bodyInsurance = Math.round(priceAfterBasicPromotions * bhvcRate);
+  // Final payable is the amount after applying other discounts and subtracting VinClub
+  const finalPayable = Math.max(0, amountBeforeVinClub - vinClubDiscount);
+    // Body insurance must be calculated from the final payable plus the explicit
+    // BHVC and premium color values (these discounts were subtracted earlier from
+    // the customer's payable, so add them back as the insurance base per requirement)
+    const bodyInsurance = Math.round((finalPayable + bhvc2Discount + (typeof premiumColorDiscount !== 'undefined' ? premiumColorDiscount : 0)) * bhvcRate);
 
       const registrationFee =
         typeof chi_phi_dich_vu_dang_ky !== "undefined"
@@ -2624,6 +2644,8 @@
       ).padStart(4, "0")}`;
 
       // Return complete data object
+
+      
       return {
         invoiceNo: invoiceNo,
         invoiceDate: now.toISOString(),
@@ -2641,6 +2663,8 @@
         exteriorColor: exteriorColorText,
         interiorColor: interiorColorText,
         registrationLocation: registrationLocationText,
+  // Internal dong_xe key (legacy lookup) - helps invoice pages derive insurance values reliably
+  carDongXe: carModelKey,
         carBasePrice: basePrice,
         carDiscount: totalDiscount,
         carPriceAfterPromotions: priceAfterBasicPromotions,
@@ -2656,7 +2680,8 @@
         bodyInsuranceRate: bhvcRate,
         registrationFee: registrationFee,
         convertSelected: convertSelected,
-        convertSupportDiscount: convertSupportDiscount,
+  convertSupportDiscount: convertSupportDiscount,
+  vinClubDiscount: vinClubDiscount,
         bhvc2Discount: bhvc2Discount,
         premiumColorDiscount: premiumColorDiscount,
         totalOnRoadCost: totalOnRoadCost,
@@ -2680,6 +2705,9 @@
     // Print Quote 2 Button - redirect to invoice2.html
     function handlePrintQuote2() {
       const invoiceData = collectInvoiceData();
+
+
+      console.log("DEBUG: collected invoice data:", invoiceData);
 
       // Save to localStorage
       localStorage.setItem("invoiceData", JSON.stringify(invoiceData));
