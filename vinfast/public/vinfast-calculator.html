@@ -5,11 +5,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Công cụ tính giá xe VinFast</title>
-   <!-- Swiper CSS -->
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
-    />
+  <!-- Swiper CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 
   <!-- Swiper CSS removed (image modal disabled) -->
 
@@ -236,149 +233,152 @@
     }
 
     /* Image display and Swiper styles removed (image UI disabled) */
-  .car-image.fade-out {
-        opacity: 0;
-      }
+    .car-image.fade-out {
+      opacity: 0;
+    }
 
-      .car-image.fade-in {
-        opacity: 1;
-      }
+    .car-image.fade-in {
+      opacity: 1;
+    }
 
-      /* Slide animation for exterior (left side) */
-      #carImageExterior.fade-out {
+    /* Slide animation for exterior (left side) */
+    #carImageExterior.fade-out {
+      opacity: 0;
+      transform: translateX(-30px);
+    }
+
+    #carImageExterior.fade-in {
+      opacity: 1;
+      transform: translateX(0);
+      animation: slideInFromLeft 0.3s ease-out;
+    }
+
+    @keyframes slideInFromLeft {
+      0% {
         opacity: 0;
         transform: translateX(-30px);
       }
 
-      #carImageExterior.fade-in {
+      100% {
         opacity: 1;
         transform: translateX(0);
-        animation: slideInFromLeft 0.3s ease-out;
       }
+    }
 
-      @keyframes slideInFromLeft {
-        0% {
-          opacity: 0;
-          transform: translateX(-30px);
-        }
-        100% {
-          opacity: 1;
-          transform: translateX(0);
-        }
-      }
+    /* Slide animation for interior (right side) */
+    #carImageInterior.fade-out {
+      opacity: 0;
+      transform: translateX(30px);
+    }
 
-      /* Slide animation for interior (right side) */
-      #carImageInterior.fade-out {
+    #carImageInterior.fade-in {
+      opacity: 1;
+      transform: translateX(0);
+      animation: slideInFromRight 0.3s ease-out;
+    }
+
+    @keyframes slideInFromRight {
+      0% {
         opacity: 0;
         transform: translateX(30px);
       }
 
-      #carImageInterior.fade-in {
+      100% {
         opacity: 1;
         transform: translateX(0);
-        animation: slideInFromRight 0.3s ease-out;
       }
+    }
 
-      @keyframes slideInFromRight {
-        0% {
-          opacity: 0;
-          transform: translateX(30px);
-        }
-        100% {
-          opacity: 1;
-          transform: translateX(0);
-        }
-      }
+    .car-image:hover {
+      cursor: pointer;
+      opacity: 0.85;
+      transition: opacity 0.2s ease;
+    }
 
-      .car-image:hover {
-        cursor: pointer;
-        opacity: 0.85;
-        transition: opacity 0.2s ease;
-      }
+    /* Swiper customization */
+    .swiper {
+      width: 100%;
+      height: 100%;
+    }
 
-      /* Swiper customization */
-      .swiper {
-        width: 100%;
-        height: 100%;
-      }
+    .swiper-slide {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
-      .swiper-slide {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
+    .swiper-button-next,
+    .swiper-button-prev {
+      color: white !important;
+      background: rgba(255, 255, 255, 0.9);
+      width: 50px !important;
+      height: 50px !important;
+      border-radius: 50%;
+      transition: all 0.3s ease;
+    }
 
-      .swiper-button-next,
-      .swiper-button-prev {
-        color: white !important;
-        background: rgba(255, 255, 255, 0.9);
-        width: 50px !important;
-        height: 50px !important;
-        border-radius: 50%;
-        transition: all 0.3s ease;
-      }
+    .swiper-button-next:after,
+    .swiper-button-prev:after {
+      font-size: 24px !important;
+      color: #333 !important;
+      font-weight: bold;
+    }
 
-      .swiper-button-next:after,
-      .swiper-button-prev:after {
-        font-size: 24px !important;
-        color: #333 !important;
-        font-weight: bold;
-      }
+    .swiper-button-next:hover,
+    .swiper-button-prev:hover {
+      background: white;
+      transform: scale(1.1);
+    }
 
-      .swiper-button-next:hover,
-      .swiper-button-prev:hover {
-        background: white;
-        transform: scale(1.1);
-      }
+    .swiper-pagination-bullet {
+      background: white !important;
+      opacity: 0.5;
+      width: 10px !important;
+      height: 10px !important;
+    }
 
-      .swiper-pagination-bullet {
-        background: white !important;
-        opacity: 0.5;
-        width: 10px !important;
-        height: 10px !important;
-      }
+    .swiper-pagination-bullet-active {
+      opacity: 1 !important;
+      background: white !important;
+    }
 
-      .swiper-pagination-bullet-active {
-        opacity: 1 !important;
-        background: white !important;
-      }
+    /* Image Modal */
+    .image-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.95);
+      z-index: 9999;
+      justify-content: center;
+      align-items: center;
+      animation: fadeIn 0.3s ease;
+    }
 
-      /* Image Modal */
-      .image-modal {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.95);
-        z-index: 9999;
-        justify-content: center;
-        align-items: center;
-        animation: fadeIn 0.3s ease;
-      }
+    .image-modal.active {
+      display: flex;
+    }
 
-      .image-modal.active {
-        display: flex;
-      }
+    .image-modal-content {
+      position: relative;
+      width: 90%;
+      height: 90%;
+      animation: zoomIn 0.3s ease;
+    }
 
-      .image-modal-content {
-        position: relative;
-        width: 90%;
-        height: 90%;
-        animation: zoomIn 0.3s ease;
-      }
+    .image-modal .swiper {
+      width: 100%;
+      height: 100%;
+    }
 
-      .image-modal .swiper {
-        width: 100%;
-        height: 100%;
-      }
+    .image-modal .swiper-slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
 
-      .image-modal .swiper-slide img {
-        width: 100%;
-        height: 100%;
-        object-fit: contain;
-      }
     /* Image modal image rules removed */
 
     .image-modal-close {
@@ -1011,29 +1011,18 @@
         <!-- Main Configuration Card -->
         <div class="main-card">
           <!-- Product images removed: image UI disabled -->
-             <!-- Car Image -->
-            <div
-              class="car-image-container"
-              style="position: relative; overflow: hidden"
-            >
-              <div style="height: 100%">
-                <div
-                  style="
+          <!-- Car Image -->
+          <div class="car-image-container" style="position: relative; overflow: hidden">
+            <div style="height: 100%">
+              <div style="
                     position: relative;
                     background-color: #333;
                     overflow: hidden;
                     height: 100%;
-                  "
-                >
-                  <img
-                    src="images/vf7_eco_exterior.jpg"
-                    alt="Ngoại thất"
-                    class="car-image"
-                    id="carImageExterior"
-                    style="width: 100%; height: 100%; object-fit: cover"
-                  />
-                  <div
-                    style="
+                  ">
+                <img src="images/vf7_eco_exterior.jpg" alt="Ngoại thất" class="car-image" id="carImageExterior"
+                  style="width: 100%; height: 100%; object-fit: cover" />
+                <div style="
                       position: absolute;
                       bottom: 8px;
                       left: 8px;
@@ -1042,22 +1031,16 @@
                       padding: 4px 8px;
                       border-radius: 4px;
                       font-size: 12px;
-                    "
-                  >
-                    Ngoại thất
-                  </div>
-                </div>
-                <div style="display: none">
-                  <img
-                    src="images/vf7_eco_interior.jpg"
-                    alt="Nội thất"
-                    class="car-image"
-                    id="carImageInterior"
-                    style="width: 100%; height: 100%; object-fit: cover"
-                  />
+                    ">
+                  Ngoại thất
                 </div>
               </div>
+              <div style="display: none">
+                <img src="images/vf7_eco_interior.jpg" alt="Nội thất" class="car-image" id="carImageInterior"
+                  style="width: 100%; height: 100%; object-fit: cover" />
+              </div>
             </div>
+          </div>
           <!-- Configuration Sections -->
           <div class="config-section">
             <div class="config-title">1. Chọn mẫu xe</div>
@@ -1136,7 +1119,7 @@
         <!-- Cost Estimation Card -->
         <div class="customer-info-card">
           <div class="card-title" id="costEstimationTitle">
-            Dự toán chi phí cho VF 7 Tiêu chuẩn
+            Dự toán chi phí
           </div>
 
           <div class="cost-row">
@@ -1162,6 +1145,8 @@
               <label for="discount2">Ưu đãi tháng 10</label>
               <span class="discount-value" id="discount2Value">-0 ₫</span>
             </div>
+            <!-- Fixed 2-year BHVC conversion promotion (quy_doi_2_nam_bhvc) - now with checkbox -->
+            <!-- (BHVC-2yr checkbox moved next to Convert support section) -->
           </div>
 
           <div class="cost-row">
@@ -1169,12 +1154,15 @@
             <span class="cost-value" id="priceAfterDiscount">0</span>
           </div>
 
+
+
+
           <div style="margin-top: 20px">
 
             <!-- Xăng -> Điện checkbox (uses ho_tro_doi_xe from database.js) -->
 
 
-             <!-- VinClub Voucher -->
+            <!-- VinClub Voucher -->
             <div style="margin-top: 12px">
               <label class="form-label">Voucher VinClub</label>
               <div style="
@@ -1200,8 +1188,38 @@
               <span class="cost-value" id="convertSupportFee">0 ₫</span>
             </div>
 
+            <!-- BHVC 2-year conversion checkbox moved here (not counted as promotion) -->
+            <div class="cost-row">
+              <div class="checkbox-group">
+                <input type="checkbox" id="discountBhvc2" />
+                <label for="discountBhvc2">Quy đổi 2 năm bảo hiểm (BHVC)</label>
+              </div>
+              <span class="cost-value" id="discountBhvc2Value">-0 ₫</span>
+            </div>
+
+            <!-- Premium color free (Miễn Phí Màu Nâng Cao) - behaves like discountBhvc2 -->
+            <div class="cost-row">
+              <div class="checkbox-group">
+                <input type="checkbox" id="discountPremiumColor" />
+                <label for="discountPremiumColor">Miễn Phí Màu Nâng Cao</label>
+              </div>
+              <span class="cost-value" id="discountPremiumColorValue">-0 ₫</span>
+            </div>
+
+
+
+            <div class="cost-row">
+              <span class="cost-label">Giá thanh toán thực tế</span>
+              <span class="cost-value" id="priceFinalPayment">0</span>
+            </div>
+
             <div class="form-label" style="font-weight: 600; margin-bottom: 12px;margin-top: 12px">
               Chi phí lăn bánh dự tính
+            </div>
+
+            <div class="cost-row">
+              <span class="cost-label">Phí 01 năm BH Dân sự</span>
+              <span class="cost-value" id="liabilityInsurance">480.700 ₫</span>
             </div>
 
             <div class="cost-row">
@@ -1209,30 +1227,28 @@
               <span class="cost-value" id="plateFee">20.000.000 ₫</span>
             </div>
             <div class="cost-row">
-              <span class="cost-label">Phí lưu hành đường bộ (1 năm)</span>
+              <span class="cost-label">Phí kiểm định</span>
+              <span class="cost-value" id="inspectionFee">90.000 ₫</span>
+            </div>
+
+            <div class="cost-row">
+              <span class="cost-label">Phí bảo trì đường bộ</span>
               <span class="cost-value" id="roadFee">1.560.000 ₫</span>
             </div>
             <div class="cost-row">
-              <span class="cost-label">Bảo hiểm TNDS (1 năm)</span>
-              <span class="cost-value" id="liabilityInsurance">480.700 ₫</span>
-            </div>
-            <div class="cost-row">
-              <span class="cost-label">Phí đăng kiểm</span>
-              <span class="cost-value" id="inspectionFee">90.000 ₫</span>
-            </div>
-            <div class="cost-row">
-              <span class="cost-label">Bảo hiểm thân vỏ</span>
-              <span class="cost-value" id="bodyInsurance">0</span>
-            </div>
-            <div class="cost-row">
-              <span class="cost-label">Chi phí dịch vụ đăng ký</span>
+              <span class="cost-label">Phí dịch vụ</span>
               <span class="cost-value" id="registrationFee">3.900.000 ₫</span>
             </div>
 
             <div class="cost-row">
+              <span class="cost-label">BHVC bao gồm Pin</span>
+              <span class="cost-value" id="bodyInsurance">0</span>
+            </div>
+
+            <!-- <div class="cost-row">
               <span class="cost-label">Tổng chi phí lăn bánh</span>
               <span class="cost-value" id="totalOnRoadCost">38.780.700 ₫</span>
-            </div>
+            </div> -->
           </div>
 
           <div class="cost-row cost-total">
@@ -1259,7 +1275,8 @@
               <div class="slider-wrapper">
                 <input type="range" min="0" max="100" value="70" class="slider" id="loanRatio" />
               </div>
-              <input type="number" id="loanRatioNumber" min="0" max="100" value="70" style="width:72px; padding:8px; border-radius:8px; border:1px solid #cbd5e0" />
+              <input type="number" id="loanRatioNumber" min="0" max="100" value="70"
+                style="width:72px; padding:8px; border-radius:8px; border:1px solid #cbd5e0" />
               <span class="slider-value" id="loanRatioValue">70% giá trị xe</span>
             </div>
           </div>
@@ -1281,7 +1298,8 @@
           <div class="loan-option">
             <span class="loan-label">Lãi suất ngân hàng</span>
             <div style="width:120px;">
-              <input type="number" id="customInterestRate" placeholder="Lãi suất (%)" min="0" step="0.01" style="width:100%; padding:8px; border-radius:8px; border:1px solid #cbd5e0" />
+              <input type="number" id="customInterestRate" placeholder="Lãi suất (%)" min="0" step="0.01"
+                style="width:100%; padding:8px; border-radius:8px; border:1px solid #cbd5e0" />
             </div>
           </div>
 
@@ -1483,7 +1501,7 @@
 
       const versions = derivedVersions.filter(v => v.model === carModel);
 
-        if (versions.length > 0) {
+      if (versions.length > 0) {
         versions.forEach((version, index) => {
           const option = document.createElement("option");
           // Use trim as the option value/label; fall back to model if trim is empty
@@ -1604,7 +1622,7 @@
           if (opt.value === selectedExt) colorDiv.classList.add('selected');
           colorDiv.setAttribute('data-code', color.code);
           colorDiv.innerHTML = `<img src="${color.icon}" alt="${color.name}" />`;
-          colorDiv.addEventListener('click', function() {
+          colorDiv.addEventListener('click', function () {
             // Remove selected from others
             exteriorColorPicker.querySelectorAll('.color-option').forEach(div => div.classList.remove('selected'));
             // Add selected to this
@@ -1646,7 +1664,7 @@
           if (opt.value === selectedInt) colorDiv.classList.add('selected');
           colorDiv.setAttribute('data-code', color.code);
           colorDiv.innerHTML = `<img src="${color.icon}" alt="${color.name}" />`;
-          colorDiv.addEventListener('click', function() {
+          colorDiv.addEventListener('click', function () {
             // Remove selected from others
             interiorColorPicker.querySelectorAll('.color-option').forEach(div => div.classList.remove('selected'));
             // Add selected to this
@@ -1856,11 +1874,10 @@
       const basePrice = getCarPrice();
 
       // Calculate discounts - Using data from database.js or data attributes
-  const discount2Element = document.getElementById("discount2");
-  const discount3Element = document.getElementById("discount3");
-
-  const discount2Potential = parseInt(discount2Element?.getAttribute("data-discount") || 0) || 0;
-  const discount2 = discount2Element && discount2Element.checked ? discount2Potential : 0;
+      const discount2Element = document.getElementById("discount2");
+      const discount3Element = document.getElementById("discount3");
+      const discount2Potential = parseInt(discount2Element?.getAttribute("data-discount") || 0) || 0;
+      const discount2 = discount2Element && discount2Element.checked ? discount2Potential : 0;
 
       const discount3Potential = Math.round(basePrice * 0.04);
       const discount3 = discount3Element && discount3Element.checked ? discount3Potential : 0;
@@ -1877,6 +1894,77 @@
       if (discount3ValueEl) {
         discount3ValueEl.textContent = (discount3Element && discount3Element.checked)
           ? "-" + formatCurrency(discount3Potential)
+          : "-" + formatCurrency(0);
+      }
+
+      // Fixed 2-year BHVC conversion promotion (quy_doi_2_nam_bhvc)
+      let bhvc2Potential = 0;
+      try {
+        if (typeof quy_doi_2_nam_bhvc !== 'undefined' && Array.isArray(quy_doi_2_nam_bhvc)) {
+          const dong = getSelectedDongXe();
+          if (dong) {
+            const entry = quy_doi_2_nam_bhvc.find(e => e.dong_xe === dong);
+            if (entry && entry.gia_tri) bhvc2Potential = Number(entry.gia_tri) || 0;
+          }
+        }
+      } catch (e) {
+        console.warn('Error computing bhvc 2-year conversion:', e);
+        bhvc2Potential = 0;
+      }
+
+      // Apply only if checkbox checked
+      const bhvc2Checkbox = document.getElementById('discountBhvc2');
+      const bhvc2 = bhvc2Checkbox && bhvc2Checkbox.checked ? bhvc2Potential : 0;
+
+      // Update BHVC-2yr display (show potential when checked, otherwise -0)
+      const discountBhvc2El = document.getElementById('discountBhvc2Value');
+      if (discountBhvc2El) {
+        discountBhvc2El.textContent = (bhvc2Checkbox && bhvc2Checkbox.checked)
+          ? "-" + formatCurrency(bhvc2Potential)
+          : "-" + formatCurrency(0);
+      }
+
+      // Ensure convert support and premium color elements exist before using
+      // (these lines are defensive and don't change behavior)
+      // const convertEl = document.getElementById('convertSupportFee');
+      // const premiumEl = document.getElementById('discountPremiumColorValue');
+
+      // Premium Color - Miễn Phí Màu Nâng Cao
+      let premiumColorPotential = 0;
+      try {
+        const dong = getSelectedDongXe();
+        // Get selected exterior color visible text
+        const exteriorSel = document.getElementById('exteriorColor');
+        const exteriorText = exteriorSel && exteriorSel.options && exteriorSel.options.length > 0
+          ? (exteriorSel.options[exteriorSel.selectedIndex].text || '')
+          : '';
+
+        if (dong && exteriorText) {
+          // VF 3 specific colors => 8,000,000
+          if (dong === 'vf_3') {
+            if (/Vàng Nóc Trắng|Xanh Lá Nhạt|Hồng Nóc Trắng|Xanh Nóc Trắng/i.test(exteriorText)) {
+              premiumColorPotential = 8000000;
+            }
+          }
+          // VF 5 specific colors => 12,000,000
+          else if (dong === 'vf_5') {
+            if (/Vàng Nóc Trắng|Xanh Lá Nhạt|Xanh Nóc Trắng/i.test(exteriorText)) {
+              premiumColorPotential = 12000000;
+            }
+          }
+        }
+      } catch (e) {
+        console.warn('Error computing premium color potential:', e);
+        premiumColorPotential = 0;
+      }
+
+      const premiumColorCheckbox = document.getElementById('discountPremiumColor');
+      const premiumColor = premiumColorCheckbox && premiumColorCheckbox.checked ? premiumColorPotential : 0;
+
+      const discountPremiumColorEl = document.getElementById('discountPremiumColorValue');
+      if (discountPremiumColorEl) {
+        discountPremiumColorEl.textContent = (premiumColorCheckbox && premiumColorCheckbox.checked)
+          ? "-" + formatCurrency(premiumColorPotential)
           : "-" + formatCurrency(0);
       }
 
@@ -1898,7 +1986,8 @@
       }
 
       // Calculate VinClub discount based on price AFTER basic promotions only
-  const promotionDiscountTotal = discount2 + discount3;
+      // Note: BHVC-2yr is not treated as a promotion and is applied separately
+      const promotionDiscountTotal = discount2 + discount3;
       const priceAfterBasicPromotions = Math.max(0, basePrice - promotionDiscountTotal);
 
       const vinClubSelect = document.getElementById("vinClubVoucher");
@@ -1911,8 +2000,12 @@
         }
       }
 
-      // Apply convert support discount separately
-      const totalDiscount = promotionDiscountTotal + vinClubDiscount + convertSupportDiscount;
+      // Compute finalPayable early so it's available for on-road cost calculations
+      // Note: premiumColor behaves like bhvc2 (not part of promotionDiscountTotal)
+      const finalPayable = Math.max(0, priceAfterBasicPromotions - vinClubDiscount - convertSupportDiscount - bhvc2 - premiumColor);
+
+      // Apply convert support discount and BHVC-2yr separately (not part of promotionDiscountTotal)
+      const totalDiscount = promotionDiscountTotal + vinClubDiscount + convertSupportDiscount + bhvc2 + premiumColor;
       const priceAfterDiscount = Math.max(0, basePrice - totalDiscount);
 
       // Get car model key for database lookup (legacy dong_xe)
@@ -1977,9 +2070,11 @@
         ? businessType === "khong_kinh_doanh"
           ? carInfo.ty_le_bhvc_ca_nhan
           : carInfo.ty_le_bhvc_kinh_doanh
-        : 0.01;
+        : 0
+      // const bhvcRate = 0.014
 
-      const bodyInsurance = Math.round(priceAfterDiscount * bhvcRate);
+      // BH thân vỏ should be based on price after basic promotions (carPriceAfterPromotions)
+      const bodyInsurance = Math.round(priceAfterBasicPromotions * bhvcRate);
 
       // Chi phí dịch vụ đăng ký - from database.js
       const registrationFee = chi_phi_dich_vu_dang_ky;
@@ -1991,7 +2086,7 @@
         inspectionFee +
         bodyInsurance +
         registrationFee;
-      const totalCost = priceAfterDiscount + totalOnRoadCost;
+      const totalCost = finalPayable + totalOnRoadCost;
 
 
       // Update cost display
@@ -1999,8 +2094,13 @@
         formatCurrency(basePrice);
       // document.getElementById("totalCarValue").textContent =
       //   formatCurrency(basePrice);
+      // Show promotion-only price (base minus promotionDiscountTotal)
       document.getElementById("priceAfterDiscount").textContent =
         formatCurrency(priceAfterBasicPromotions);
+
+      // finalPayable already computed above; update UI
+      const priceFinalEl = document.getElementById('priceFinalPayment');
+      if (priceFinalEl) priceFinalEl.textContent = formatCurrency(finalPayable);
       document.getElementById("plateFee").textContent =
         formatCurrency(plateFee);
 
@@ -2028,15 +2128,32 @@
       // Update VinClub discount display
       const vinClubEl = document.getElementById('vinClubDiscountValue');
       if (vinClubEl) vinClubEl.textContent = formatCurrency(vinClubDiscount);
-      document.getElementById("totalOnRoadCost").textContent =
-        formatCurrency(totalOnRoadCost);
-      document.getElementById("totalCost").textContent =
-        formatCurrency(totalCost);
+      const totalOnRoadEl = document.getElementById("totalOnRoadCost");
+      if (totalOnRoadEl) totalOnRoadEl.textContent = formatCurrency(totalOnRoadCost);
+      const totalCostEl = document.getElementById("totalCost");
+      if (totalCostEl) totalCostEl.textContent = formatCurrency(totalCost);
 
-      // Update title with car model and version
-      document.getElementById(
-        "costEstimationTitle"
-      ).textContent = `Dự toán chi phí cho ${carModel} ${carVersion}`;
+      // Update title with car model and version using visible option text
+      try {
+        const costTitleEl = document.getElementById("costEstimationTitle");
+        if (costTitleEl) {
+          const carModelSel = document.getElementById('carModel');
+          const carVersionSel = document.getElementById('carVersion');
+          const carModelText = carModelSel && carModelSel.options && carModelSel.options.length > 0
+            ? carModelSel.options[carModelSel.selectedIndex].text
+            : (carModel || '');
+          const carVersionText = carVersionSel && carVersionSel.options && carVersionSel.options.length > 0
+            ? carVersionSel.options[carVersionSel.selectedIndex].text
+            : (carVersion || '');
+
+          const combined = `${carModelText}${carVersionText ? ' ' + carVersionText : ''}`.trim();
+          costTitleEl.textContent = `Dự toán chi phí cho ${combined}`;
+        }
+      } catch (e) {
+        // Fallback: keep previous behavior if anything unexpected occurs
+        const el = document.getElementById("costEstimationTitle");
+        if (el) el.textContent = `Dự toán chi phí cho ${carModel} ${carVersion}`;
+      }
 
       // Calculate loan details if enabled
       if (document.getElementById("loanToggle").checked) {
@@ -2093,7 +2210,7 @@
     // Loan ratio slider
     const loanRatioSlider = document.getElementById("loanRatio");
     const loanRatioValue = document.getElementById("loanRatioValue");
-  const loanRatioNumber = document.getElementById("loanRatioNumber");
+    const loanRatioNumber = document.getElementById("loanRatioNumber");
 
     // sync slider and numeric input
     function setLoanRatioUI(value) {
@@ -2108,7 +2225,7 @@
       calculateAll();
     });
     if (loanRatioNumber) {
-      loanRatioNumber.addEventListener('input', function() {
+      loanRatioNumber.addEventListener('input', function () {
         setLoanRatioUI(this.value);
         calculateAll();
       });
@@ -2224,6 +2341,13 @@
     document
       .getElementById("discount3")
       .addEventListener("change", calculateAll);
+    // BHVC-2yr checkbox change -> recalc
+    const discountBhvc2El = document.getElementById('discountBhvc2');
+    if (discountBhvc2El) discountBhvc2El.addEventListener('change', calculateAll);
+
+    // Premium color checkbox change -> recalc
+    const discountPremiumColorEl = document.getElementById('discountPremiumColor');
+    if (discountPremiumColorEl) discountPremiumColorEl.addEventListener('change', calculateAll);
 
     // Convert checkbox change -> recalc
     const convertCheckboxEl = document.getElementById('convertCheckbox');
@@ -2314,7 +2438,54 @@
       const vinClubValue = vinClubSelect ? vinClubSelect.value : "none";
       let vinClubDiscount = 0;
 
-  const promotionDiscountTotal = discount2 + discount3;
+      // Fixed 2-year BHVC conversion promotion (quy_doi_2_nam_bhvc)
+      let bhvc2Potential = 0;
+      try {
+        if (typeof quy_doi_2_nam_bhvc !== 'undefined' && Array.isArray(quy_doi_2_nam_bhvc)) {
+          const dong = getSelectedDongXe();
+          if (dong) {
+            const entry = quy_doi_2_nam_bhvc.find(e => e.dong_xe === dong);
+            if (entry && entry.gia_tri) bhvc2Potential = Number(entry.gia_tri) || 0;
+          }
+        }
+      } catch (e) {
+        console.warn('collectInvoiceData: error computing bhvc 2-year conversion', e);
+        bhvc2Potential = 0;
+      }
+
+      const bhvc2Checkbox = document.getElementById('discountBhvc2');
+      const bhvc2Discount = bhvc2Checkbox && bhvc2Checkbox.checked ? bhvc2Potential : 0;
+
+      // Premium Color - Miễn Phí Màu Nâng Cao (mirror logic from calculateAll)
+      let premiumColorPotential = 0;
+      try {
+        const dong = getSelectedDongXe();
+        const exteriorSel = document.getElementById('exteriorColor');
+        const exteriorText = exteriorSel && exteriorSel.options && exteriorSel.options.length > 0
+          ? (exteriorSel.options[exteriorSel.selectedIndex].text || '')
+          : '';
+
+        if (dong && exteriorText) {
+          if (dong === 'vf_3') {
+            if (/Vàng Nóc Trắng|Xanh Lá Nhạt|Hồng Nóc Trắng|Xanh Nóc Trắng/i.test(exteriorText)) {
+              premiumColorPotential = 8000000;
+            }
+          } else if (dong === 'vf_5') {
+            if (/Vàng Nóc Trắng|Xanh Lá Nhạt|Xanh Nóc Trắng/i.test(exteriorText)) {
+              premiumColorPotential = 12000000;
+            }
+          }
+        }
+      } catch (e) {
+        console.warn('collectInvoiceData: error computing premium color potential', e);
+        premiumColorPotential = 0;
+      }
+
+      const premiumColorCheckbox = document.getElementById('discountPremiumColor');
+      const premiumColorDiscount = premiumColorCheckbox && premiumColorCheckbox.checked ? premiumColorPotential : 0;
+
+      // BHVC-2yr is NOT a promotion: do not include it in promotionDiscountTotal
+      const promotionDiscountTotal = discount2 + discount3;
       const priceAfterBasicPromotions = Math.max(0, basePrice - promotionDiscountTotal);
 
       if (vinClubValue !== "none" && typeof uu_dai_vin_club !== "undefined") {
@@ -2339,7 +2510,8 @@
         }
       }
 
-      const totalDiscount = promotionDiscountTotal + vinClubDiscount + convertSupportDiscount;
+      // Apply BHVC-2yr and premium color separately (like convert support) so they do not affect VinClub base
+      const totalDiscount = promotionDiscountTotal + vinClubDiscount + convertSupportDiscount + bhvc2Discount + (typeof premiumColorDiscount !== 'undefined' ? premiumColorDiscount : 0);
       const priceAfterDiscount = Math.max(0, basePrice - totalDiscount);
 
       // Get on-road costs
@@ -2383,7 +2555,10 @@
           ? carInfo.ty_le_bhvc_ca_nhan
           : carInfo.ty_le_bhvc_kinh_doanh
         : 0.015;
-      const bodyInsurance = Math.round(priceAfterDiscount * bhvcRate);
+      // Compute final payable (used for loan/on-road totals), but BHVC body insurance
+      // must be calculated from price after basic promotions (carPriceAfterPromotions)
+      const finalPayable = Math.max(0, priceAfterBasicPromotions - vinClubDiscount - convertSupportDiscount - bhvc2Discount);
+      const bodyInsurance = Math.round(priceAfterBasicPromotions * bhvcRate);
 
       const registrationFee =
         typeof chi_phi_dich_vu_dang_ky !== "undefined"
@@ -2397,7 +2572,7 @@
         inspectionFee +
         bodyInsurance +
         registrationFee;
-      const grandTotal = priceAfterDiscount + totalOnRoadCost;
+      const grandTotal = finalPayable + totalOnRoadCost;
 
       // Get loan info
       const hasLoan = document.getElementById("loanToggle").checked;
@@ -2420,8 +2595,8 @@
         }
         const monthlyRate = annualRate / 12;
 
-        const loanAmount = Math.round((priceAfterDiscount + totalOnRoadCost) * (loanRatio / 100));
-        const downPayment = (priceAfterDiscount + totalOnRoadCost) - loanAmount;
+        const loanAmount = Math.round((finalPayable + totalOnRoadCost) * (loanRatio / 100));
+        const downPayment = (finalPayable + totalOnRoadCost) - loanAmount;
 
         const monthlyPayment =
           (loanAmount * (monthlyRate * Math.pow(1 + monthlyRate, loanTerm))) /
@@ -2456,8 +2631,8 @@
         customerPhone: customerPhone,
         customerEmail: customerEmail,
         customerAddress: customerAddress,
-  customerType: customerType,
-  businessType: businessType,
+        customerType: customerType,
+        businessType: businessType,
         depositAmount: depositAmount,
         depositDate: depositDate,
         deliveryDate: deliveryDate,
@@ -2469,7 +2644,9 @@
         carBasePrice: basePrice,
         carDiscount: totalDiscount,
         carPriceAfterPromotions: priceAfterBasicPromotions,
-        carTotal: priceAfterDiscount,
+        // carTotal should reflect the final payable for the car (before on-road costs)
+        carTotal: finalPayable,
+        priceFinalPayment: finalPayable,
         plateFee: plateFee,
         plateLocation: registrationLocationText,
         roadFee: roadFee,
@@ -2480,6 +2657,8 @@
         registrationFee: registrationFee,
         convertSelected: convertSelected,
         convertSupportDiscount: convertSupportDiscount,
+        bhvc2Discount: bhvc2Discount,
+        premiumColorDiscount: premiumColorDiscount,
         totalOnRoadCost: totalOnRoadCost,
         grandTotal: grandTotal,
         hasLoan: hasLoan,

@@ -218,9 +218,10 @@
       <td colspan="2" style="background-color: #e8f0ff;"><strong>Chương trình khuyến mãi</strong></td>
     </tr>
     <tr><td style="width: 50%;">Giảm giá khuyến mãi cơ bản</td><td class="text-right" id="basicDiscounts">0</td></tr>
-    <tr><td style="width: 50%;">Giá sau ưu đãi cơ bản</td><td class="text-right" id="priceAfterBasicPromotions">0</td></tr>
     <tr><td style="width: 50%;">Giảm giá VinClub</td><td class="text-right" id="vinClubDiscount">0</td></tr>
+    <tr><td style="width: 50%;">Ưu đãi BHVC (Quy đổi 2 năm)</td><td class="text-right" id="bhvc2Discount">0</td></tr>
     <tr><td style="width: 50%;">Hỗ trợ đổi xe xăng → điện</td><td class="text-right" id="convertSupport">0</td></tr>
+  <tr><td style="width: 50%;">Miễn Phí Màu Nâng Cao</td><td class="text-right" id="premiumColorDiscount">0</td></tr>
     <tr>
       <td style="background-color: #e8f0ff;"><strong>Giá xuất hóa đơn</strong></td>
       <td class="text-right" style="background-color: #e8f0ff;" id="carTotal"><strong>0</strong></td>
@@ -372,27 +373,45 @@
         document.getElementById('carBasePrice').textContent = formatCurrency(data.carBasePrice);
       }
       
-      // Calculate basic discounts (discount1 + discount2)
-      const basicDiscounts = (data.carBasePrice || 0) - (data.carPriceAfterPromotions || 0);
+      // Calculate and display basic discounts (promotion-only)
+      const basePriceVal = Number(data.carBasePrice || 0);
+      const afterPromotions = Number(data.carPriceAfterPromotions || 0);
+      const basicDiscounts = Math.max(0, basePriceVal - afterPromotions);
       document.getElementById('basicDiscounts').textContent = formatCurrency(basicDiscounts);
-      
-      // Price after basic promotions
-      if (data.carPriceAfterPromotions !== undefined) {
-        document.getElementById('priceAfterBasicPromotions').textContent = formatCurrency(data.carPriceAfterPromotions);
+
+      // Price after basic promotions is intentionally not shown on invoice per request.
+      // (We still compute basicDiscounts above for the 'Giảm giá khuyến mãi cơ bản' value.)
+
+      // VinClub discount - prefer explicit value from payload
+      if (data.vinClubDiscount !== undefined) {
+        document.getElementById('vinClubDiscount').textContent = formatCurrency(data.vinClubDiscount);
+      } else {
+        // fallback: compute if possible
+        const computedVin = Math.max(0, afterPromotions - (Number(data.carTotal || 0) + Number(data.convertSupportDiscount || 0)));
+        document.getElementById('vinClubDiscount').textContent = formatCurrency(computedVin);
       }
-      
-      // Calculate VinClub discount
-      const vinClubDiscount = (data.carPriceAfterPromotions || 0) - ((data.carTotal || 0) + (data.convertSupportDiscount || 0));
-      document.getElementById('vinClubDiscount').textContent = formatCurrency(Math.max(0, vinClubDiscount));
-      
-      // Convert support discount
+
+      // Convert support discount (explicit)
       if (data.convertSupportDiscount !== undefined) {
         document.getElementById('convertSupport').textContent = formatCurrency(data.convertSupportDiscount);
       }
-      
-      // Final car total
-      if (data.carTotal !== undefined) {
-        document.getElementById('carTotal').textContent = formatCurrency(data.carTotal);
+
+      // Premium color discount (explicit)
+      if (data.premiumColorDiscount !== undefined) {
+        document.getElementById('premiumColorDiscount').textContent = formatCurrency(data.premiumColorDiscount);
+      }
+
+      // BHVC 2-year conversion discount (explicit)
+      // Put the BHVC discount into its dedicated promotions cell (bhvc2Discount)
+      if (data.bhvc2Discount !== undefined) {
+        const bhvcEl = document.getElementById('bhvc2Discount');
+        if (bhvcEl) bhvcEl.textContent = formatCurrency(data.bhvc2Discount);
+      }
+
+      // Final car total (price to issue invoice / final payable before on-road costs)
+      const finalCarTotal = data.priceFinalPayment !== undefined ? Number(data.priceFinalPayment) : Number(data.carTotal || 0);
+      if (!isNaN(finalCarTotal)) {
+        document.getElementById('carTotal').textContent = formatCurrency(finalCarTotal);
       }
       
       // Update registration location
@@ -404,8 +423,30 @@
       if (data.plateFee !== undefined) {
         document.getElementById('plateFee').textContent = formatCurrency(data.plateFee);
       }
+      // Liability insurance (Phí 01 năm BH Dân sự)
       if (data.liabilityInsurance !== undefined) {
         document.getElementById('liabilityInsurance').textContent = formatCurrency(data.liabilityInsurance);
+      } else {
+        // Try to derive liability insurance from database if possible (fallback to calculator default 480,700)
+        let derivedLiability = null;
+        try {
+          if (typeof danh_sach_xe !== 'undefined' && Array.isArray(danh_sach_xe) && typeof thong_tin_ky_thuat_xe !== 'undefined' && Array.isArray(thong_tin_ky_thuat_xe)) {
+            const modelName = (data.carModel || '').toString().trim().toLowerCase();
+            const found = danh_sach_xe.find(x => (x.ten_hien_thi || '').toString().trim().toLowerCase() === modelName);
+            const dong = found && found.dong_xe ? found.dong_xe : null;
+            if (dong) {
+              const info = thong_tin_ky_thuat_xe.find(t => t.dong_xe === dong);
+              if (info) {
+                const business = data.businessType || (data.customerType === 'ca_nhan' ? 'khong_kinh_doanh' : 'kinh_doanh');
+                derivedLiability = business === 'khong_kinh_doanh' ? info.phi_tnds_ca_nhan : info.phi_tnds_kinh_doanh;
+              }
+            }
+          }
+        } catch (e) {
+          // ignore and fallback
+        }
+        if (!derivedLiability || isNaN(Number(derivedLiability))) derivedLiability = 480700;
+        document.getElementById('liabilityInsurance').textContent = formatCurrency(Number(derivedLiability));
       }
       if (data.inspectionFee !== undefined) {
         document.getElementById('inspectionFee').textContent = formatCurrency(data.inspectionFee);
@@ -416,8 +457,13 @@
       if (data.registrationFee !== undefined) {
         document.getElementById('registrationServiceFee').textContent = formatCurrency(data.registrationFee);
       }
+      // Body insurance (BHVC) - prefer explicit payload, otherwise compute from carPriceAfterPromotions and bodyInsuranceRate
       if (data.bodyInsurance !== undefined) {
         document.getElementById('bodyInsurance').textContent = formatCurrency(data.bodyInsurance);
+      } else if (data.carPriceAfterPromotions !== undefined) {
+        const rate = data.bodyInsuranceRate !== undefined ? Number(data.bodyInsuranceRate) : 0.014;
+        const computedBody = Math.round(Number(data.carPriceAfterPromotions || 0) * rate);
+        document.getElementById('bodyInsurance').textContent = formatCurrency(computedBody);
       }
       
       // Update registration tax
@@ -434,21 +480,28 @@
         document.getElementById('bhvcType').textContent = bhvcText;
       }
       
-      // Update total on-road cost
+      // Update total on-road cost (use explicit value from payload)
       if (data.totalOnRoadCost !== undefined) {
         document.getElementById('totalOnRoadCost').textContent = formatCurrency(data.totalOnRoadCost);
       }
       
       // Update loan details if exists
+      // Loan details: prefer explicit loan values from payload (loanAmount, downPayment)
       if (data.hasLoan && data.loanRatio !== undefined) {
         document.getElementById('loanRatioDisplay').textContent = `${data.loanRatio}%`;
-        
-        // Calculate bank payment (loanRatio% of total on-road cost)
-        if (data.totalOnRoadCost !== undefined) {
-          const bankPayment = Math.round(data.totalOnRoadCost * (data.loanRatio / 100));
-          const downPayment = data.totalOnRoadCost - bankPayment;
-          document.getElementById('bankPayment').textContent = formatCurrency(bankPayment);
-          document.getElementById('downPaymentAmount').textContent = formatCurrency(downPayment);
+        if (data.loanAmount !== undefined) {
+          document.getElementById('bankPayment').textContent = formatCurrency(data.loanAmount);
+        } else if (data.totalOnRoadCost !== undefined) {
+          // fallback calculation (not ideal)
+          const computedLoanAmount = Math.round((Number(data.priceFinalPayment || data.carTotal || 0) + Number(data.totalOnRoadCost || 0)) * (data.loanRatio / 100));
+          document.getElementById('bankPayment').textContent = formatCurrency(computedLoanAmount);
+        }
+
+        if (data.downPayment !== undefined) {
+          document.getElementById('downPaymentAmount').textContent = formatCurrency(data.downPayment);
+        } else if (data.totalOnRoadCost !== undefined && data.loanAmount !== undefined) {
+          const computedDown = Math.round((Number(data.priceFinalPayment || data.carTotal || 0) + Number(data.totalOnRoadCost || 0)) - Number(data.loanAmount || 0));
+          document.getElementById('downPaymentAmount').textContent = formatCurrency(computedDown);
         }
       }
       
