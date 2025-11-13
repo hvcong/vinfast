@@ -1332,9 +1332,9 @@
 
     <!-- Footer Action Buttons -->
     <div class="header-actions" style="margin-top: 20px">
-      <button class="btn btn-secondary" id="printBtnFooter">
+      <!-- <button class="btn btn-secondary" id="printBtnFooter">
         In Báo Giá 1
-      </button>
+      </button> -->
       <button class="btn btn-secondary" id="printBtn2Footer">
         In Báo Giá 2
       </button>
@@ -2496,18 +2496,9 @@
       const promotionDiscountTotal = discount2 + discount3;
       const priceAfterBasicPromotions = Math.max(0, basePrice - promotionDiscountTotal);
 
-      // Calculate amount before VinClub: price after basic promotions minus other non-VinClub discounts
-      const amountBeforeVinClub = Math.max(0, priceAfterBasicPromotions - convertSupportDiscount - bhvc2Discount - (typeof premiumColorDiscount !== 'undefined' ? premiumColorDiscount : 0));
-
-      if (vinClubValue !== "none" && typeof uu_dai_vin_club !== "undefined") {
-        const vinClubData = uu_dai_vin_club.find((item) => item.hang === vinClubValue);
-        if (vinClubData) {
-          // VinClub should be applied to the amount the customer will pay before VinClub itself
-          vinClubDiscount = Math.round(amountBeforeVinClub * vinClubData.ty_le);
-        }
-      }
-
-      // Compute convert checkbox data for invoice collection - now treated as discount
+      // Compute convert (xăng->điện) support discount early so it can be used
+      // when calculating the VinClub base. This avoids referencing the variable
+      // before it's initialized (was causing a ReferenceError).
       const convertSelected = document.getElementById('convertCheckbox') ? document.getElementById('convertCheckbox').checked : false;
       let convertSupportDiscount = 0;
       if (convertSelected && typeof ho_tro_doi_xe !== 'undefined') {
@@ -2519,8 +2510,22 @@
           }
         } catch (e) {
           console.warn('collectInvoiceData: error computing convert support', e);
+          convertSupportDiscount = 0;
         }
       }
+
+      // Calculate amount before VinClub: price after basic promotions minus other non-VinClub discounts
+      const amountBeforeVinClub = Math.max(0, priceAfterBasicPromotions - convertSupportDiscount - bhvc2Discount - (typeof premiumColorDiscount !== 'undefined' ? premiumColorDiscount : 0));
+
+      if (vinClubValue !== "none" && typeof uu_dai_vin_club !== "undefined") {
+        const vinClubData = uu_dai_vin_club.find((item) => item.hang === vinClubValue);
+        if (vinClubData) {
+          // VinClub should be applied to the amount the customer will pay before VinClub itself
+          vinClubDiscount = Math.round(amountBeforeVinClub * vinClubData.ty_le);
+        }
+      }
+
+      
 
       // Apply BHVC-2yr and premium color separately (like convert support) so they do not affect VinClub base
       const totalDiscount = promotionDiscountTotal + vinClubDiscount + convertSupportDiscount + bhvc2Discount + (typeof premiumColorDiscount !== 'undefined' ? premiumColorDiscount : 0);
